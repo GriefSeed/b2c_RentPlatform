@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+
+		<style>
+			ul {
+				font-size: 14px;
+				color: #8f8f94;
+			}
+			
+			.mui-btn {
+				padding: 10px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!-- 侧滑导航根容器 -->
+		<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable">
+			<!-- 菜单容器 -->
+			<aside class="mui-off-canvas-left">
+				<div class="mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<!-- 菜单具体展示内容 -->
+						<p style="padding: 5px 20px;margin-bottom: 5px;">
+							<button id="offCanvasHide" type="button" class="mui-btn mui-btn-danger mui-btn-block" style="padding: 5px 20px;">关闭侧滑菜单</button>
+						</p>
+					</div>
+				</div>
+			</aside>
+			<!-- 主页面容器 -->
+			<div class="mui-inner-wrap">
+				<!-- 主页面标题 -->
+				<header class="mui-bar mui-bar-nav" style="padding-right: 15px;">
+					<h1 class="mui-title">主页</h1>
+					<button id='setting' class=" mui-pull-right mui-btn-link">设置</button>
+					<a id="show_view" class="mui-action-menu mui-icon mui-icon-bars mui-pull-left"></a>
+				</header>
+				<div class="mui-content mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<!-- 主界面具体展示内容 -->
+						<p>
+							您好 <span id='account'></span>，您已成功登录。
+							<ul>
+								<li>这是mui带登录和设置模板的示例App首页。</li>
+								<li>您可以点击右上角的 “设置” 按钮，进入设置模板，体验div窗体切换示例。</li>
+								<li>在 “设置” 中点击 “退出” 可以 “注销当前账户” 或 “直接关闭应用”。</li>
+								<li>你可以设置 “锁屏图案”，这样可通过手势密码代替输入账号、密码；</li>
+							</ul>
+						</p>
+					</div>
+				</div>
+				<nav class="mui-bar mui-bar-tab">
+					<a class="mui-tab-item mui-active" href="main_tab/home.html">
+						<span class="mui-icon mui-icon-home"></span>
+						<span class="mui-tab-label">首页</span>
+					</a>
+					<a class="mui-tab-item" href="main_tab/recommend.html">
+						<span class="mui-icon mui-icon-phone"></span>
+						<span class="mui-tab-label">推荐</span>
+					</a>
+					<a class="mui-tab-item" href="main_tab/message.html">
+						<span class="mui-icon mui-icon-email"></span>
+						<span class="mui-tab-label">消息</span>
+					</a>
+					<a class="mui-tab-item" href="main_tab/setting.html">
+						<span class="mui-icon mui-icon-gear"></span>
+						<span class="mui-tab-label">设置</span>
+					</a>
+				</nav>
+			</div>
+		</div>
+		<!--<div class="mui-content">
+			<div class="mui-content-padded">
+				<p>
+					您好 <span id='account'></span>，您已成功登录。
+					<ul>
+						<li>这是mui带登录和设置模板的示例App首页。</li>
+						<li>您可以点击右上角的 “设置” 按钮，进入设置模板，体验div窗体切换示例。</li>
+						<li>在 “设置” 中点击 “退出” 可以 “注销当前账户” 或 “直接关闭应用”。</li>
+						<li>你可以设置 “锁屏图案”，这样可通过手势密码代替输入账号、密码；</li>
+					</ul>
+				</p>
+				<button id="exjs" button">调用外部JS</button>
+				<p style="padding: 5px 20px;margin-bottom: 5px;">
+            </p>
+				
+			</div>
+		</div>-->
+
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/my.js"></script>
+		<script>
+			(function($, doc) {
+				$.init();
+				var settings = app.getSettings();
+				var account = doc.getElementById('account');
+				//var exjsButton = doc.getElementById('exjs');
+				//设置默认打开首页显示的子页序号；
+				//底部选项卡
+				var Index = 0;
+				//把子页的路径写在数组里面
+				var subpages = ['main_tab/home.html', 'main_tab/recommend.html', 'main_tab/message.html', 'main_tab/setting.html'];
+
+				document.getElementById('show_view').addEventListener('tap', function() {
+					mui('#offCanvasWrapper').offCanvas('show');
+				});
+
+				window.addEventListener('show', function() {
+					var state = app.getState();
+					account.innerText = state.account;
+				}, false);
+				$.plusReady(function() {
+					/*var settingPage = $.preload({
+						"id": 'setting',
+						"url": 'setting.html'
+					});*/
+					//设置
+					var settingButton = doc.getElementById('setting');
+					//settingButton.style.display = settings.autoLogin ? 'block' : 'none';
+					settingButton.addEventListener('tap', function(event) {
+						$.openWindow({
+							id: 'setting',
+							show: {
+								aniShow: 'pop-in'
+							},
+							styles: {
+								popGesture: 'hide'
+							},
+							waiting: {
+								autoShow: false
+							}
+						});
+					});
+					//--
+					$.oldBack = mui.back;
+					var backButtonPress = 0;
+					$.back = function(event) {
+						backButtonPress++;
+						if(backButtonPress > 1) {
+							plus.runtime.quit();
+						} else {
+							plus.nativeUI.toast('再按一次退出应用');
+						}
+						setTimeout(function() {
+							backButtonPress = 0;
+						}, 1000);
+						return false;
+					};
+
+					//底部选项卡
+					//所有的plus-*方法写在mui.plusReady中或者后面。
+					//获取当前页面所属的Webview窗口对象
+					var self = plus.webview.currentWebview();
+					for(var i = 0; i < 4; i++) {
+						//创建webview子页
+						var sub = plus.webview.create(
+							subpages[i], //子页url
+							subpages[i], //子页id
+							{
+								top: '45px', //设置距离顶部的距离
+								bottom: '50px' //设置距离底部的距离
+							}
+						);
+						//如不是我们设置的默认的子页则隐藏，否则添加到窗口中
+						if(i != Index) {
+							sub.hide();
+						}
+						//将webview对象填充到窗口
+						self.append(sub);
+					}
+
+				});
+				//当前激活选项
+				var activeTab = subpages[Index],
+					title = document.querySelector(".mui-title");
+				//选项卡点击事件
+				mui('.mui-bar-tab').on('tap', 'a', function(e) {
+					//获取目标子页的id
+					var targetTab = this.getAttribute('href');
+					if(targetTab == activeTab) {
+						return;
+					}
+					//更换标题
+					title.innerHTML = this.querySelector('.mui-tab-label').innerHTML;
+					//显示目标选项卡
+					plus.webview.show(targetTab);
+					//隐藏当前选项卡
+					plus.webview.hide(activeTab);
+					//更改当前活跃的选项卡
+					activeTab = targetTab;
+
+				});
+			}(mui, document));
+		</script>
+
+		<!--侧边栏-->
+
+	</body>
+
+</html>
