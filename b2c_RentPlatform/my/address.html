@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/own.css" />
+		<link rel="stylesheet" type="text/css" href="../css/iconfont.css" />
+		<style type="text/css">
+			.emptyAddress {
+				text-align: center;
+				margin-top: 50px;
+				font-size: 0.9em;
+			}
+			
+			h5 {
+				color: black
+			}
+			
+			.name {
+				float: left;
+			}
+			
+			.number {
+				float: right;
+			}
+			
+			.address {
+				padding-top: 2px;
+				clear: both;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav own-main-background-color">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">地址管理</h1>
+			<a id="rightBar" class="mui-icon icon icon-weibiaoti1 mui-pull-right"></a>
+		</header>
+
+		<div class="mui-content">
+			<div>
+				<ul id="addressList" class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<h5 class="name">colin</h5>
+					<h5 class="number">158xxxx7353</h5>
+					<p class="address mui-ellipsis-2">中国四川省成都市高新区大源村南华路双祥社区25号院n栋n单元n楼n号电梯n号门n栋n单元n楼n号电梯n号门</p>
+				</li>
+				<li class="mui-table-view-cell">
+					<h5 class="name">colin</h5>
+					<h5 class="number">158xxxx7353</h5>
+					<p class="address mui-ellipsis-2">四川成都高新区</p>
+				</li>
+				<li class="mui-table-view-cell">
+					<h5 class="name">colin</h5>
+					<h5 class="number">158xxxx7353</h5>
+					<p class="address mui-ellipsis-2">中国四川省成都市高新区大源村南华路双祥社区25号院n栋n单元n楼n号电梯n号门n栋n单元n楼n号电梯n号门</p>
+				</li>
+				<li class="mui-table-view-cell">
+					<h5 class="name">colin</h5>
+					<h5 class="number">158xxxx7353</h5>
+					<p class="address mui-ellipsis-2">中国四川省成都市高新区大源村南华路双祥社区25号院n栋n单元n楼n号电梯n号门n栋n单元n楼n号电梯n号门</p>
+				</li>
+			</ul>
+			</div>
+			<div>
+				<button type="button">新增地址</button>
+			</div>
+		</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript">
+			(function($, doc) {
+				$.init({
+					swipeBack: true //启用右滑关闭功能
+				});
+				$.plusReady(function() {
+
+				})
+			}(mui, document));
+		</script>
+	</body>
+
+</html>

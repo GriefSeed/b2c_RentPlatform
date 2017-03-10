@@ -4,8 +4,8 @@
 		"iPhone",
 		"iPad"
 	],
-	"id": "mui_template_login",/*应用的标识，创建应用时自动生成，勿手动修改*/
-	"name": "mui登录模板",/*应用名称，程序桌面图标名称*/
+	"id": "H5C9674DF",/*应用的标识，创建应用时自动生成，勿手动修改*/
+	"name": "物品租借平台",/*应用名称，程序桌面图标名称*/
 	"version": {
 		"name": "1.0.0",/*应用版本名称*/
 		"code": "83"
@@ -82,7 +82,7 @@
 		"Webview": {},
 		"NativeUI": {},
 		"Navigator": {},
-		"NativeObj": {},"Share":{},"OAuth":{},"Device":{}
+		"NativeObj": {},"Device":{}
 	},
 	"plus": {
 		"splashscreen": {
@@ -145,7 +145,7 @@
 					"ldpi": "unpackage/res/icons/48x48.png", /*大屏程序图标，分辨率：48x48*/
 					"hdpi": "unpackage/res/icons/72x72.png", /*高分屏程序图标，分辨率：72x72*/
 					"xhdpi": "unpackage/res/icons/96x96.png",/*720P高分屏程序图标，分辨率：96x96*/
-					"xxhdpi": "unpackage/res/icons/144x144.png"
+					"xxhdpi": "unpackage/res/icons/144x144.png","xxxhdpi":"unpackage/res/icons/192x192.png"
 				}
 			},
 			"splashscreen": {
@@ -369,7 +369,9 @@
 					"js/mui.min.js",
 					"fonts/mui.ttf",
 					"css/mui.min.css",
-					"item/item_detail.html"
+					"item/item_detail.html",
+					"item/items.html",
+					"js/my.js"
 				],
 				"refer": [],
 				"priority": 0
@@ -393,5 +395,5 @@
 	},
 	"unpackage":[
 	  "README.md"
-	]
+	],"fullscreen":false
 }
