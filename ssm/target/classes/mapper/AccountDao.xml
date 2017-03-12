@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.soecode.lyf.dao.AccountDao">	
+	<select id="queryOneByName" resultType="Account">
+		<!-- 如何告诉MyBatis把结果映射到Appointment同时映射book属性 -->
+		<!-- 可以自由控制SQL -->
+		SELECT * FROM account where account_name=#{accountName}
+	</select>
+</mapper>
