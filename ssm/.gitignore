@@ -61,8 +61,8 @@ $RECYCLE.BIN/
 /target/
 
 # my project file
-/.idea/
-/.settings/
+#/.idea/
+#/.settings/
 /target/
-/.classpath
-/.project
+#/.classpath
+#/.project
