@@ -58,7 +58,7 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
-#/target/
+/target/
 
 # my project file
 #/.idea/
