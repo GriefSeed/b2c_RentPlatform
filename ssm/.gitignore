@@ -59,3 +59,10 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 /target/
+
+# my project file
+/.idea/
+/.settings/
+/target/
+/.classpath
+/.project
