@@ -1,5 +1,5 @@
 CREATE TABLE `account` (
-`account_id` int(20) NOT NULL,
+`account_id` int(20) NOT NULL AUTO_INCREMENT,
 `account_name` varchar(10) NULL,
 `password` varchar(20) NULL,
 `email` varchar(20) NULL,
@@ -14,9 +14,9 @@ UNIQUE INDEX `account_name_u` (`account_name`)
 );
 
 CREATE TABLE `header` (
-`header_id` int(20) NOT NULL,
+`header_id` int(20) NOT NULL AUTO_INCREMENT,
 `account_id` int(20) NOT NULL,
-`create_date` datetime NULL,
+`create_date` datetime(6) NULL,
 `status` int(5) NULL,
 `address` varchar(50) NULL,
 `worker_id` int(20) NULL,
@@ -24,7 +24,7 @@ PRIMARY KEY (`header_id`)
 );
 
 CREATE TABLE `header_item` (
-`header_item_id` int(20) NOT NULL,
+`header_item_id` int(20) NOT NULL AUTO_INCREMENT,
 `header_id` int(20) NOT NULL,
 `item_id` int(20) NOT NULL,
 `quality` int(10) NULL,
@@ -33,7 +33,7 @@ PRIMARY KEY (`header_item_id`)
 );
 
 CREATE TABLE `all_items` (
-`all_items_id` int(20) NOT NULL,
+`all_items_id` int(20) NOT NULL AUTO_INCREMENT,
 `all_items_name` varchar(30) NULL,
 `all_items_img` varchar(20) NULL,
 `type_id` int(20) NULL,
@@ -41,7 +41,7 @@ PRIMARY KEY (`all_items_id`)
 );
 
 CREATE TABLE `items` (
-`item_id` int(20) NOT NULL,
+`item_id` int(20) NOT NULL AUTO_INCREMENT,
 `unit_cost` int(10) NULL,
 `item_img` varchar(255) NULL,
 `all_items_id` int(20) NULL,

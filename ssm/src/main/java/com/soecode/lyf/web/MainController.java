@@ -1,6 +1,7 @@
 package com.soecode.lyf.web;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +33,9 @@ public class MainController {
 		account = accountService.getOneByName(a.getAccountName());
 		if (account != null) {
 			map.put("Account", account);
-			map.put("result", "1");
+			//map.put("result", "1");
 		} else
-			map.put("result", "0");
+			map.put("Account", null);
 		return map;
 	}
 }

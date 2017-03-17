@@ -1,4 +1,4 @@
-var PHONE_IP = 'http://192.168.201.64:8080/ssm';
+var PHONE_IP = 'http://192.168.0.108:8080/ssm';
 
 var add = function(a, b) {
 	alert(this) //this被绑顶到window
