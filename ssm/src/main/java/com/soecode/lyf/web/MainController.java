@@ -23,7 +23,7 @@ public class MainController {
 	@Autowired
 	private AccountService accountService;
 
-	@RequestMapping(value = "/test")
+	@RequestMapping(value = "/login")
 	@ResponseBody
 	private Map<String, Object> test(@RequestBody Account a, Model model) {
 		System.out.println(a.getAccountName());

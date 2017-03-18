@@ -102,8 +102,14 @@
 
 				$.plusReady(function() {
 					var self = plus.webview.currentWebview();
-					var name = self.name;
-					var version = self.version;
+					var name = self.items_id;
+					/*if(typeof(localStorage.account) != "undefined"){
+						var account = JSON.parse(localStorage.account);
+						console.log(account.accountId);
+					}
+					else
+						console.log(localStorage.account);*/
+					
 					categorydetailWebview = plus.webview.currentWebview();
 					productsList = document.getElementById('productsList');
 					productlistSuccess();
@@ -129,7 +135,7 @@
 						datalist.push(dataitem);
 						var li = document.createElement('li');
 						li.className = 'mui-table-view-cell mui-media mui-col-xs-6';
-						li.innerHTML = '<a href="single_item.html?item_id=' + dataitem.product_id + '"><div class= "bgDiv"><img class="mui-media-object" src="' + dataitem.detail_image_url + '"/><div class="mui-media-body"><p class="mui-ellipsis-2">' + dataitem.product_name + '</p><p class="price-one">¥' + dataitem.product_price.default_price + '</p><p class="price-two">¥' + dataitem.product_price.list_price + '</p></div></div></a>';
+						li.innerHTML = '<a href="single_item.html?item_id=' + dataitem.product_id + '"><div class= "bgDiv"><img class="mui-media-object" src="' + dataitem.detail_image_url + '"/><div class="mui-media-body"><p class="mui-ellipsis-2">' + dataitem.product_name + '</p><p class="price-one">¥' + dataitem.product_price.default_price +'——¥'+dataitem.product_price.default_price+ '</p></div></div></a>';
 						productsList.appendChild(li);
 					}
 				}

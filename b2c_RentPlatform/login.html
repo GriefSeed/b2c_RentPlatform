@@ -244,7 +244,7 @@
 						});
 						//$.toast(Person.name + Person.password + '');
 						//$.toast(JSON.stringify(account));
-						$.ajax(PHONE_IP+'/main/test', {
+						$.ajax(PHONE_IP+'/main/login', {
 							data: account_tmp,
 								//{accountName: "css"  
 								//,password: passwordBox.value}
@@ -267,7 +267,8 @@
 								if(account.accountId > 0) {
 									//$.toast('登deng' + data.persons);
 									//将返回的json格式数据转换为对象，并存入session中
-									sessionStorage.account = account;
+									localStorage.account = JSON.stringify(account);//session不能存js对象，只能存字符串
+									console.log(localStorage.account);
 									mui.openWindow({
 										url: 'tab-webview-main.html',
 										id: 'tab-webview-main.html'
