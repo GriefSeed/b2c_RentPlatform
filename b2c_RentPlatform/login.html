@@ -257,11 +257,11 @@
 								'Content-Type': 'application/json'
 							},
 							success: function(data) {
-								var account;
-								for(var kid in data){
+								var account = data;
+								/*for(var kid in data){
 									if(data[kid].accountId > 0)
 										account = data[kid];
-								}
+								}*/
 								$.toast(account);
 								console.log(account.accountId);
 								if(account.accountId > 0) {

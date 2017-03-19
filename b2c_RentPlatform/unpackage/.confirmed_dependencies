@@ -125,7 +125,8 @@
 			"css/mui.min.css",
 			"item/item_detail.html",
 			"images/example_pic.jpg",
-			"item/single_item.html"
+			"item/single_item.html",
+			"js/my.js"
 		],
 		"refer": [
 			"item/item_detail.html",
@@ -139,7 +140,8 @@
 			"css/mui.min.css",
 			"item/item_detail.html",
 			"item/items.html",
-			"js/my.js"
+			"js/my.js",
+			"images/example_pic.jpg"
 		],
 		"refer": [
 			"item/item_detail.html",

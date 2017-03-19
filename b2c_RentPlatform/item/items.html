@@ -91,6 +91,7 @@
 			</div>
 		</div>
 		<script src="../js/mui.min.js"></script>
+		<script src="../js/my.js"></script>
 		<script type="text/javascript">
 			(function($, doc) {
 				var datalist = []; //数据数组
@@ -102,18 +103,52 @@
 
 				$.plusReady(function() {
 					var self = plus.webview.currentWebview();
-					var name = self.items_id;
+					var item_type = self.item_type;
+					var items = {
+						items_id: "0",
+						items_name: "name",
+						items_img: "url",
+						items_price: "0",
+						items_type: self.item_type
+					};
 					/*if(typeof(localStorage.account) != "undefined"){
 						var account = JSON.parse(localStorage.account);
 						console.log(account.accountId);
 					}
 					else
 						console.log(localStorage.account);*/
-					
+					//ajax获取后台列表
+					$.ajax(PHONE_IP + '/main/getItemsList', {
+						data: item_type.toString(),
+						dataType: 'json', //服务器返回json格式数据
+						type: 'post', //HTTP请求类型d
+						timeout: 10000, //超时时间设置为10秒；
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						success: function(data) {
+							//遍历队列
+							for(var kid in data) {
+								items.items_id = data[kid].itemsId;
+								items.items_name = data[kid].itemsName;
+								items.items_img = PHONE_IP + data[kid].itemsImg;
+								items.items_price = data[kid].itemsPrice;
+								items.items_type = data[kid].itemsType;
+								productlistSuccess(items);
+							}
+						},
+						error: function(xhr, type, errorThrown) {
+							//异常处理；
+
+							$.toast('登陆失败' + xhr);
+
+						}
+					});
+
 					categorydetailWebview = plus.webview.currentWebview();
 					productsList = document.getElementById('productsList');
-					productlistSuccess();
-						//监听页面hide事件，当页面返回的时候将里面的数据清空
+					//productlistSuccess();
+					//监听页面hide事件，当页面返回的时候将里面的数据清空
 					categorydetailWebview.addEventListener('hide', function() {
 						//将数据清空以及主要显示列表页面的innerhtml设置为''
 						productsList.innerHTML = '';
@@ -122,8 +157,8 @@
 
 				});
 				//成功查询分类列表下的数据
-				function productlistSuccess() {
-					for(var i = 0; i < 40; i++) {
+				function productlistSuccess(items) {
+					/*for(var i = 0; i < 40; i++) {
 						var dataitem = {};
 						dataitem.detail_image_url = '../images/example_pic.jpg';
 						dataitem.product_price = {
@@ -132,12 +167,13 @@
 						};
 						dataitem.product_name = "这是从分类列表跳过来的，什么鬼啊";
 						dataitem.product_id = i;
-						datalist.push(dataitem);
-						var li = document.createElement('li');
-						li.className = 'mui-table-view-cell mui-media mui-col-xs-6';
-						li.innerHTML = '<a href="single_item.html?item_id=' + dataitem.product_id + '"><div class= "bgDiv"><img class="mui-media-object" src="' + dataitem.detail_image_url + '"/><div class="mui-media-body"><p class="mui-ellipsis-2">' + dataitem.product_name + '</p><p class="price-one">¥' + dataitem.product_price.default_price +'——¥'+dataitem.product_price.default_price+ '</p></div></div></a>';
-						productsList.appendChild(li);
-					}
+						datalist.push(dataitem);*/
+					//加上相对地址
+					var li = document.createElement('li');
+					li.className = 'mui-table-view-cell mui-media mui-col-xs-6';
+					li.innerHTML = '<a href="single_item.html?item_id=' + items.items_id + '"><div class= "bgDiv"><img class="mui-media-object" src="' + items.items_img + '"/><div class="mui-media-body"><p class="mui-ellipsis-2">' + items.items_name + '</p><p class="price-one">¥' + items.items_price + '</p></div></div></a>';
+					productsList.appendChild(li);
+					//}
 				}
 			}(mui, document));
 		</script>
