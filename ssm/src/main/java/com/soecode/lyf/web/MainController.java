@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.soecode.lyf.entity.Account;
+import com.soecode.lyf.entity.Item;
 import com.soecode.lyf.entity.Items;
 import com.soecode.lyf.service.AccountService;
+import com.soecode.lyf.service.ItemService;
 import com.soecode.lyf.service.ItemsService;
 import com.soecode.lyf.util.Util;
 
@@ -28,33 +30,45 @@ public class MainController {
 	private AccountService accountService;
 	@Autowired
 	private ItemsService itemsService;
+	@Autowired
+	private ItemService itemService;
 
 	@RequestMapping(value = "/login")
 	@ResponseBody
 	private Account login(@RequestBody Account a, Model model) {
-		System.out.println( Util.getLocalIP());//获得本机IP );
-		//System.out.println("your are success!");
-		Map<String, Object> map = new HashMap<String, Object>();
-		Account account = new Account();
-		account = accountService.getOneByName(a.getAccountName());
-		if (account != null) {
-			map.put("Account", account);
-			//map.put("result", "1");
-		} else
-			map.put("Account", null);
-		//return map;
+		System.out.println(Util.getLocalIP());// 获得本机IP );
+		// System.out.println("your are success!");
+		// Map<String, Object> map = new HashMap<String, Object>();
+		// account = new Account();
+		Account account = accountService.getOneByName(a.getAccountName());
 		return account;
 	}
-	
-	
-	//返回所有生活类的产品列表
+
+	// 返回所有生活类的产品列表
 	@RequestMapping(value = "/getItemsList")
 	@ResponseBody
-	private List<Items> getItemsList(@RequestBody String itemsType) {
-		//System.out.println( Util.getLocalIP());//获得本机IP );
+	private List<Items> getItemsList(@RequestBody int itemsType) {
+		// System.out.println( Util.getLocalIP());//获得本机IP );
 		System.out.println("your are success!+" + itemsType);
-		Map<String, Object> map = new HashMap<String, Object>();
-		List<Items> itemsList = itemsService.queryByItemsType(Integer.parseInt(itemsType));
+		List<Items> itemsList = itemsService.queryByItemsType(itemsType);
 		return itemsList;
+	}
+
+	// 返回一种所有产品列表
+	@RequestMapping(value = "/getSingleItemsList")
+	@ResponseBody
+	private List<Item> getSingleItemsList(@RequestBody int itemsId) {
+		// System.out.println( Util.getLocalIP());//获得本机IP );
+		//System.out.println("your are success!+" + itemsId);
+		List<Item> singleItemsList = itemService.queryByItemsId(itemsId);
+		return singleItemsList;
+	}
+
+	// 返回单个产品的详细信息
+	@RequestMapping(value = "/getSingleItemDetail")
+	@ResponseBody
+	private Item getSingleItemDetail(@RequestBody int itemId) {
+		Item singleItem = itemService.queryByItemId(itemId);
+		return singleItem;
 	}
 }

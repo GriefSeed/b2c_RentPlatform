@@ -68,7 +68,7 @@
 	<body>
 		<header class="mui-bar mui-bar-nav own-main-background-color">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-			<h1 class="mui-title">這是某种商品的单品頁面</h1>
+			<h1 id="title" class="mui-title"></h1>
 			<a id="rightBar" class="mui-icon icon icon-weibiaoti1 mui-pull-right"></a>
 		</header>
 
@@ -102,14 +102,50 @@
 				});
 
 				$.plusReady(function() {
-					var self = plus.webview.currentWebview();
-					var name = self.name;
-					var version = self.version;
+					var item = {
+						item_id: "0",
+						item_name: "name",
+						item_img: "url",
+						unit_cost: "0",
+						damage:"0"
+					};
+					//ajax获取后台列表
+					$.ajax(PHONE_IP + '/main/getSingleItemsList', {
+						data: getUrlParam('items_id'),
+						dataType: 'json', //服务器返回json格式数据
+						type: 'post', //HTTP请求类型d
+						timeout: 10000, //超时时间设置为10秒；
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						success: function(data) {
+							//暂时用着这种方法，反正后台名字都一样，也有不同的id
+							document.getElementById('title').innerHTML = data[0].itemName;
+							//遍历队列
+							for(var kid in data) {
+								item.item_id = data[kid].itemId;
+								item.item_name = data[kid].itemName;
+								item.item_img = PHONE_IP + data[kid].itemImg;
+								item.unit_cost = data[kid].unitCost;
+								item.damage = data[kid].damage;
+								productlistSuccess(item);
+							}
+						},
+						error: function(xhr, type, errorThrown) {
+							//异常处理；
+
+							$.toast('登陆失败' + xhr);
+
+						}
+					});
+					
+					
 					categorydetailWebview = plus.webview.currentWebview();
 					productsList = document.getElementById('productsList');
-					$.toast(getUrlParam('item_id'));
-					productlistSuccess();
-						//监听页面hide事件，当页面返回的时候将里面的数据清空
+					//$.toast(getUrlParam('items_id'));
+					//$.toast(items_id);
+					//productlistSuccess();
+					//监听页面hide事件，当页面返回的时候将里面的数据清空
 					categorydetailWebview.addEventListener('hide', function() {
 						//将数据清空以及主要显示列表页面的innerhtml设置为''
 						productsList.innerHTML = '';
@@ -118,22 +154,13 @@
 
 				});
 				//成功查询分类列表下的数据
-				function productlistSuccess() {
-					for(var i = 0; i < 40; i++) {
-						var dataitem = {};
-						dataitem.detail_image_url = '../images/example_pic.jpg';
-						dataitem.product_price = {
-							default_price: '30.0',
-							list_price: '28.0'
-						};
-						dataitem.product_name = "这是从分类列表跳过来的，什么鬼啊";
-						dataitem.product_id = i;
-						datalist.push(dataitem);
-						var li = document.createElement('li');
-						li.className = 'mui-table-view-cell mui-media mui-col-xs-6';
-						li.innerHTML = '<a href="item_detail.html?' + dataitem.product_id + '"><div class= "bgDiv"><img class="mui-media-object" src="' + dataitem.detail_image_url + '"/><div class="mui-media-body"><p class="mui-ellipsis-2">' + dataitem.product_name + '</p><p class="price-one">¥' + dataitem.product_price.default_price + '</p><p class="price-two">¥' + dataitem.product_price.list_price + '</p></div></div></a>';
-						productsList.appendChild(li);
-					}
+				function productlistSuccess(item) {
+
+					var li = document.createElement('li');
+					li.className = 'mui-table-view-cell mui-media mui-col-xs-6';
+					li.innerHTML = '<a href="item_detail.html?item_id=' + item.item_id + '"><div class= "bgDiv"><img class="mui-media-object" src="' + item.item_img + '"/><div class="mui-media-body"><p class="mui-ellipsis-2">' + item.item_name +'_'+item.item_id+'</p><p class="price-one">¥' + item.unit_cost +  '</p><p class="price-one">' + item.damage +'%</p></div></div></a>';
+					productsList.appendChild(li);
+
 				}
 			}(mui, document));
 		</script>

@@ -68,7 +68,7 @@
 	<body>
 		<header class="mui-bar mui-bar-nav own-main-background-color">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-			<h1 class="mui-title">這是某類商品的頁面</h1>
+			<h1 id="title" class="mui-title"></h1>
 			<a id="rightBar" class="mui-icon icon icon-weibiaoti1 mui-pull-right"></a>
 		</header>
 
@@ -104,6 +104,8 @@
 				$.plusReady(function() {
 					var self = plus.webview.currentWebview();
 					var item_type = self.item_type;
+					var item_type_name = self.item_type_name;
+					document.getElementById('title').innerHTML = item_type_name;
 					var items = {
 						items_id: "0",
 						items_name: "name",
@@ -158,22 +160,11 @@
 				});
 				//成功查询分类列表下的数据
 				function productlistSuccess(items) {
-					/*for(var i = 0; i < 40; i++) {
-						var dataitem = {};
-						dataitem.detail_image_url = '../images/example_pic.jpg';
-						dataitem.product_price = {
-							default_price: '30.0',
-							list_price: '28.0'
-						};
-						dataitem.product_name = "这是从分类列表跳过来的，什么鬼啊";
-						dataitem.product_id = i;
-						datalist.push(dataitem);*/
-					//加上相对地址
+
 					var li = document.createElement('li');
 					li.className = 'mui-table-view-cell mui-media mui-col-xs-6';
-					li.innerHTML = '<a href="single_item.html?item_id=' + items.items_id + '"><div class= "bgDiv"><img class="mui-media-object" src="' + items.items_img + '"/><div class="mui-media-body"><p class="mui-ellipsis-2">' + items.items_name + '</p><p class="price-one">¥' + items.items_price + '</p></div></div></a>';
+					li.innerHTML = '<a href="single_item.html?items_id=' + items.items_id + '"><div class= "bgDiv"><img class="mui-media-object" src="' + items.items_img + '"/><div class="mui-media-body"><p class="mui-ellipsis-2">' + items.items_name + '</p><p class="price-one">¥' + items.items_price + '</p></div></div></a>';
 					productsList.appendChild(li);
-					//}
 				}
 			}(mui, document));
 		</script>

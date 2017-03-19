@@ -5,7 +5,7 @@ var add = function(a, b) {
 	return a + b;
 }
 
-// 获取url中的参数
+// 获取url中的参数,name表示你要取的值在url中的命名，如....？type=...，name就是type
 function getUrlParam(name) {
 	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
 	var r = window.location.search.substr(1).match(reg);
