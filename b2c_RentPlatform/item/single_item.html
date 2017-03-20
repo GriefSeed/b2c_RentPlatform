@@ -158,7 +158,7 @@
 
 					var li = document.createElement('li');
 					li.className = 'mui-table-view-cell mui-media mui-col-xs-6';
-					li.innerHTML = '<a href="item_detail.html?item_id=' + item.item_id + '"><div class= "bgDiv"><img class="mui-media-object" src="' + item.item_img + '"/><div class="mui-media-body"><p class="mui-ellipsis-2">' + item.item_name +'_'+item.item_id+'</p><p class="price-one">¥' + item.unit_cost +  '</p><p class="price-one">' + item.damage +'%</p></div></div></a>';
+					li.innerHTML = '<a href="item_detail.html?item_id=' + item.item_id + '"><div class= "bgDiv"><img class="mui-media-object" src="' + item.item_img + '"/><div class="mui-media-body"><p class="mui-ellipsis-2">' + item.item_name +'_'+item.item_id+'</p><p class="price-one">¥' + item.unit_cost +  '</p><p class="price-one">损耗率' + item.damage +'%</p></div></div></a>';
 					productsList.appendChild(li);
 
 				}

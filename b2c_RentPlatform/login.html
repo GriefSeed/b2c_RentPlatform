@@ -263,8 +263,8 @@
 										account = data[kid];
 								}*/
 								$.toast(account);
-								console.log(account.accountId);
-								if(account.accountId > 0) {
+								//console.log(account.accountId);
+								if(account!=null&&account.accountId > 0) {
 									//$.toast('登deng' + data.persons);
 									//将返回的json格式数据转换为对象，并存入session中
 									localStorage.account = JSON.stringify(account);//session不能存js对象，只能存字符串
@@ -274,6 +274,8 @@
 										id: 'tab-webview-main.html'
 									});
 								}
+								else
+									$.toast('用户名或密码错误');
 								
 							},
 							error: function(xhr, type, errorThrown) {

@@ -41,7 +41,10 @@ public class MainController {
 		// Map<String, Object> map = new HashMap<String, Object>();
 		// account = new Account();
 		Account account = accountService.getOneByName(a.getAccountName());
-		return account;
+		if(account!=null&&account.getPassword().equals(a.getPassword().toString()))
+			return account;
+		else
+			return null;
 	}
 
 	// 返回所有生活类的产品列表

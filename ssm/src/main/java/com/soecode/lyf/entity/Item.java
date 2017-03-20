@@ -6,6 +6,7 @@ public class Item {
 	private int unitCost;
 	private String itemImg;
 	private int itemsId;
+	private int status;
 	private int damage;
 	private String description;
 	public int getItemId() {
@@ -37,6 +38,16 @@ public class Item {
 	}
 	public void setItemsId(int itemsId) {
 		this.itemsId = itemsId;
+	}
+	
+	
+	
+	
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
 	}
 	public int getDamage() {
 		return damage;

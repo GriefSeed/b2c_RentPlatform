@@ -9,12 +9,87 @@
 	</head>
 
 	<body>
+		<header class="mui-bar mui-bar-nav own-main-background-color">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 id="title" class="mui-title">商品详细页面</h1>
+			<a id="rightBar" class="mui-icon icon icon-weibiaoti1 mui-pull-right"></a>
+		</header>
+
 		<div class="mui-content">
-		    <p>hello</p>
+			<div id="itemImg"></div>
+			<div>商品名称:
+				<a id="itemName"></a>
+			</div>
+			<div>商品价格:
+				<a id="unitCost"></a>
+			</div>
+			<div>状态:
+				<a id="status"></a>
+			</div>
+			<div>损坏度:
+				<a id="damage"></a>
+			</div>
+			<div>描述:
+				<a id="description"></a>
+			</div>
+			<button id="addCar" class="mui-badge-blue" type="button">加入购物车</button>
 		</div>
 		<script src="../js/mui.min.js"></script>
+		<script src="../js/my.js"></script>
 		<script type="text/javascript">
-			mui.init()
+			(function($, doc) {
+				$.init({
+					swipeBack: true //启用右滑关闭功能
+				});
+				$.plusReady(function() {
+					var item_id = getUrlParam('item_id');
+					var item_img_div = document.getElementById('itemImg');
+					var item_name_div = document.getElementById('itemName');
+					var item_unit_cost_div = document.getElementById('unitCost');
+					var item_status_div = document.getElementById('status');
+					var item_damage_div = document.getElementById('damage');
+					var item_description_div = document.getElementById('description');
+					var add_cart_btn = doc.getElementById('addCar');
+					var item;
+
+					//ajax取值
+					$.ajax(PHONE_IP + '/main/getSingleItemDetail', {
+						data: item_id,
+						dataType: 'json', //服务器返回json格式数据
+						type: 'post', //HTTP请求类型d
+						timeout: 10000, //超时时间设置为10秒；
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						success: function(data) {
+							//暂时用着这种方法，反正后台名字都一样，也有不同的id
+							document.getElementById('title').innerHTML = data.itemName + "-" + data.itemId + "号";
+							console.log(data.itemImg + "hhh");
+							item_img_div.innerHTML = '<img src="' + PHONE_IP + data.itemImg + '" width="300px"/>';
+							item_name_div.innerHTML = data.itemName;
+
+							item_unit_cost_div.innerHTML = data.unitCost + '元';
+
+							item_status_div.innerHTML = itemStatus(data.status);
+							item_damage_div.innerHTML = data.damage + '%';
+							item_description_div.innerHTML = data.description;
+							item = data;
+						},
+						error: function(xhr, type, errorThrown) {
+							//异常处理；
+							$.toast('error' + xhr);
+						}
+					});
+
+					//检查localStorage里的购物车队列有无该商品，如果有，就灰色，否则就可用，并在点击时加入LocalStorage
+					add_cart_btn.addEventListener('tap', function(event) {
+						if(localStorage.CART != undefined && !jsonToArr(localStorage.CART, item, 2))
+							localStorage.CART = jsonToArr(localStorage.CART, item.itemId, 0);
+						console.log(localStorage.CART);
+					});
+
+				});
+			}(mui, document));
 		</script>
 	</body>
 
