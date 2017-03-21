@@ -82,12 +82,19 @@
 					});
 
 					//检查localStorage里的购物车队列有无该商品，如果有，就灰色，否则就可用，并在点击时加入LocalStorage
-					add_cart_btn.addEventListener('tap', function(event) {
-						if(localStorage.CART != undefined && !jsonToArr(localStorage.CART, item, 2))
-							localStorage.CART = jsonToArr(localStorage.CART, item.itemId, 0);
-						console.log(localStorage.CART);
-					});
-
+					add_cart_btn.addEventListener('tap',
+						function(event) {
+							/*localStorage.removeItem("itemCart");
+							localStorage.removeItem("item_1");*/
+							if(itemInLocalSto(item, "get") == null)
+								itemInLocalSto(item, "add");
+							else
+								$.toast("购物车已有该商品");
+							/*var test = itemInLocalSto(item, "get");
+							console.warn(localStorage.getItem("itemCart"));
+							console.warn(localStorage.getItem("item_2"));
+							console.warn(test.itemName);*/
+						});
 				});
 			}(mui, document));
 		</script>

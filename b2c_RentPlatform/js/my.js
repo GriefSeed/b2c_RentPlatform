@@ -1,5 +1,4 @@
 var PHONE_IP = 'http://192.168.0.108:8080/ssm';
-//购物车
 
 var add = function(a, b) {
 	alert(this) //this被绑顶到window
@@ -28,20 +27,30 @@ function itemStatus(s) {
 	return "error";
 }
 
-//将js对象添加到数组中，返回JSON数组，用于存入LocalStorage，实现增删
-//str是localstorage里的存储对象，obj是要增删的对象，model=0为增，model=1为删,2为查找
-function jsonToArr(str, obj, model) {
-	var JSONObj = JSON.parse(str);
-	if(model == 0)
-		JSONObj.setItem(obj.itemId, obj.unitCost);
-	if(model == 1)
-		JSONObj.removeItem(obj.itemId);
-	if(model == 2) {
-		if(JSONObj.getItem(obj.itemId) != undefined)
-			return true;
-		else
-			return false;
+function nvl(obj1, obj2) {
+	if(obj1 == undefined){
+		return obj2;
 	}
-	return Json.stringify(JSONObj);
+	else{
+		return obj1;
+	}
+}
 
+//直接存储进LocalStorage里，itemCart为索引表
+function itemInLocalSto(obj, model) {
+	if(model == "add") {
+		localStorage.setItem("item_" + obj.itemId, JSON.stringify(obj));
+		localStorage.setItem("itemCart", nvl(localStorage.itemCart,"") + "item_" + obj.itemId + "|");
+	}
+	if(model == "delete") {
+		localStorage.removeItem("item_" + obj.itemId);
+		localStorage.setItem("itemCart", localStorage.itemCart.replace("item_" + obj.itemId + "|", ""));
+	}
+	if(model == "get") {
+		if(localStorage.getItem("item_" + obj.itemId) == null)
+			return null;
+		else
+			return JSON.parse(localStorage.getItem("item_" + obj.itemId));
+	}
+	return "error";
 }

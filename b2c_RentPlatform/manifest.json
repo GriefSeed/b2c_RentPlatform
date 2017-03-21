@@ -389,6 +389,15 @@
 				],
 				"refer": [],
 				"priority": 0
+			},
+			"tab-webview-subpage-shopcar.html": {
+				"resources": [
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"js/my.js"
+				],
+				"refer": [],
+				"priority": 0
 			}
 		},
 		"idle": {

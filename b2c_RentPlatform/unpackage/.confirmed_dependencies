@@ -159,5 +159,12 @@
 		"refer": [
 			"item/single_item.html"
 		]
+	},
+	"tab-webview-subpage-shopcar.html": {
+		"resources": [
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"js/my.js"
+		]
 	}
 }
