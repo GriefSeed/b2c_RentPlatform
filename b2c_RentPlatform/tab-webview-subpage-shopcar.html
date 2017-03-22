@@ -61,7 +61,7 @@
 			</ul>
 			<nav id="footerBar" class="mui-bar mui-bar-tab">
 				<div style="margin-left: 1px;margin-right: auto;">
-					<font>总价：</font>
+					<font>总价：<font style="color: red;">￥</font>
 					<font id="amount" style="color: red;"></font>
 					<div style="margin-left: auto;margin-right: 3px;float: right;">
 						<button id="cleanCart" type="button">清空购物车</button>
@@ -84,10 +84,12 @@
 			$.plusReady(function() {
 				var itemListDOM = doc.getElementById("itemListDOM");
 				var cleanCartBtn = doc.getElementById("cleanCart");
-
-				//登陆时页面载入输出一次
-				getItemList();
-
+				var amountLayout = doc.getElementById("amount");
+				var amount = 0;
+				
+				//登陆时页面载入输出一次,顺便拿取总金额
+				amount = getItemList(amount);
+				amountLayout.innerHTML = amount;
 				//删除一个商品，同时LocalStorage删除，再输出一次
 
 				//清空购物车
@@ -101,7 +103,7 @@
 
 			});
 			
-			function getItemList() {
+			function getItemList(amount) {
 				if(localStorage.getItem("itemCart") != null) {
 					//将字符串切成数组
 					var itemList = localStorage.getItem("itemCart").split('|');
@@ -121,9 +123,11 @@
 						li.className = 'mui-table-view-cell';
 						li.innerHTML = '<div id="' + item.itemId + '" class="mui-slider-cell" onclick="itemDetail(this)"><div class="oa-contact-cell mui-table"><div class="oa-contact-avatar mui-table-cell"><img width="50px" src="' + PHONE_IP + item.itemImg + '" /></div><div class="oa-contact-content mui-table-cell"><div class="mui-clearfix"><h4 class="oa-contact-name">  ' + item.itemName + '  </h4><span class="oa-contact-position mui-h6">  ￥' + item.unitCost + '  </span></div><p class="oa-contact-email mui-h6"> 编号：' + item.itemId + '</p></div></div></div>';
 						itemListDOM.appendChild(li);
-
+						amount = amount + item.unitCost;
 					}
+					
 				}
+				return amount;
 			}
 			
 			
