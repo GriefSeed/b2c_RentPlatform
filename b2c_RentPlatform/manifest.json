@@ -387,7 +387,10 @@
 					"fonts/mui.ttf",
 					"css/mui.min.css"
 				],
-				"refer": [],
+				"refer": [
+					"tab-webview-subpage-shopcar.html",
+					"tab-webview-main.html"
+				],
 				"priority": 0
 			},
 			"tab-webview-subpage-shopcar.html": {

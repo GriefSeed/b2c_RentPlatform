@@ -52,5 +52,8 @@ function itemInLocalSto(obj, model) {
 		else
 			return JSON.parse(localStorage.getItem("item_" + obj.itemId));
 	}
+	if(model == "check"){
+		return nvl(localStorage.getItem("itemCart"),"").indexOf("item_" + obj.itemId);
+	}
 	return "error";
 }

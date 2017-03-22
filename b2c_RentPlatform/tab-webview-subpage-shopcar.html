@@ -59,6 +59,17 @@
 			<ul id="itemListDOM" class="mui-table-view mui-table-view-striped mui-table-view-condensed">
 
 			</ul>
+			<nav id="footerBar" class="mui-bar mui-bar-tab">
+				<div style="margin-left: 1px;margin-right: auto;">
+					<font>总价：</font>
+					<font id="amount" style="color: red;"></font>
+					<div style="margin-left: auto;margin-right: 3px;float: right;">
+						<button id="cleanCart" type="button">清空购物车</button>
+						<button id="createOrder" type="button">生成订单</button>
+					</div>
+				</div>
+
+			</nav>
 		</div>
 	</body>
 	<script src="js/mui.min.js"></script>
@@ -70,6 +81,24 @@
 			});
 			$.plusReady(function() {
 				var itemListDOM = doc.getElementById("itemListDOM");
+				var cleanCartBtn = doc.getElementById("cleanCart");
+				
+				//登陆时页面载入输出一次
+				getItemList();
+				
+				//删除一个商品，同时LocalStorage删除，再输出一次
+				
+				//清空购物车
+				cleanCartBtn.addEventListener('tap',
+						function(event) {
+							localStorage.removeItem("itemCart");
+							location.reload();
+						});
+						
+						
+				
+			});
+			function getItemList(){
 				if(localStorage.getItem("itemCart") != null) {
 					//将字符串切成数组
 					var itemList = localStorage.getItem("itemCart").split('|');
@@ -83,16 +112,16 @@
 						itemListDOM.innerHTML = '';
 					}, false);*/
 					for(var index in itemList) {
-						console.log(index);
 						var item = JSON.parse(localStorage.getItem(itemList[index]));
 
 						var li = document.createElement('li');
 						li.className = 'mui-table-view-cell';
 						li.innerHTML = '<div class="mui-slider-cell"><div class="oa-contact-cell mui-table"><div class="oa-contact-avatar mui-table-cell"><img width="50px" src="' + PHONE_IP + item.itemImg + '" /></div><div class="oa-contact-content mui-table-cell"><div class="mui-clearfix"><h4 class="oa-contact-name">  ' + item.itemName + '  </h4><span class="oa-contact-position mui-h6">  ￥' + item.unitCost + '  </span></div><p class="oa-contact-email mui-h6"> 编号：' + item.itemId + '</p></div></div></div>';
 						itemListDOM.appendChild(li);
+						
 					}
 				}
-			})
+			}
 		}(mui, document));
 	</script>
 

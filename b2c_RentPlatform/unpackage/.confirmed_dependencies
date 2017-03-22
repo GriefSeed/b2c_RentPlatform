@@ -157,7 +157,9 @@
 			"css/mui.min.css"
 		],
 		"refer": [
-			"item/single_item.html"
+			"item/single_item.html",
+			"tab-webview-subpage-shopcar.html",
+			"tab-webview-main.html"
 		]
 	},
 	"tab-webview-subpage-shopcar.html": {
