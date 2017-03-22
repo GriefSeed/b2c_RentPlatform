@@ -79,26 +79,29 @@
 			$.init({
 				swipeBack: true //启用右滑关闭功能
 			});
+			
+			
 			$.plusReady(function() {
 				var itemListDOM = doc.getElementById("itemListDOM");
 				var cleanCartBtn = doc.getElementById("cleanCart");
-				
+
 				//登陆时页面载入输出一次
 				getItemList();
-				
+
 				//删除一个商品，同时LocalStorage删除，再输出一次
-				
+
 				//清空购物车
 				cleanCartBtn.addEventListener('tap',
-						function(event) {
-							localStorage.removeItem("itemCart");
-							location.reload();
-						});
-						
-						
-				
+					function(event) {
+						localStorage.removeItem("itemCart");
+						//这次轮到我搞不懂了，到底是新打开了一个页面，还是用原来的页面，干脆两个刷新都用上后，貌似就同步了
+						location.reload();
+						plus.webview.getWebviewById("tab-webview-subpage-shopcar.html").reload();
+					});
+
 			});
-			function getItemList(){
+			
+			function getItemList() {
 				if(localStorage.getItem("itemCart") != null) {
 					//将字符串切成数组
 					var itemList = localStorage.getItem("itemCart").split('|');
@@ -116,13 +119,25 @@
 
 						var li = document.createElement('li');
 						li.className = 'mui-table-view-cell';
-						li.innerHTML = '<div class="mui-slider-cell"><div class="oa-contact-cell mui-table"><div class="oa-contact-avatar mui-table-cell"><img width="50px" src="' + PHONE_IP + item.itemImg + '" /></div><div class="oa-contact-content mui-table-cell"><div class="mui-clearfix"><h4 class="oa-contact-name">  ' + item.itemName + '  </h4><span class="oa-contact-position mui-h6">  ￥' + item.unitCost + '  </span></div><p class="oa-contact-email mui-h6"> 编号：' + item.itemId + '</p></div></div></div>';
+						li.innerHTML = '<div id="' + item.itemId + '" class="mui-slider-cell" onclick="itemDetail(this)"><div class="oa-contact-cell mui-table"><div class="oa-contact-avatar mui-table-cell"><img width="50px" src="' + PHONE_IP + item.itemImg + '" /></div><div class="oa-contact-content mui-table-cell"><div class="mui-clearfix"><h4 class="oa-contact-name">  ' + item.itemName + '  </h4><span class="oa-contact-position mui-h6">  ￥' + item.unitCost + '  </span></div><p class="oa-contact-email mui-h6"> 编号：' + item.itemId + '</p></div></div></div>';
 						itemListDOM.appendChild(li);
-						
+
 					}
 				}
 			}
+			
+			
 		}(mui, document));
+		//进入商品详细页面
+		function itemDetail(obj){
+				mui.openWindow({
+					url:'item/item_detail.html',
+					id:'item/item_detail.html',
+					extras:{
+						itemId:obj.id
+					}
+				});
+			}
 	</script>
 
 </html>

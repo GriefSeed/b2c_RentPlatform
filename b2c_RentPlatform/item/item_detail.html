@@ -34,7 +34,7 @@
 			</div>
 			<div>
 				<button id="addCar" class="mui-badge-blue" type="button">加入购物车</button>
-				<button id="goCart" class="mui-badge-green" type="button" style="float: left;">结算</button>
+				<a href="../tab-webview-subpage-shopcar.html"><button id="goCart" class="mui-badge-green" type="button" style="float: left;">结算</button></a>
 			</div>
 		</div>
 		<script src="../js/mui.min.js"></script>
@@ -45,7 +45,13 @@
 					swipeBack: true //启用右滑关闭功能
 				});
 				$.plusReady(function() {
-					var item_id = getUrlParam('item_id');
+					var self = plus.webview.currentWebview();
+					var item_id;
+					//有两个途径进入商品详细页面，一个是顺序进入，一个是从购物车进入
+					if(self.itemId == undefined)
+						item_id = getUrlParam('item_id');
+					else
+						item_id = self.itemId;
 					var item_img_div = document.getElementById('itemImg');
 					var item_name_div = document.getElementById('itemName');
 					var item_unit_cost_div = document.getElementById('unitCost');
@@ -104,8 +110,11 @@
 					goCartBtn.addEventListener("tap", function(event) {
 						console.log("bitch");
 						$.openWindow({
-							url: '/tab-webview-subpage-shopcar.html',
-							id: '/tab-webview-subpage-shopcar.html',
+							url: 'tab-webview-subpage-shopcar.html',
+							id: 'tab-webview-subpage-shopcar.html',
+							extras:{
+								 createNew:false
+							}
 						});
 					});
 				});

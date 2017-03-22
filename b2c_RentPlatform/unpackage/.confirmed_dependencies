@@ -154,12 +154,14 @@
 			"js/mui.min.js",
 			"js/my.js",
 			"fonts/mui.ttf",
-			"css/mui.min.css"
+			"css/mui.min.css",
+			"tab-webview-subpage-shopcar.html"
 		],
 		"refer": [
 			"item/single_item.html",
 			"tab-webview-subpage-shopcar.html",
-			"tab-webview-main.html"
+			"tab-webview-main.html",
+			"/tab-webview-subpage-shopcar.html"
 		]
 	},
 	"tab-webview-subpage-shopcar.html": {
@@ -167,6 +169,9 @@
 			"js/mui.min.js",
 			"css/mui.min.css",
 			"js/my.js"
+		],
+		"refer": [
+			"item/item_detail.html"
 		]
 	}
 }
