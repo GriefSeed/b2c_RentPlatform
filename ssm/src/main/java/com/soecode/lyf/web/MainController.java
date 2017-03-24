@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.soecode.lyf.entity.Account;
+import com.soecode.lyf.entity.Address;
 import com.soecode.lyf.entity.Item;
 import com.soecode.lyf.entity.Items;
 import com.soecode.lyf.service.AccountService;
+import com.soecode.lyf.service.AddressService;
 import com.soecode.lyf.service.ItemService;
 import com.soecode.lyf.service.ItemsService;
 import com.soecode.lyf.util.Util;
@@ -32,6 +34,8 @@ public class MainController {
 	private ItemsService itemsService;
 	@Autowired
 	private ItemService itemService;
+	@Autowired
+	private AddressService addressService;
 
 	@RequestMapping(value = "/login")
 	@ResponseBody
@@ -75,6 +79,10 @@ public class MainController {
 		return singleItem;
 	}
 	
-	
-	
+	//返回用户的所有地址
+	@ResponseBody
+	@RequestMapping(value = "/getAccontAddressList")
+	private List<Address> getAccontAddressList(@RequestBody int accountId){
+		return addressService.queryByAccountId(accountId);
+	}
 }

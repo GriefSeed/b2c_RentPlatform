@@ -59,14 +59,29 @@
 			<ul id="itemListDOM" class="mui-table-view mui-table-view-striped mui-table-view-condensed">
 
 			</ul>
+			<div id="popover" class="mui-popover" style="width: 400px;">
+				<ul id="allAddress" class="mui-table-view">
+
+				</ul>
+			</div>
+
 			<nav id="footerBar" class="mui-bar mui-bar-tab">
-				<div style="margin-left: 1px;margin-right: auto;">
-					<font>总价：<font style="color: red;">￥</font>
-					<font id="amount" style="color: red;"></font>
-					<div style="margin-left: auto;margin-right: 3px;float: right;">
-						<button id="cleanCart" type="button">清空购物车</button>
-						<button id="createOrder" type="button">生成订单</button>
+				<div id="addressArea" style="height: 50px;">
+					<div id="address" style="width: 400px;height:50px;float: left;">
+						请选择地址
 					</div>
+					<div id="chooseAddress" style="float: right;background-color: palegoldenrod;">
+						<a href="#popover" id="openPopover" class="mui-badge mui-badge-primary">选择地址</a>
+					</div>
+				</div>
+				<div style="margin-left: 1px;margin-right: auto;">
+					<font>总价：
+						<font style="color: red;">￥</font>
+						<font id="amount" style="color: red;"></font>
+						<div style="margin-left: auto;margin-right: 3px;float: right;">
+							<button id="cleanCart" type="button">清空购物车</button>
+							<button id="createOrder" type="button">生成订单</button>
+						</div>
 				</div>
 
 			</nav>
@@ -79,14 +94,16 @@
 			$.init({
 				swipeBack: true //启用右滑关闭功能
 			});
-			
-			
+
 			$.plusReady(function() {
 				var itemListDOM = doc.getElementById("itemListDOM");
 				var cleanCartBtn = doc.getElementById("cleanCart");
 				var amountLayout = doc.getElementById("amount");
+				var allAddress = doc.getElementById("allAddress");
+				//拿到session里的user，用于提取用户收货地址
+				var account = JSON.parse(localStorage.getItem("account"));
 				var amount = 0;
-				
+
 				//登陆时页面载入输出一次,顺便拿取总金额
 				amount = getItemList(amount);
 				amountLayout.innerHTML = amount;
@@ -101,8 +118,31 @@
 						plus.webview.getWebviewById("tab-webview-subpage-shopcar.html").reload();
 					});
 
+				//发送数据，接收用户地址列表
+				$.ajax(PHONE_IP + '/main/getAccontAddressList', {
+					data: account.accountId,
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型d
+					timeout: 10000, //超时时间设置为10秒；
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					success: function(data) {
+						for(var kid in data) {
+							var li = document.createElement('li');
+							li.className = 'mui-table-view-cell';
+							li.innerHTML = '<a onclick="changeAddressLabel(this)">'+data[kid].addressDetail+'</a>';
+							allAddress.appendChild(li);
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						//异常处理；
+						allAddress.innerHTML = '<li class="mui-table-view-cell"><a onclick="changeAddressLabel(this)">无地址可选</a></li>';
+					}
+				});
+
 			});
-			
+
 			function getItemList(amount) {
 				if(localStorage.getItem("itemCart") != null) {
 					//将字符串切成数组
@@ -125,23 +165,32 @@
 						itemListDOM.appendChild(li);
 						amount = amount + item.unitCost;
 					}
-					
+
 				}
 				return amount;
 			}
-			
-			
+			//获取收货地址
+			function getAddressList() {
+
+			}
+
 		}(mui, document));
 		//进入商品详细页面
-		function itemDetail(obj){
-				mui.openWindow({
-					url:'item/item_detail.html',
-					id:'item/item_detail.html',
-					extras:{
-						itemId:obj.id
-					}
-				});
-			}
+		function itemDetail(obj) {
+			mui.openWindow({
+				url: 'item/item_detail.html',
+				id: 'item/item_detail.html',
+				extras: {
+					itemId: obj.id
+				}
+			});
+		}
+		//点击刷新地址的Label
+		function changeAddressLabel(obj) {
+			var addressLabel = document.getElementById("address");
+			addressLabel.innerHTML = obj.innerHTML;
+			mui('#popover').popover('hide');
+		}
 	</script>
 
 </html>
