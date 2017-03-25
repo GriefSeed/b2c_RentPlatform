@@ -322,7 +322,8 @@
 				"resources": [
 					"js/mui.min.js",
 					"css/mui.min.css",
-					"js/my.js"
+					"js/my.js",
+					"fonts/mui.ttf"
 				],
 				"refer": [
 					"items.html",

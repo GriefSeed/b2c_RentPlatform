@@ -7,7 +7,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
-		
+
 		<link rel="stylesheet" href="css/mui.min.css">
 		<style>
 			html,
@@ -24,12 +24,18 @@
 	</head>
 
 	<body>
+		<header id="header" class="mui-bar mui-bar-nav">
+			<div class="mui-title mui-input-row mui-search">
+				<input type="search" placeholder="请输入产品名称">
+			</div>
+			<button type="button" style="margin-left: 50px;">搜索</button>
+		</header>
 		<div class="mui-content">
 			<p>
 				<button id="kettle" class="mui-btn mui-btn-primary mui-btn-outlined">电水壶</button>
 			</p>
 			<button id="boot" class="mui-btn mui-btn-primary mui-btn-outlined mui-btn-green">行李箱</button>
-			<img src="http://192.168.56.1:8080/ssm/img/1_1.png" width="100px"/>
+			<img src="http://192.168.56.1:8080/ssm/img/1_1.png" width="100px" />
 		</div>
 	</body>
 	<script src="js/mui.min.js"></script>
@@ -48,9 +54,9 @@
 						url: 'item/items.html',
 						id: 'item/items.html',
 						extras: {
-								item_type: '1',//生活类_热水壶
-								item_type_name: '电水壶'
-							}
+							item_type: '1', //生活类_热水壶
+							item_type_name: '电水壶'
+						}
 					});
 				})
 			});

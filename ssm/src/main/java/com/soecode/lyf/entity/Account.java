@@ -8,6 +8,11 @@ public class Account {
 	private String status;
 	private int credit;
 
+	private String name;
+	private String showImg;
+	private String sex;
+	private int age;
+
 	public int getAccountId() {
 		return accountId;
 	}
@@ -54,6 +59,38 @@ public class Account {
 
 	public void setCredit(int credit) {
 		this.credit = credit;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getShowImg() {
+		return showImg;
+	}
+
+	public void setShowImg(String showImg) {
+		this.showImg = showImg;
+	}
+
+	public String getSex() {
+		return sex;
+	}
+
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
 	}
 
 }
