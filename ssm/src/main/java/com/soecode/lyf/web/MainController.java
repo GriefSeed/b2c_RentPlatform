@@ -46,7 +46,8 @@ public class MainController {
 	private HeaderService headerService;
 	@Autowired
 	private HeaderItemService headerItemService;
-	
+	@Autowired
+	private Header header;
 	
 	@RequestMapping(value = "/login")
 	@ResponseBody
@@ -106,7 +107,8 @@ public class MainController {
 		//System.out.println(itemList[0].replace("item_", ""));
 		
 		// 创建订单头，并取回自动生成的headerId，存入现在的日期
-		Header header = new Header();
+		//Header header = new Header();
+		
 		header.setAccountId(order.getAccountId());
 		header.setCreateDate(new Date());
 		header.setStatus("NEW");
