@@ -68,7 +68,7 @@
 			<nav id="footerBar" class="mui-bar mui-bar-tab">
 				<div id="addressArea" style="height: 50px;">
 					<div id="address" style="width: 400px;height:50px;float: left;">
-						请选择地址
+						北京大运路紫苑666房
 					</div>
 					<div id="chooseAddress" style="float: right;background-color: palegoldenrod;">
 						<a href="#popover" id="openPopover" class="mui-badge mui-badge-primary">选择地址</a>
@@ -98,6 +98,8 @@
 			$.plusReady(function() {
 				var itemListDOM = doc.getElementById("itemListDOM");
 				var cleanCartBtn = doc.getElementById("cleanCart");
+				var createOrderBtn = doc.getElementById("createOrder");
+				var addressLabel = document.getElementById("address");
 				var amountLayout = doc.getElementById("amount");
 				var allAddress = doc.getElementById("allAddress");
 				//拿到session里的user，用于提取用户收货地址
@@ -107,16 +109,6 @@
 				//登陆时页面载入输出一次,顺便拿取总金额
 				amount = getItemList(amount);
 				amountLayout.innerHTML = amount;
-				//删除一个商品，同时LocalStorage删除，再输出一次
-
-				//清空购物车
-				cleanCartBtn.addEventListener('tap',
-					function(event) {
-						localStorage.removeItem("itemCart");
-						//这次轮到我搞不懂了，到底是新打开了一个页面，还是用原来的页面，干脆两个刷新都用上后，貌似就同步了
-						location.reload();
-						plus.webview.getWebviewById("tab-webview-subpage-shopcar.html").reload();
-					});
 
 				//发送数据，接收用户地址列表
 				$.ajax(PHONE_IP + '/main/getAccontAddressList', {
@@ -131,7 +123,7 @@
 						for(var kid in data) {
 							var li = document.createElement('li');
 							li.className = 'mui-table-view-cell';
-							li.innerHTML = '<a onclick="changeAddressLabel(this)">'+data[kid].addressDetail+'</a>';
+							li.innerHTML = '<a onclick="changeAddressLabel(this)">' + data[kid].addressDetail + '</a>';
 							allAddress.appendChild(li);
 						}
 					},
@@ -141,6 +133,48 @@
 					}
 				});
 
+				//点击生成订单，将数据传给后台，将列表清空，
+				createOrderBtn.addEventListener('tap', function(event) {
+					if(localStorage.getItem("itemCart") != null) {
+						//不需要将字符串切成数组，将其放入对象，直接交给后台处理
+						var order = JSON.stringify({
+							"accountId": account.accountId,
+							"amount": amount,
+							"address": addressLabel.innerHTML,
+							"items": localStorage.getItem("itemCart")
+						});
+						console.log(localStorage.getItem("itemCart"));
+						console.log(localStorage.getItem("itemCart").length);
+						$.ajax(PHONE_IP + '/main/createOrder', {
+							data: order,
+							dataType: 'json', //服务器返回json格式数据
+							type: 'post', //HTTP请求类型d
+							timeout: 10000, //超时时间设置为10秒；
+							headers: {
+								'Content-Type': 'application/json'
+							},
+							success: function(data) {
+								$.alert("创建订单成功");
+								
+							},
+							error: function(xhr, type, errorThrown) {
+								$.alert("创建订单失败"+errorThrown);
+							}
+						});
+
+					}
+				});
+
+				//删除一个商品，同时LocalStorage删除，再输出一次
+
+				//清空购物车
+				cleanCartBtn.addEventListener('tap',
+					function(event) {
+						localStorage.removeItem("itemCart");
+						//这次轮到我搞不懂了，到底是新打开了一个页面，还是用原来的页面，干脆两个刷新都用上后，貌似就同步了
+						location.reload();
+						plus.webview.getWebviewById("tab-webview-subpage-shopcar.html").reload();
+					});
 			});
 
 			function getItemList(amount) {
