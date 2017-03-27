@@ -350,7 +350,8 @@
 					"js/my.js"
 				],
 				"refer": [
-					"login.html"
+					"login.html",
+					"my/orders.html"
 				],
 				"priority": 0
 			},
@@ -404,6 +405,25 @@
 				"refer": [
 					"item/item_detail.html"
 				],
+				"priority": 0
+			},
+			"my/orders.html": {
+				"resources": [
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"js/my.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"tab-webview-subpage-recommend.html": {
+				"resources": [
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css"
+				],
+				"refer": [],
 				"priority": 0
 			}
 		},

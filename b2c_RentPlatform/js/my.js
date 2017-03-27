@@ -57,3 +57,12 @@ function itemInLocalSto(obj, model) {
 	}
 	return "error";
 }
+
+
+
+//处理数据库的datetime
+function timeFormatter(value) {
+    var da = new Date(value);
+    return da.getFullYear() + "-" + (da.getMonth() + 1) + "-" + da.getDate() + " " + da.getHours() + ":" + da.getMinutes() + ":" + da.getSeconds();
+
+}

@@ -124,4 +124,11 @@ public class MainController {
 		}
 		return "\"success\"";
 	}
+	
+	//返回用户所有订单
+	@ResponseBody
+	@RequestMapping(value = "/getOrderList")
+	public List<Header> getOrderList(@RequestBody int accountId){
+		return headerService.getHeadersByAccountId(accountId); 
+	}
 }

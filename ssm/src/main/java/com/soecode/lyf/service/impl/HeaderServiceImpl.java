@@ -1,5 +1,7 @@
 package com.soecode.lyf.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,11 @@ public class HeaderServiceImpl implements HeaderService {
 	@Override
 	public int insertHeader(Header header) {
 		return headerDao.insertHeader(header);
+	}
+
+	@Override
+	public List<Header> getHeadersByAccountId(int accountId) {
+		return headerDao.getHeadersByAccountId(accountId);
 	}
 
 }

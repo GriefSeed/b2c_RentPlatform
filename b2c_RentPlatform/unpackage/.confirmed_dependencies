@@ -116,7 +116,8 @@
 			"js/my.js"
 		],
 		"refer": [
-			"login.html"
+			"login.html",
+			"my/orders.html"
 		]
 	},
 	"item/items.html": {
@@ -173,6 +174,21 @@
 		],
 		"refer": [
 			"item/item_detail.html"
+		]
+	},
+	"my/orders.html": {
+		"resources": [
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"js/my.js"
+		]
+	},
+	"tab-webview-subpage-recommend.html": {
+		"resources": [
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css"
 		]
 	}
 }

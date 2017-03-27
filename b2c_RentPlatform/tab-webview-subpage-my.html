@@ -52,7 +52,7 @@
 
 			<ul class="mui-table-view"">
 				<li class="mui-table-view-cell">
-					<a class="mui-navigate-right" href="my/orders.html">
+					<a class="mui-navigate-right" onclick="orderPage()">
 						<span class="mui-icon iconfont icon-wodedingdan"></span> 我的订单
 					</a>
 				</li>
@@ -123,6 +123,12 @@
 				}, false)
 			})
 		}(mui, document));
+		function orderPage(){
+			mui.openWindow({
+				url:"my/orders.html",
+				id:"my/orders.html"
+			});
+		}
 	</script>
 
 </html>
