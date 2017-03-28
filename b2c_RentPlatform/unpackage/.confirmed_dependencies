@@ -181,12 +181,24 @@
 			"js/mui.min.js",
 			"fonts/mui.ttf",
 			"css/mui.min.css",
-			"js/my.js"
+			"js/my.js",
+			"my/order_detail.html"
+		],
+		"refer": [
+			"my/order_detail.html"
 		]
 	},
 	"tab-webview-subpage-recommend.html": {
 		"resources": [
 			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css"
+		]
+	},
+	"my/order_detail.html": {
+		"resources": [
+			"js/mui.min.js",
+			"js/my.js",
 			"fonts/mui.ttf",
 			"css/mui.min.css"
 		]

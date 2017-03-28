@@ -1,13 +1,11 @@
 <!doctype html>
 <html>
-
 	<head>
 		<meta charset="UTF-8">
-		<title></title>
+		<title>ddd</title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link href="../css/mui.min.css" rel="stylesheet" />
 	</head>
-
 	<body>
 		<header class="mui-bar mui-bar-nav own-main-background-color">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
@@ -15,7 +13,8 @@
 			<a id="rightBar" class="mui-icon icon icon-weibiaoti1 mui-pull-right"></a>
 		</header>
 		<div class="mui-content">
-			<ul id="orderList" class="mui-table-view" style="background-color:#E8E8E8;">
+			<ul id="orderList" class="mui-table-view" style="background-color:#E8E8E8;margin-top: 0;">
+				
 			</ul>
 		</div>
 
@@ -26,6 +25,7 @@
 				$.init({
 					swipeBack: true //启用右滑关闭功能
 				});
+				
 				$.plusReady(function() {
 					var orderList = doc.getElementById("orderList");
 					var account = JSON.parse(localStorage.getItem("account"));
@@ -40,8 +40,9 @@
 						success: function(data) {
 							for(var kid in data) {
 								var li = document.createElement('li');
-								li.className = 'mui-table-view-cell';
-								li.innerHTML = '<div id="' + data[kid].headerId + '" class="mui-slider-cell" onclick="headerDetail(this)"><a class="mui-navigate-right">' + timeFormatter(data[kid].createDate) +' <font style="margin-left: 200px;">'+data[kid].status +'</font>'+'</a></div>';
+								//li.className = 'mui-table-view-cell';
+								li.setAttribute("class","mui-table-view-cell");
+								li.innerHTML = '<a class="mui-navigate-right" href="order_detail.html?header_id=' + data[kid].headerId + '">' + timeFormatter(data[kid].createDate) + '<font style="margin-left: 200px;">' + data[kid].status + '</font></a>';
 								orderList.appendChild(li);
 							}
 						},

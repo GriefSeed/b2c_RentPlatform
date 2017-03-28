@@ -412,7 +412,8 @@
 					"js/mui.min.js",
 					"fonts/mui.ttf",
 					"css/mui.min.css",
-					"js/my.js"
+					"js/my.js",
+					"my/order_detail.html"
 				],
 				"refer": [],
 				"priority": 0
@@ -420,6 +421,16 @@
 			"tab-webview-subpage-recommend.html": {
 				"resources": [
 					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"my/order_detail.html": {
+				"resources": [
+					"js/mui.min.js",
+					"js/my.js",
 					"fonts/mui.ttf",
 					"css/mui.min.css"
 				],

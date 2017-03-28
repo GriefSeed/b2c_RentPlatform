@@ -18,13 +18,14 @@
 			
 		</div>
 		<script src="../js/mui.min.js"></script>
+		<script src="../js/my.js"></script>
 		<script type="text/javascript">
 			(function($, doc) {
 				$.init({
 					swipeBack: true //启用右滑关闭功能
 				});
 				$.plusReady(function() {
-					
+					console.log(getUrlParam("header_id"));
 				})
 			}(mui, document));
 		</script>
