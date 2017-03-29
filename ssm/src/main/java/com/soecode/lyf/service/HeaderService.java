@@ -12,4 +12,6 @@ public interface HeaderService {
 	List<Header> getHeadersByAccountId(int accountId);
 	
 	Header getHeaderByHeaderId(int headerId);
+	
+	int deleteHeader(int headerId);
 }

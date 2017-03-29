@@ -24,4 +24,9 @@ public class HeaderItemServiceImpl implements HeaderItemService {
 		return headerItemDao.getItemsByHeaderId(headerId);
 	}
 
+	@Override
+	public int removeHeaderItems(int headerId) {
+		return headerItemDao.removeHeaderItems(headerId);
+	}
+
 }

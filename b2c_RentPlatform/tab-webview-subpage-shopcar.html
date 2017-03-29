@@ -79,6 +79,7 @@
 						<font style="color: red;">￥</font>
 						<font id="amount" style="color: red;"></font>
 						<div style="margin-left: auto;margin-right: 3px;float: right;">
+
 							<button id="cleanCart" type="button">清空购物车</button>
 							<button id="createOrder" type="button">生成订单</button>
 						</div>
@@ -155,10 +156,14 @@
 							},
 							success: function(data) {
 								$.alert("创建订单成功");
-								
+								//清空列表
+								localStorage.removeItem("itemCart");
+								//这次轮到我搞不懂了，到底是新打开了一个页面，还是用原来的页面，干脆两个刷新都用上后，貌似就同步了
+								location.reload();
+								plus.webview.getWebviewById("tab-webview-subpage-shopcar.html").reload();
 							},
 							error: function(xhr, type, errorThrown) {
-								$.alert("创建订单失败"+errorThrown);
+								$.alert("创建订单失败" + errorThrown);
 							}
 						});
 

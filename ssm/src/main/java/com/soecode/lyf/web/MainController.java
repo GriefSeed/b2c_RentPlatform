@@ -103,18 +103,22 @@ public class MainController {
 	private List<Address> getAccontAddressList(@RequestBody int accountId) {
 		return addressService.queryByAccountId(accountId);
 	}
-
+	
+	
+	/**
+	 * 生成订单，生成header和header_item里的信息，冻结商品,1表示已租
+	 * @param order
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value = "/createOrder")
 	private String createOrder(@RequestBody Order order) {
-		// 将接收的items切开，放入数组items,
-		// System.out.println(order.getItems().toString());
+		// 将接收的items切开，放入数组itemList,
 		String[] itemList = order.getItems().toString().split("\\|");
 		// System.out.println(itemList[0].replace("item_", ""));
 
 		// 创建订单头，并取回自动生成的headerId，存入现在的日期
 		// Header header = new Header();
-
 		header.setAccountId(order.getAccountId());
 		header.setCreateDate(new Date());
 		header.setStatus("NEW");
@@ -127,6 +131,12 @@ public class MainController {
 			hi.setHeaderId(header.getHeaderId());
 			hi.setItemId(Integer.parseInt(i.replace("item_", "")));
 			headerItemService.insertHeaderItem(hi);
+			
+			//同时锁上相应的商品，让其他人不能选择
+			Item it = new Item();
+			it.setItemId(Integer.parseInt(i.replace("item_", "")));
+			it.setStatus(1);
+			itemService.modifyItemStatus(it);
 		}
 		return "\"success\"";
 	}
@@ -157,4 +167,25 @@ public class MainController {
 		od.setItemList(itemList);
 		return od;
 	}
+	/**
+	 * 取消订单，删除header和header_item表里的信息，解冻商品,0表示待租
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/cancelOrder")
+	public String cancelOrder(@RequestBody int headerId) {
+		//先在header_item里取到所有相关商品
+		List<HeaderItem> hi= headerItemService.getItemsByHeaderId(headerId);
+		//再循环，同时对商品进行解冻和删除header_item里的信息
+		for(HeaderItem kid : hi){
+			Item i = new Item();
+			i.setItemId(kid.getItemId());
+			i.setStatus(0);
+			itemService.modifyItemStatus(i);
+		}
+		headerItemService.removeHeaderItems(headerId);
+		//最后删除header表里的信息
+		headerService.deleteHeader(headerId);
+		return "\"success\"";
+	}
+	
 }

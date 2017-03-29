@@ -26,6 +26,17 @@ function itemStatus(s) {
 		return "<font style='color:red'>已下架不可用</font>";
 	return "error";
 }
+//订单状态转中文
+function headerStatusTrans(s){
+	if(s == 'NEW')
+		return "新建";
+	if(s == 'USING')
+		return "已配送，正在使用";
+	if(s == 'DEBT')
+		return "欠费";
+	if(s == 'CLOSE')
+		return "已关闭";
+}
 
 function nvl(obj1, obj2) {
 	if(obj1 == undefined){

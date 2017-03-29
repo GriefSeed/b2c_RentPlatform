@@ -46,7 +46,7 @@
 				<p class="headerFont">剩余时间：
 					<a id="remainderTimeDom"></a>
 				</p>
-				<button type="button">取消</button>
+				<button id="cancelBtn" type="button">取消</button>
 			</div>
 			<div>
 				<ul id="itemsListDom" class="mui-table-view" style="background-color:#E8E8E8;margin-top: 0;">
@@ -80,6 +80,7 @@
 		<script src="../js/my.js"></script>
 		<script type="text/javascript">
 			(function($, doc) {
+				var cancelBtn = doc.getElementById("cancelBtn");
 				var rentCost = 0;
 				var compens = 0;
 				var amountDom = doc.getElementById("amountDom");
@@ -104,7 +105,7 @@
 							var itemList = data.itemList;
 							var headerItemList = data.headerItemList;
 							//先注入订单头区域
-							changeHeader(header,refreshTime);
+							changeHeader(header, refreshTime);
 							//然后更改商品列表
 							changeItemList(itemList, headerItemList);
 							//填入赔偿信息或时间等东西
@@ -117,21 +118,41 @@
 							$.toast("加载异常")
 						}
 					});
-					
+					cancelBtn.addEventListener('tap',
+						function(event) {
+							//发送数据，取消order
+							$.ajax(PHONE_IP + '/main/cancelOrder', {
+								data: header_id,
+								dataType: 'json', //服务器返回json格式数据
+								type: 'post', //HTTP请求类型d
+								timeout: 10000, //超时时间设置为10秒；
+								headers: {
+									'Content-Type': 'application/json'
+								},
+								success: function(data) {
+									$.toast("取消成功");
+									$.back();
+								},
+								error: function(xhr, type, errorThrown) {
+									//异常处理；
+									$.toast("加载异常")
+								}
+							});
+						});
 
 				});
 
-				function changeHeader(obj,interval) {
+				function changeHeader(obj, interval) {
 					var header_id = doc.getElementById("headerIdDom");
 					var address = doc.getElementById("addressDom");
 					var startDateDom = doc.getElementById("startDateDom");
-					var startDate = doc.getElementById("startDateDom");
+					var statusDom = doc.getElementById("statusDom");
 
 					header_id.innerHTML = obj.headerId;
 					address.innerHTML = obj.address;
 					status.innerHTML = obj.status;
-					startDate.innerHTML = timeFormatter(obj.startDate);
-					startDate.innerHTML = timeFormatter(obj.startDate);
+					startDateDom.innerHTML = timeFormatter(obj.startDate);
+					statusDom.innerHTML = headerStatusTrans(obj.status);
 					window.setInterval(function() {
 						showDeadline(obj.startDate);
 					}, interval);

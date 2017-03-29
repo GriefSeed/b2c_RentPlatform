@@ -30,4 +30,9 @@ public class HeaderServiceImpl implements HeaderService {
 		return headerDao.getHeaderByHeaderId(headerId);
 	}
 
+	@Override
+	public int deleteHeader(int headerId) {
+		return headerDao.deleteHeader(headerId);
+	}
+
 }

@@ -2,6 +2,7 @@ package com.soecode.lyf.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
@@ -24,4 +25,11 @@ public interface HeaderDao {
 	@Select("SELECT * FROM header where header_id=#{headerId}")
 	Header getHeaderByHeaderId(@Param("headerId") int headerId);
 	
+	/**
+	 * 删除单个订单
+	 * @param headerId
+	 * @return
+	 */
+	@Delete("DELETE FROM header WHERE header_id = #{headerId}")
+	int deleteHeader(@Param("headerId") int headerId);
 }
