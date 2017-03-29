@@ -25,4 +25,9 @@ public class HeaderServiceImpl implements HeaderService {
 		return headerDao.getHeadersByAccountId(accountId);
 	}
 
+	@Override
+	public Header getHeaderByHeaderId(int headerId) {
+		return headerDao.getHeaderByHeaderId(headerId);
+	}
+
 }

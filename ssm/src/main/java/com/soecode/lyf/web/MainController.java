@@ -1,9 +1,13 @@
 package com.soecode.lyf.web;
 
 import java.net.InetAddress;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.mysql.fabric.xmlrpc.base.Array;
 import com.soecode.lyf.dto.Order;
+import com.soecode.lyf.dto.OrderDetail;
 import com.soecode.lyf.entity.Account;
 import com.soecode.lyf.entity.Address;
 import com.soecode.lyf.entity.Header;
@@ -48,7 +54,7 @@ public class MainController {
 	private HeaderItemService headerItemService;
 	@Autowired
 	private Header header;
-	
+
 	@RequestMapping(value = "/login")
 	@ResponseBody
 	private Account login(@RequestBody Account a, Model model) {
@@ -102,21 +108,21 @@ public class MainController {
 	@RequestMapping(value = "/createOrder")
 	private String createOrder(@RequestBody Order order) {
 		// 将接收的items切开，放入数组items,
-		//System.out.println(order.getItems().toString());
+		// System.out.println(order.getItems().toString());
 		String[] itemList = order.getItems().toString().split("\\|");
-		//System.out.println(itemList[0].replace("item_", ""));
-		
+		// System.out.println(itemList[0].replace("item_", ""));
+
 		// 创建订单头，并取回自动生成的headerId，存入现在的日期
-		//Header header = new Header();
-		
+		// Header header = new Header();
+
 		header.setAccountId(order.getAccountId());
 		header.setCreateDate(new Date());
 		header.setStatus("NEW");
 		header.setAddress(order.getAddress());
 		headerService.insertHeader(header);
-		//System.out.println(header.getHeaderId()+"!!!!!!!!!!!!!!");
+		// System.out.println(header.getHeaderId()+"!!!!!!!!!!!!!!");
 		// 将headerId和切开的item分别一一放入header_item,损坏和赔偿默认为0
-		for(String i : itemList){
+		for (String i : itemList) {
 			HeaderItem hi = new HeaderItem();
 			hi.setHeaderId(header.getHeaderId());
 			hi.setItemId(Integer.parseInt(i.replace("item_", "")));
@@ -124,11 +130,31 @@ public class MainController {
 		}
 		return "\"success\"";
 	}
-	
-	//返回用户所有订单
+
+	// 返回用户所有订单
 	@ResponseBody
 	@RequestMapping(value = "/getOrderList")
-	public List<Header> getOrderList(@RequestBody int accountId){
-		return headerService.getHeadersByAccountId(accountId); 
+	public List<Header> getOrderList(@RequestBody int accountId) {
+		return headerService.getHeadersByAccountId(accountId);
+	}
+
+	// 用户订单详细页面,返回该订单的所有详细信息、损耗率和商品详细信息
+	@ResponseBody
+	@RequestMapping(value = "/getOrderDetail")
+	public OrderDetail getOrderDetail(@RequestBody int headerId) {
+		List<HeaderItem> headerItemList= headerItemService.getItemsByHeaderId(headerId);
+		OrderDetail od = new OrderDetail();
+		ArrayList<Item> itemList = new ArrayList<Item>();
+		//将所有商品的详细信息塞进去
+		for(HeaderItem hi: headerItemList){
+			itemList.add(itemService.queryByItemId(hi.getItemId()));
+		}
+		//塞订单头
+		od.setHeader(headerService.getHeaderByHeaderId(headerId));
+		//塞订单头-商品表里的赔偿信息
+		od.setHeaderItemList(headerItemList);
+		//塞订单详细列表
+		od.setItemList(itemList);
+		return od;
 	}
 }

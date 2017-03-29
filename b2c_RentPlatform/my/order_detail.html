@@ -6,6 +6,12 @@
 		<title></title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link href="../css/mui.min.css" rel="stylesheet" />
+		<style>
+			.headerFont {
+				color: #555555;
+				font-size: medium;
+			}
+		</style>
 	</head>
 
 	<body>
@@ -15,7 +21,39 @@
 			<a id="rightBar" class="mui-icon icon icon-weibiaoti1 mui-pull-right"></a>
 		</header>
 		<div class="mui-content">
-			
+			<div>
+				<p class="headerFont">订单编号：
+					<a id="headerIdDom"></a>
+				</p>
+				<p class="headerFont">收货地址：
+					<a id="addressDom"></a>
+				</p>
+				<p class="headerFont">订单状态：
+					<a id="statusDom"></a>
+				</p>
+				<p class="headerFont">租赁价：
+					<a id="rentCostDom"></a>
+				</p>
+				<p class="headerFont">损坏赔偿：
+					<a id="compensDom"></a>
+				</p>
+				<p class="headerFont">总价：
+					<a id="amountDom"></a>
+				</p>
+				<p class="headerFont">货物送达时间：
+					<a id="startDateDom"></a>
+				</p>
+				<p class="headerFont">剩余时间：
+					<a id="timeDom"></a>
+				</p>
+				<button type="button">取消</button>
+			</div>
+			<div>
+				<ul id="itemsListDom" class="mui-table-view" style="background-color:#E8E8E8;margin-top: 0;">
+
+				</ul>
+			</div>
+
 		</div>
 		<script src="../js/mui.min.js"></script>
 		<script src="../js/my.js"></script>
@@ -25,8 +63,68 @@
 					swipeBack: true //启用右滑关闭功能
 				});
 				$.plusReady(function() {
-					console.log(getUrlParam("header_id"));
-				})
+					var header_id = getUrlParam("header_id");
+					//发送数据，接收order
+					$.ajax(PHONE_IP + '/main/getOrderDetail', {
+						data: header_id,
+						dataType: 'json', //服务器返回json格式数据
+						type: 'post', //HTTP请求类型d
+						timeout: 10000, //超时时间设置为10秒；
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						success: function(data) {
+							var header = data.header;
+							var itemList = data.itemList;
+							var headerItemList = data.headerItemList;
+							//先注入订单头区域
+							changeHeader(header);
+							//然后更改商品列表
+							changeItemList(itemList);
+							//填入赔偿信息或时间等东西
+							changeHeaderItemMessage(headerItemList);
+
+						},
+						error: function(xhr, type, errorThrown) {
+							//异常处理；
+							$.toast("加载异常")
+						}
+					});
+				});
+
+				function changeHeader(obj) {
+					var header_id = doc.getElementById("headerIdDom");
+					var address = doc.getElementById("addressDom");
+					var status = doc.getElementById("statusDom");
+
+					var startDate = doc.getElementById("startDateDom");
+					var time = doc.getElementById("timeDom");
+
+					header_id.innerHTML = obj.headerId;
+					address.innerHTML = obj.address;
+					status.innerHTML = obj.status;
+					startDate.innerHTML = timeFormatter(obj.startDate);
+					startDate.innerHTML = "0";
+				}
+				function changeHeaderItemMessage(headerItemList){
+					var rentCostDom = doc.getElementById("rentCostDom");
+					var compensDom = doc.getElementById("compensDom");
+					var amountDom = doc.getElementById("amountDom");
+					
+				}
+				function changeItemList(itemList) {
+					var itemsListDom = doc.getElementById("itemsListDom");
+					
+					var rentCost = 0;
+					for(var kid in itemList) {
+						var li = document.createElement('li');
+						li.className = 'mui-table-view-cell';
+						li.innerHTML = '<div id="' + itemList[kid].itemId + '" class="mui-slider-cell" onclick="itemDetail(this)"><div class="oa-contact-cell mui-table"><div class="oa-contact-avatar mui-table-cell"><img width="50px" src="' + PHONE_IP + itemList[kid].itemImg + '" /></div><div class="oa-contact-content mui-table-cell"><div class="mui-clearfix"><h4 class="oa-contact-name">  ' + itemList[kid].itemName + '  </h4><span class="oa-contact-position mui-h6">  ￥' + itemList[kid].unitCost + '  </span></div><p class="oa-contact-email mui-h6"> 编号：' + itemList[kid].itemId + '</p></div></div></div>';
+						itemsListDom.appendChild(li);
+						rentCost = rentCost + itemList[kid].unitCost;
+					}
+					rentCostDom.innerHTML = rentCost;
+				}
 			}(mui, document));
 		</script>
 	</body>

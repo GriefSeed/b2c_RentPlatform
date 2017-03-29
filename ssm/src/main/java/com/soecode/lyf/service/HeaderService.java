@@ -10,4 +10,6 @@ public interface HeaderService {
 	int insertHeader(Header header);
 	
 	List<Header> getHeadersByAccountId(int accountId);
+	
+	Header getHeaderByHeaderId(int headerId);
 }

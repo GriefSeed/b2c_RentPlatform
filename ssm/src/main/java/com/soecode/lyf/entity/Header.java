@@ -11,6 +11,7 @@ public class Header {
 	private Date createDate;
 	private String status;
 	private String address;
+	private Date startDate;
 	private int workerId;
 	public int getHeaderId() {
 		return headerId;
@@ -41,6 +42,14 @@ public class Header {
 	}
 	public void setAddress(String address) {
 		this.address = address;
+	}
+	
+	
+	public Date getStartDate() {
+		return startDate;
+	}
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
 	}
 	public int getWorkerId() {
 		return workerId;
