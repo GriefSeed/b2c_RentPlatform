@@ -31,26 +31,47 @@
 				<p class="headerFont">订单状态：
 					<a id="statusDom"></a>
 				</p>
-				<p class="headerFont">租赁价：
+				<p class="headerFont">租赁价：￥
 					<a id="rentCostDom"></a>
 				</p>
-				<p class="headerFont">损坏赔偿：
+				<p class="headerFont">损坏赔偿：￥
 					<a id="compensDom"></a>
 				</p>
-				<p class="headerFont">总价：
+				<p class="headerFont">总价：￥
 					<a id="amountDom"></a>
 				</p>
-				<p class="headerFont">货物送达时间：
+				<p class="headerFont">收货时间：
 					<a id="startDateDom"></a>
 				</p>
 				<p class="headerFont">剩余时间：
-					<a id="timeDom"></a>
+					<a id="remainderTimeDom"></a>
 				</p>
 				<button type="button">取消</button>
 			</div>
 			<div>
 				<ul id="itemsListDom" class="mui-table-view" style="background-color:#E8E8E8;margin-top: 0;">
-
+					<!--<li class="mui-table-view-cell">
+						<div class="mui-slider-cell" onclick="itemDetail(this)">
+							<div class="oa-contact-cell mui-table">
+								<div class="oa-contact-avatar mui-table-cell"">
+									<img width="50px" src="../images/example_pic.jpg" />
+								</div>
+								<div style="float: left;">
+									<font>损坏100</font>
+									<p>
+										<font>损坏100</font>
+									</p>
+								</div>
+								<div class="oa-contact-content mui-table-cell" >
+									<div class="mui-clearfix">
+										<h4 class="oa-contact-name">itemName</h4>
+										<span class="oa-contact-position mui-h6">￥itemList[kid].unitCost</span>
+									</div>
+									<p class="oa-contact-email mui-h6">编号：itemList[kid].itemId</p>
+								</div>
+							</div>
+						</div>
+					</li>-->
 				</ul>
 			</div>
 
@@ -59,11 +80,16 @@
 		<script src="../js/my.js"></script>
 		<script type="text/javascript">
 			(function($, doc) {
+				var rentCost = 0;
+				var compens = 0;
+				var amountDom = doc.getElementById("amountDom");
 				$.init({
 					swipeBack: true //启用右滑关闭功能
 				});
 				$.plusReady(function() {
 					var header_id = getUrlParam("header_id");
+					//定义刷新时间
+					var refreshTime = 1000;
 					//发送数据，接收order
 					$.ajax(PHONE_IP + '/main/getOrderDetail', {
 						data: header_id,
@@ -78,52 +104,92 @@
 							var itemList = data.itemList;
 							var headerItemList = data.headerItemList;
 							//先注入订单头区域
-							changeHeader(header);
+							changeHeader(header,refreshTime);
 							//然后更改商品列表
-							changeItemList(itemList);
+							changeItemList(itemList, headerItemList);
 							//填入赔偿信息或时间等东西
 							changeHeaderItemMessage(headerItemList);
-
+							//计价
+							amountDom.innerHTML = compens + rentCost;
 						},
 						error: function(xhr, type, errorThrown) {
 							//异常处理；
 							$.toast("加载异常")
 						}
 					});
+					
+
 				});
 
-				function changeHeader(obj) {
+				function changeHeader(obj,interval) {
 					var header_id = doc.getElementById("headerIdDom");
 					var address = doc.getElementById("addressDom");
-					var status = doc.getElementById("statusDom");
-
+					var startDateDom = doc.getElementById("startDateDom");
 					var startDate = doc.getElementById("startDateDom");
-					var time = doc.getElementById("timeDom");
 
 					header_id.innerHTML = obj.headerId;
 					address.innerHTML = obj.address;
 					status.innerHTML = obj.status;
 					startDate.innerHTML = timeFormatter(obj.startDate);
-					startDate.innerHTML = "0";
+					startDate.innerHTML = timeFormatter(obj.startDate);
+					window.setInterval(function() {
+						showDeadline(obj.startDate);
+					}, interval);
 				}
-				function changeHeaderItemMessage(headerItemList){
-					var rentCostDom = doc.getElementById("rentCostDom");
+
+				function changeHeaderItemMessage(headerItemList) {
+					//var rentCostDom = doc.getElementById("rentCostDom");
 					var compensDom = doc.getElementById("compensDom");
-					var amountDom = doc.getElementById("amountDom");
-					
+					for(var kid in headerItemList) {
+						compens = compens + headerItemList[kid].compens;
+					}
+					compensDom.innerHTML = compens;
+
 				}
-				function changeItemList(itemList) {
+
+				function changeItemList(itemList, headerItemList) {
 					var itemsListDom = doc.getElementById("itemsListDom");
-					
-					var rentCost = 0;
+					//因为后台是两个数组数据嵌套的，所以能这样合并操作
 					for(var kid in itemList) {
 						var li = document.createElement('li');
 						li.className = 'mui-table-view-cell';
-						li.innerHTML = '<div id="' + itemList[kid].itemId + '" class="mui-slider-cell" onclick="itemDetail(this)"><div class="oa-contact-cell mui-table"><div class="oa-contact-avatar mui-table-cell"><img width="50px" src="' + PHONE_IP + itemList[kid].itemImg + '" /></div><div class="oa-contact-content mui-table-cell"><div class="mui-clearfix"><h4 class="oa-contact-name">  ' + itemList[kid].itemName + '  </h4><span class="oa-contact-position mui-h6">  ￥' + itemList[kid].unitCost + '  </span></div><p class="oa-contact-email mui-h6"> 编号：' + itemList[kid].itemId + '</p></div></div></div>';
+						htmlStr = "";
+						htmlStr += '<div id="' + itemList[kid].itemId + '" class="mui-slider-cell" onclick="itemDetail(this)">';
+						htmlStr += '<div class="oa-contact-cell mui-table">';
+						htmlStr += '<div class="oa-contact-avatar mui-table-cell"><img width="50px" src="' + PHONE_IP + itemList[kid].itemImg + '" />';
+						htmlStr += '</div>';
+						htmlStr += '<div style="float: left;"><font>赔偿：￥' + headerItemList[kid].compens + '</font>';
+						htmlStr += '<p><font>损坏度：' + headerItemList[kid].attrition + '%</font></p></div>';
+						htmlStr += '<div class="oa-contact-content mui-table-cell">';
+						htmlStr += '<div class="mui-clearfix"><h4 class="oa-contact-name">  ' + itemList[kid].itemName + '  </h4>';
+						htmlStr += '<span class="oa-contact-position mui-h6">  ￥' + itemList[kid].unitCost + '  </span>';
+						htmlStr += '</div>';
+						htmlStr += '<p class="oa-contact-email mui-h6"> 编号：' + itemList[kid].itemId + '</p>';
+						htmlStr += '</div>';
+						htmlStr += '</div>';
+						htmlStr += '</div>';
+						li.innerHTML = htmlStr;
+						//li.innerHTML = '<div id="' + itemList[kid].itemId + '" class="mui-slider-cell" onclick="itemDetail(this)"><div class="oa-contact-cell mui-table"><div class="oa-contact-avatar mui-table-cell"><img width="50px" src="' + PHONE_IP + itemList[kid].itemImg + '" /></div><div class="oa-contact-content mui-table-cell"><div class="mui-clearfix"><h4 class="oa-contact-name">  ' + itemList[kid].itemName + '  </h4><span class="oa-contact-position mui-h6">  ￥' + itemList[kid].unitCost + '  </span></div><p class="oa-contact-email mui-h6"> 编号：' + itemList[kid].itemId + '</p></div></div></div>';
 						itemsListDom.appendChild(li);
 						rentCost = rentCost + itemList[kid].unitCost;
 					}
 					rentCostDom.innerHTML = rentCost;
+				}
+				//动态刷新剩余时间
+				function showDeadline(startTimeOfDB) {
+					var now = new Date();
+					var startTime = new Date(startTimeOfDB);
+					var endDate = new Date(startTime.getFullYear(), startTime.getMonth() + 3, startTime.getDay());
+					var leftTime = endDate.getTime() - now.getTime();
+					//秒
+					var leftsecond = parseInt(leftTime / 1000);
+					//var day1=parseInt(leftsecond/(24*60*60*6)); 
+					var day = Math.floor(leftsecond / (60 * 60 * 24));
+					var hour = Math.floor((leftsecond - day * 24 * 60 * 60) / 3600);
+					var minute = Math.floor((leftsecond - day * 24 * 60 * 60 - hour * 3600) / 60);
+					var second = Math.floor(leftsecond - day * 24 * 60 * 60 - hour * 3600 - minute * 60);
+					var timeDom = document.getElementById("remainderTimeDom");
+					remainderTimeDom.innerHTML = day + "天" + hour + "小时" + minute + "分钟" + second + "秒";
 				}
 			}(mui, document));
 		</script>

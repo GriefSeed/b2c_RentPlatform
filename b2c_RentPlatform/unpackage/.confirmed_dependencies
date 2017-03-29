@@ -200,7 +200,8 @@
 			"js/mui.min.js",
 			"js/my.js",
 			"fonts/mui.ttf",
-			"css/mui.min.css"
+			"css/mui.min.css",
+			"images/example_pic.jpg"
 		]
 	}
 }
