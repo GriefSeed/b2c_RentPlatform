@@ -1,5 +1,7 @@
 package com.soecode.lyf.entity;
 
+import java.util.Date;
+
 public class Item {
 	private int itemId;
 	private String itemName;
@@ -7,6 +9,7 @@ public class Item {
 	private String itemImg;
 	private int itemsId;
 	private int status;
+	private Date usedTime;
 	private int damage;
 	private String description;
 	public int getItemId() {
@@ -48,6 +51,15 @@ public class Item {
 	}
 	public void setStatus(int status) {
 		this.status = status;
+	}
+	
+	
+	
+	public Date getUsedTime() {
+		return usedTime;
+	}
+	public void setUsedTime(Date usedTime) {
+		this.usedTime = usedTime;
 	}
 	public int getDamage() {
 		return damage;

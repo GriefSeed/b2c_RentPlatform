@@ -1,0 +1,122 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav own-main-background-color">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 id="title" class="mui-title">修改商品信息</h1>
+			<a id="rightBar" class="mui-icon icon icon-weibiaoti1 mui-pull-right"></a>
+		</header>
+		<div class="mui-content">
+			<form class="mui-input-group">
+				<div class="mui-input-row">
+					<label>商品ID</label>
+					<input type="text" class="mui-input-clear" placeholder="请输入商品ID">
+				</div>
+				<div class="mui-input-row mui-radio">
+					<label>商品型号ID</label>
+					<input name="radio1" type="radio" onclick="getRadioVals(this)" value="items">
+				</div>
+				<div class="mui-input-row mui-radio">
+					<label>具体商品ID</label>
+					<input name="radio1" type="radio" onclick="getRadioVals(this)" value="item">
+				</div>
+				<div class="mui-button-row">
+					<button type="button" class="mui-btn mui-btn-primary">确认</button>
+					<button type="button" class="mui-btn mui-btn-danger">重置</button>
+				</div>
+			</form>
+			<div>
+				<img id='itemImg'  src='../images/qq.png' width="200px" /></br>
+				<button type="button" id="changeImg">更改图片</button>
+				<div>商品名称:
+					<input type="text" id="itemName">
+				</div>
+				<div>商品价格:
+					<a>/3个月</a>
+					<input type="text" id="unitCost">
+				</div>
+				<div>状态:
+					<a id="status"></a>
+				</div>
+				<div>损坏度:
+					<a id="damage"></a>
+				</div>
+				<div>描述:
+					<a id="description"></a>
+				</div>
+			</div>
+
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+				(function($, doc) {
+					$.plusReady(function() {
+						var changeImgBtn = doc.getElementById('changeImg');
+						changeImgBtn.addEventListener('tap', function() {
+							if($.os.plus) {
+								var a = [{
+									title: "拍照"
+								}, {
+									title: "从手机相册选择"
+								}];
+								plus.nativeUI.actionSheet({
+									title: "选择商品图片",
+									cancel: "取消",
+									buttons: a
+								}, function(b) { /*actionSheet 按钮点击事件*/
+									switch(b.index) {
+										case 0:
+											break;
+										case 1:
+											getImage(); /*拍照*/
+											break;
+										case 2:
+											galleryImg(); /*打开相册*/
+											break;
+										default:
+											break;
+									}
+								})
+							}
+						}, false);
+					});
+				}(mui, document));
+
+			function getRadioVals(obj) {
+				var res = obj.value;
+				//console.log(res);
+			}
+
+			function galleryImg() {
+				//打开相册（用的是H5+的方式，不适用于纯web页面）
+				plus.gallery.pick(
+					function(path) {
+						
+						document.getElementById('itemImg').src = path; //设置img的路径
+
+						//把图片base64编码  注意：这里必须在onload事件里执行！这给我坑的不轻
+						img_my.onload = function() {
+							var data = getBase64Image(img_my); //base64编码
+							var newImgbase = data.split(",")[1]; //通过逗号分割到新的编码
+							imgArray.push(newImgbase); //放到imgArray数组里面
+							img_my.off('load'); //关闭加载
+						}
+					},
+					function(e) {
+						mui.toast('取消选择');
+					});
+			}
+		</script>
+	</body>
+
+</html>

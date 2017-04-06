@@ -6,6 +6,8 @@ public class Items {
 	private int itemsPrice;
 	private String itemsImg;
 	private int itemsType;
+	private int status;
+	
 	public int getItemsId() {
 		return itemsId;
 	}
@@ -38,6 +40,12 @@ public class Items {
 	}
 	public void setItemsType(int itemsType) {
 		this.itemsType = itemsType;
+	}
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
 	}
 	
 	

@@ -1,207 +1,207 @@
 {
-	"main.html": {
-		"refer": [
-			"setting.html",
-			"main_tab/home.html",
-			"main_tab/setting.html",
-			"main_tab/recommend.html",
-			"main_tab/message.html"
-		],
-		"resources": [
-			"main_tab/home.html",
-			"js/my.js",
-			"fonts/mui.ttf",
-			"js/app.js",
-			"js/mui.min.js",
-			"css/mui.min.css"
-		]
-	},
-	"login.html": {
-		"resources": [
-			"js/app.js",
-			"js/mui.min.js",
-			"images/sinaweibo.png",
-			"css/mui.min.css",
-			"css/style.css",
-			"images/weixin.png",
-			"images/qq.png",
-			"js/mui.enterfocus.js",
-			"fonts/mui.ttf",
-			"login.html",
-			"js/my.js"
-		],
-		"refer": [
-			"main.html",
-			"forget_password.html",
-			"reg.html",
-			"tab-webview-main.html"
-		]
-	},
-	"setting.html": {
-		"resources": [
-			"libs/easymob-webim-sdk/easemob.im-1.0.5.js",
-			"fonts/mui.ttf",
-			"libs/easymob-webim-sdk/json2.js",
-			"libs/easymob-webim-sdk/jquery-1.11.1.js",
-			"js/mui.locker.js",
-			"js/feedback.js",
-			"css/feedback-page.css",
-			"js/feedback-page.js",
-			"libs/easymob-webim-sdk/strophe-custom-2.0.0.js",
-			"js/mui.view.js"
-		]
-	},
-	"reg.html": {
-		"resources": [
-			"fonts/mui.ttf"
-		]
-	},
-	"main_tab/home.html": {
-		"resources": [
-			"css/mui.min.css"
-		]
-	},
-	"main_tab/message.html": {
-		"resources": [
-			"css/mui.min.css"
-		]
-	},
-	"tab-webview-main.html": {
-		"resources": [
-			"tab-webview-subpage-about.html",
-			"js/mui.min.js",
-			"fonts/mui.ttf",
-			"css/mui.min.css",
-			"css/iconfont.css",
-			"fonts/iconfont.ttf",
-			"tab-webview-subpage-home.html"
-		],
-		"refer": [
-			"tab-webview-subpage-about.html",
-			"tab-webview-subpage-setting.html",
-			"tab-webview-subpage-chat.html",
-			"tab-webview-subpage-contact.html",
-			"tab-webview-subpage-home.html",
-			"tab-webview-subpage-recommend.html",
-			"tab-webview-subpage-my.html",
-			"tab-webview-subpage-shopcar.html"
-		]
-	},
-	"tab-webview-subpage-home.html": {
-		"resources": [
-			"js/mui.min.js",
-			"css/mui.min.css",
-			"js/my.js",
-			"fonts/mui.ttf"
-		],
-		"refer": [
-			"items.html",
-			"item/items.html"
-		]
-	},
-	"items.html": {
-		"resources": [
-			"js/mui.min.js",
-			"css/mui.min.css",
-			"fonts/mui.ttf",
-			"images/example_pic.jpg"
-		]
-	},
-	"tab-webview-subpage-my.html": {
-		"resources": [
-			"images/bg.jpeg",
-			"js/mui.min.js",
-			"fonts/mui.ttf",
-			"css/mui.min.css",
-			"js/my.js"
-		],
-		"refer": [
-			"login.html",
-			"my/orders.html"
-		]
-	},
-	"item/items.html": {
-		"resources": [
-			"js/mui.min.js",
-			"fonts/mui.ttf",
-			"css/mui.min.css",
-			"item/item_detail.html",
-			"images/example_pic.jpg",
-			"item/single_item.html",
-			"js/my.js"
-		],
-		"refer": [
-			"item/item_detail.html",
-			"item/single_item.html"
-		]
-	},
-	"item/single_item.html": {
-		"resources": [
-			"js/mui.min.js",
-			"fonts/mui.ttf",
-			"css/mui.min.css",
-			"item/item_detail.html",
-			"item/items.html",
-			"js/my.js",
-			"images/example_pic.jpg"
-		],
-		"refer": [
-			"item/item_detail.html",
-			"item/items.html"
-		]
-	},
-	"item/item_detail.html": {
-		"resources": [
-			"item/single_item.html",
-			"js/mui.min.js",
-			"js/my.js",
-			"fonts/mui.ttf",
-			"css/mui.min.css",
-			"tab-webview-subpage-shopcar.html"
-		],
-		"refer": [
-			"item/single_item.html",
-			"tab-webview-subpage-shopcar.html",
-			"tab-webview-main.html",
-			"/tab-webview-subpage-shopcar.html"
-		]
-	},
-	"tab-webview-subpage-shopcar.html": {
-		"resources": [
-			"js/mui.min.js",
-			"css/mui.min.css",
-			"js/my.js"
-		],
-		"refer": [
-			"item/item_detail.html"
-		]
-	},
-	"my/orders.html": {
-		"resources": [
-			"js/mui.min.js",
-			"fonts/mui.ttf",
-			"css/mui.min.css",
-			"js/my.js",
-			"my/order_detail.html"
-		],
-		"refer": [
-			"my/order_detail.html"
-		]
-	},
-	"tab-webview-subpage-recommend.html": {
-		"resources": [
-			"js/mui.min.js",
-			"fonts/mui.ttf",
-			"css/mui.min.css"
-		]
-	},
-	"my/order_detail.html": {
-		"resources": [
-			"js/mui.min.js",
-			"js/my.js",
-			"fonts/mui.ttf",
-			"css/mui.min.css",
-			"images/example_pic.jpg"
-		]
-	}
+  "main.html": {
+    "refer": [
+      "setting.html",
+      "main_tab/home.html",
+      "main_tab/setting.html",
+      "main_tab/recommend.html",
+      "main_tab/message.html"
+    ],
+    "resources": [
+      "main_tab/home.html",
+      "js/my.js",
+      "fonts/mui.ttf",
+      "js/app.js",
+      "js/mui.min.js",
+      "css/mui.min.css"
+    ]
+  },
+  "login.html": {
+    "resources": [
+      "js/app.js",
+      "js/mui.min.js",
+      "images/sinaweibo.png",
+      "css/mui.min.css",
+      "css/style.css",
+      "images/weixin.png",
+      "images/qq.png",
+      "js/mui.enterfocus.js",
+      "fonts/mui.ttf",
+      "login.html",
+      "js/my.js"
+    ],
+    "refer": [
+      "main.html",
+      "forget_password.html",
+      "reg.html",
+      "tab-webview-main.html"
+    ]
+  },
+  "setting.html": {
+    "resources": [
+      "libs/easymob-webim-sdk/easemob.im-1.0.5.js",
+      "fonts/mui.ttf",
+      "libs/easymob-webim-sdk/json2.js",
+      "libs/easymob-webim-sdk/jquery-1.11.1.js",
+      "js/mui.locker.js",
+      "js/feedback.js",
+      "css/feedback-page.css",
+      "js/feedback-page.js",
+      "libs/easymob-webim-sdk/strophe-custom-2.0.0.js",
+      "js/mui.view.js"
+    ]
+  },
+  "reg.html": {
+    "resources": [
+      "fonts/mui.ttf"
+    ]
+  },
+  "main_tab/home.html": {
+    "resources": [
+      "css/mui.min.css"
+    ]
+  },
+  "main_tab/message.html": {
+    "resources": [
+      "css/mui.min.css"
+    ]
+  },
+  "tab-webview-main.html": {
+    "resources": [
+      "tab-webview-subpage-about.html",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/iconfont.css",
+      "fonts/iconfont.ttf",
+      "tab-webview-subpage-home.html"
+    ],
+    "refer": [
+      "tab-webview-subpage-about.html",
+      "tab-webview-subpage-setting.html",
+      "tab-webview-subpage-chat.html",
+      "tab-webview-subpage-contact.html",
+      "tab-webview-subpage-home.html",
+      "tab-webview-subpage-recommend.html",
+      "tab-webview-subpage-my.html",
+      "tab-webview-subpage-shopcar.html"
+    ]
+  },
+  "tab-webview-subpage-home.html": {
+    "resources": [
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "js/my.js",
+      "fonts/mui.ttf"
+    ],
+    "refer": [
+      "items.html",
+      "item/items.html"
+    ]
+  },
+  "items.html": {
+    "resources": [
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "fonts/mui.ttf",
+      "images/example_pic.jpg"
+    ]
+  },
+  "tab-webview-subpage-my.html": {
+    "resources": [
+      "images/bg.jpeg",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "js/my.js"
+    ],
+    "refer": [
+      "login.html",
+      "my/orders.html"
+    ]
+  },
+  "item/items.html": {
+    "resources": [
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "item/item_detail.html",
+      "images/example_pic.jpg",
+      "item/single_item.html",
+      "js/my.js"
+    ],
+    "refer": [
+      "item/item_detail.html",
+      "item/single_item.html"
+    ]
+  },
+  "item/single_item.html": {
+    "resources": [
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "item/item_detail.html",
+      "item/items.html",
+      "js/my.js",
+      "images/example_pic.jpg"
+    ],
+    "refer": [
+      "item/item_detail.html",
+      "item/items.html"
+    ]
+  },
+  "item/item_detail.html": {
+    "resources": [
+      "item/single_item.html",
+      "js/mui.min.js",
+      "js/my.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "tab-webview-subpage-shopcar.html"
+    ],
+    "refer": [
+      "item/single_item.html",
+      "tab-webview-subpage-shopcar.html",
+      "tab-webview-main.html",
+      "/tab-webview-subpage-shopcar.html"
+    ]
+  },
+  "tab-webview-subpage-shopcar.html": {
+    "resources": [
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "js/my.js"
+    ],
+    "refer": [
+      "item/item_detail.html"
+    ]
+  },
+  "my/orders.html": {
+    "resources": [
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "js/my.js",
+      "my/order_detail.html"
+    ],
+    "refer": [
+      "my/order_detail.html"
+    ]
+  },
+  "tab-webview-subpage-recommend.html": {
+    "resources": [
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css"
+    ]
+  },
+  "my/order_detail.html": {
+    "resources": [
+      "js/mui.min.js",
+      "js/my.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "images/example_pic.jpg"
+    ]
+  }
 }
