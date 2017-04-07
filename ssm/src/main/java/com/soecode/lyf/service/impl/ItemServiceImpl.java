@@ -23,12 +23,18 @@ public class ItemServiceImpl implements ItemService {
 	public Item queryByItemId(int itemId) {
 		return itemDao.queryByItemId(itemId);
 	}
+
 	/**
 	 * 修改订单状态
 	 */
 	@Override
 	public void modifyItemStatus(Item item) {
 		itemDao.modifyItemStatus(item);
+	}
+
+	@Override
+	public void modifyItemAll(Item item) {
+		itemDao.modifyItemAll(item);
 	}
 
 }

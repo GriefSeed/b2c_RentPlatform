@@ -51,7 +51,8 @@
 			"js/mui.min.js",
 			"fonts/mui.ttf",
 			"css/mui.min.css",
-			"images/qq.png"
+			"images/qq.png",
+			"js/my.js"
 		]
 	}
 }

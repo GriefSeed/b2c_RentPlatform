@@ -8,4 +8,8 @@ import com.soecode.lyf.entity.Items;
 
 public interface ItemsService {
 	List<Items> queryByItemsType(int itemsType);
+	
+	Items queryByItemsId(int itemsId);
+	
+	void modifyItemsAll(Items items);
 }

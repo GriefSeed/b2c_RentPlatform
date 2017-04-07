@@ -19,4 +19,10 @@ public interface ItemService {
 	 */
 	@Update("UPDATE item SET status = #{status} WHERE item_id = #{itemId}")
 	void modifyItemStatus(Item item);
+	
+	/**
+	 * 更改单个商品的所有信息
+	 * @param item
+	 */
+	void modifyItemAll(Item item);
 }

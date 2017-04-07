@@ -35,4 +35,11 @@ public interface ItemDao {
 	@Update("UPDATE item SET status = #{status} WHERE item_id = #{itemId}")
 	void modifyItemStatus(Item item);
 
+	/**
+	 * 更改单个商品的所有信息
+	 * @param item
+	 */
+	@Update("UPDATE item SET item_name = #{itemName}, unit_cost = #{unitCost}, item_img = #{itemImg}, items_id = #{itemsId}, status = #{status}, used_time = #{usedTime}, damage = #{damage}, description = #{description} WHERE item_id = #{itemId}")
+	void modifyItemAll(Item item);
+
 }
