@@ -1,5 +1,6 @@
 package com.soecode.lyf.entity;
 
+import java.sql.Time;
 import java.util.Date;
 
 public class Item {
@@ -9,7 +10,7 @@ public class Item {
 	private String itemImg;
 	private int itemsId;
 	private int status;
-	private Date usedTime;
+	private String usedTime;
 	private int damage;
 	private String description;
 	public int getItemId() {
@@ -55,10 +56,10 @@ public class Item {
 	
 	
 	
-	public Date getUsedTime() {
+	public String getUsedTime() {
 		return usedTime;
 	}
-	public void setUsedTime(Date usedTime) {
+	public void setUsedTime(String usedTime) {
 		this.usedTime = usedTime;
 	}
 	public int getDamage() {

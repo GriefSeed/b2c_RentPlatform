@@ -36,8 +36,8 @@
 			</form>
 			<div>
 				<div style="align-content: center;">
-					<div style="width: 200px;margin: 0 auto;">
-						<img id='itemImg' src='../images/qq.png' /></br>
+					<div>
+						<img id='Img' src='../images/qq.png' /></br>
 						<button type="button" id="changeImg">更改展示图片</button>
 					</div>
 				</div>
@@ -52,9 +52,9 @@
 					<input type="text" id="itemsId">
 				</div>
 				<div id="statusDiv">状态:(0为正在使用，1为冻结，2为下架)
-					<input type="text" id="status">
+					<input type="text" id="statusInput">
 				</div>
-				<div id="usedTimeDiv">已使用时间:
+				<div id="usedTimeDiv">已使用时间（天）:
 					<input type="text" id="usedTime">
 				</div>
 				<div id="damageDiv">损坏度:
@@ -84,13 +84,13 @@
 			var itemName = document.getElementById('itemName');
 			var unitCost = document.getElementById('unitCost');
 			var itemsId = document.getElementById('itemsId');
-			var status = document.getElementById('status');
+			var statusInput = document.getElementById('statusInput');
 			var damage = document.getElementById('damage');
 			var description = document.getElementById('description');
 			var usedTime = document.getElementById('usedTime');
 
 			//图片
-			var itemImg = document.getElementById('itemImg');
+			var Img = document.getElementById('Img');
 
 			//对象
 			var items = {
@@ -112,10 +112,12 @@
 				damage: 0,
 				description: ''
 			};
+
+			//全局变量，选择框的
+			var currentChoose; //当前是选择item还是items，决定发送不同的ajax和接收不同的数据
 			mui.init()
 				(function($, doc) {
 					$.plusReady(function() {
-						var currentChoose; //当前是选择item还是items，决定发送不同的ajax和接收不同的数据
 
 						var changeImgBtn = doc.getElementById('changeImg');
 						changeImgBtn.addEventListener('tap', function(event) {
@@ -147,12 +149,87 @@
 						}, false);
 						queryBtn.addEventListener('tap', function(event) {
 							var queryId = document.getElementById('queryId');
+
 							if(queryId.value == '') {
 								$.toast("请输入正确的ID，并选择查询类型")
 							} else {
-								//ajax获取后台列表
-								$.ajax(PHONE_IP + '/worker/queryItemById', {
-									data: JSON.stringify(queryId.value),
+								if(currentChoose == 'item') {
+									//ajax获取后台列表
+									$.ajax(PHONE_IP + '/worker/queryItemById', {
+										data: JSON.stringify(queryId.value),
+										dataType: 'json', //服务器返回json格式数据
+										type: 'post', //HTTP请求类型d
+										timeout: 10000, //超时时间设置为10秒；
+										headers: {
+											'Content-Type': 'application/json'
+										},
+										success: function(data) {
+											//因为这两个要回存数据库，只有点击了按钮才会更改itemImg
+											item.itemId = data.itemId;
+											item.itemImg = data.itemImg;
+
+											itemName.value = data.itemName;
+											unitCost.value = data.unitCost;
+											Img.src = PHONE_IP + data.itemImg;
+											itemsId.value = data.itemsId;
+											statusInput.value = data.status;
+											damage.value = data.damage;
+											description.value = data.description;
+											usedTime.value = data.usedTime;
+										},
+										error: function(xhr, type, errorThrown) {
+											//异常处理；
+											$.toast('查询失败' + xhr);
+										}
+
+									});
+								}
+								if(currentChoose == 'items') {
+									//ajax获取后台列表
+									$.ajax(PHONE_IP + '/worker/queryItemsById', {
+										data: JSON.stringify(queryId.value),
+										dataType: 'json', //服务器返回json格式数据
+										type: 'post', //HTTP请求类型d
+										timeout: 10000, //超时时间设置为10秒；
+										headers: {
+											'Content-Type': 'application/json'
+										},
+										success: function(data) {
+											//因为这两个要回存数据库，只有点击了按钮才会更改itemImg
+											items.itemsId = data.itemsId;
+											items.itemsImg = data.itemsImg;
+
+											itemName.value = data.itemsName;
+											unitCost.value = data.itemsPrice;
+											Img.src = PHONE_IP + data.itemsImg;
+											//这里本是一个型号属于什么类别的，结果偷懒与单品共用一个位置
+											itemsId.value = data.itemsType;
+											statusInput.value = data.status;
+
+										},
+										error: function(xhr, type, errorThrown) {
+											//异常处理；
+											$.toast('查询失败' + xhr);
+										}
+
+									});
+								}
+
+							}
+
+						});
+						changeBtn.addEventListener('tap', function(event) {
+							if(currentChoose == 'item') {
+								item.itemName = itemName.value;
+								item.unitCost = unitCost.value;
+								item.itemsId = itemsId.value;
+								item.status = statusInput.value;
+								item.damage = damage.value;
+								item.description = description.value;
+								item.usedTime = usedTime.value;
+								//ajax上传信息
+								$.ajax(PHONE_IP + '/worker/changeItem', {
+									data: JSON.stringify(item),
 									dataType: 'json', //服务器返回json格式数据
 									type: 'post', //HTTP请求类型d
 									timeout: 10000, //超时时间设置为10秒；
@@ -160,11 +237,32 @@
 										'Content-Type': 'application/json'
 									},
 									success: function(data) {
-										item.itemId = data.itemId;
-										itemName.value = data.itemName;
-										unitCost.value = data.unitCost;
-										itemImg.src = PHONE_IP + data.itemImg;
-										itemsId.value = data.itemsId;
+										$.toast("更改成功");
+									},
+									error: function(xhr, type, errorThrown) {
+										//异常处理；
+										$.toast('查询失败' + xhr);
+									}
+
+								});
+							}
+							if(currentChoose == 'items') {
+								console.log(items.itemsId)
+								items.itemsName = itemName.value;
+								items.itemsPrice = unitCost.value;
+								items.itemsType = itemsId.value;
+								items.status = statusInput.value;
+								//ajax上传信息
+								$.ajax(PHONE_IP + '/worker/changeItems', {
+									data: JSON.stringify(items),
+									dataType: 'json', //服务器返回json格式数据
+									type: 'post', //HTTP请求类型d
+									timeout: 10000, //超时时间设置为10秒；
+									headers: {
+										'Content-Type': 'application/json'
+									},
+									success: function(data) {
+										$.toast("更改成功");
 									},
 									error: function(xhr, type, errorThrown) {
 										//异常处理；
@@ -174,27 +272,6 @@
 								});
 							}
 
-						});
-						changeBtn.addEventListener('tap', function(event) {
-							item.itemsId = itemsId.value;
-							//ajax上传信息
-							$.ajax(PHONE_IP + '/worker/changeItem', {
-								data: JSON.stringify(item),
-								dataType: 'json', //服务器返回json格式数据
-								type: 'post', //HTTP请求类型d
-								timeout: 10000, //超时时间设置为10秒；
-								headers: {
-									'Content-Type': 'application/json'
-								},
-								success: function(data) {
-									$.toast("更改成功");
-								},
-								error: function(xhr, type, errorThrown) {
-									//异常处理；
-									$.toast('查询失败' + xhr);
-								}
-
-							});
 						});
 					});
 
@@ -221,14 +298,16 @@
 				//打开相册（用的是H5+的方式，不适用于纯web页面）
 				plus.gallery.pick(
 					function(path) {
-						var itemImg = document.getElementById('itemImg');
-						itemImg.src = path; //设置img的路径
+						var Img = document.getElementById('Img');
+						Img.src = path; //设置img的路径
 
 						//把图片base64编码  注意：这里必须在onload事件里执行！这给我坑的不轻
 
-						itemImg.onload = function() {
-							var data = getBase64Image(itemImg); //base64编码,PS:console有长度限制，打印出来的字符不完全
+						Img.onload = function() {
+							var data = getBase64Image(Img); //base64编码,PS:console有长度限制，打印出来的字符不完全
 							item.itemImg = data;
+							//偷懒，不加判断了，同时赋值吧
+							items.itemsImg = data;
 						}
 					},
 					function(e) {
@@ -242,7 +321,7 @@
 				canvas.height = img.height;
 				var ctx = canvas.getContext("2d");
 				ctx.drawImage(img, 0, 0, img.width, img.height); //使用画布画图
-				var ext = img.src.substring(img.src.lastIndexOf(".") + 1).toLowerCase(); //动态截取图片的格式
+				var ext = img.src.substring(img.src.lastIndexOf(".") + 1).toLowerCase(); //动态截取图片的格式,注意：重绘后图片格式为png
 				var dataURL = canvas.toDataURL("image/" + ext); //返回的是一串Base64编码的URL并指定格式
 				return dataURL;
 			}
