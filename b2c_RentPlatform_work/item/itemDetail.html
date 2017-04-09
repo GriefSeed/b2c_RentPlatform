@@ -114,7 +114,7 @@
 			};
 
 			//全局变量，选择框的
-			var currentChoose; //当前是选择item还是items，决定发送不同的ajax和接收不同的数据
+			var currentChoose = 'item'; //当前是选择item还是items，决定发送不同的ajax和接收不同的数据，默认是item
 			mui.init()
 				(function($, doc) {
 					$.plusReady(function() {

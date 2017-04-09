@@ -16,7 +16,8 @@
 			"js/mui.min.js",
 			"css/mui.min.css",
 			"css/style.css",
-			"js/mui.enterfocus.js"
+			"js/mui.enterfocus.js",
+			"fonts/mui.ttf"
 		],
 		"refer": [
 			"main.html"
@@ -43,7 +44,11 @@
 			"css/mui.min.css"
 		],
 		"refer": [
-			"item/itemDetail.html"
+			"item/itemDetail.html",
+			"item/itemRule.html",
+			"item/itemAdd.html",
+			"item/addItemRule.html",
+			"item/modifyItemRule.html"
 		]
 	},
 	"item/itemDetail.html": {
@@ -53,6 +58,28 @@
 			"css/mui.min.css",
 			"images/qq.png",
 			"js/my.js"
+		]
+	},
+	"item/itemAdd.html": {
+		"resources": [
+			"images/qq.png",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css"
+		]
+	},
+	"item/addItemRule.html": {
+		"resources": [
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css"
+		]
+	},
+	"item/modifyItemRule.html": {
+		"resources": [
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css"
 		]
 	}
 }

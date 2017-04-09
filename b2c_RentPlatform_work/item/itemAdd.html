@@ -14,6 +14,39 @@
 			<h1 id="title" class="mui-title">增加商品</h1>
 			<a id="rightBar" class="mui-icon icon icon-weibiaoti1 mui-pull-right"></a>
 		</header>
+		<div class="mui-content">
+			<div>
+				<div style="align-content: center;">
+					<div>
+						<img id='Img' src='../images/qq.png' /></br>
+						<button type="button" id="changeImg">上传展示图片</button>
+					</div>
+				</div>
+				<div id="nameDiv">名称:
+					<input type="text" id="itemName">
+				</div>
+				<div id="priceDiv">价格:
+					<a>/3个月</a>
+					<input type="text" id="unitCost">
+				</div>
+				<div id="itemsIdDiv">所属分类ID:
+					<input type="text" id="itemsId">
+				</div>
+				<div id="statusDiv">状态:(0为正在使用，1为冻结，2为下架)
+					<input type="text" id="statusInput">
+				</div>
+				<div id="usedTimeDiv">已使用时间（天）:
+					<input type="text" id="usedTime">
+				</div>
+				<div id="damageDiv">损坏度:
+					<input type="text" id="damage">
+				</div>
+				<div id="descriptionDiv">描述:
+					<input type="text" id="description">
+				</div>
+				<button id="changeBtn" style="margin-left: 200px;">提交更改</button>
+			</div>
+		</div>
 		<script src="../js/mui.min.js"></script>
 		<script type="text/javascript">
 			mui.init()

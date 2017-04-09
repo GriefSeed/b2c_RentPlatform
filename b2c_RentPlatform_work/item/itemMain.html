@@ -23,9 +23,9 @@
 		<div class="mui-content">
 			<div class="mui-content-padded">
 				<div style="width: 200px;margin: 100px auto 100px auto;">
-					<p><button id="addItem" class="btn">增加商品</button></p>
-					<p><button id='modifyItem' class="btn">修改商品信息</button></p>
-					<p><button id='Rule' class="btn">制定降价规则</button></p>
+					<p><button id="addItemBtn" class="btn">增加商品</button></p>
+					<p><button id='modifyItemBtn' class="btn">修改商品信息</button></p>
+					<p><button id='modifyItemRuleBtn' class="btn">型号降价规则</button></p>
 				</div>
 				
 			</div>
@@ -34,7 +34,15 @@
 		<script type="text/javascript">
 			(function($, doc) {
 				$.plusReady(function() {
-					var modifyItemBtn = doc.getElementById('modifyItem');
+					var addItemBtn = doc.getElementById("addItemBtn");
+					var modifyItemBtn = doc.getElementById('modifyItemBtn');
+					var modifyItemRuleBtn = doc.getElementById("modifyItemRuleBtn");
+					addItemBtn.addEventListener('tap',function(event){
+						$.openWindow({
+							'id':'itemAdd.html',
+							'url':'itemAdd.html'
+						});
+					});
 					modifyItemBtn.addEventListener('tap',function(event){
 						$.openWindow({
 							'id':'itemDetail.html',
@@ -42,6 +50,12 @@
 						});
 					});
 					
+					modifyItemRuleBtn.addEventListener('tap',function(event){
+						$.openWindow({
+							'id':'modifyItemRule.html',
+							'url':'modifyItemRule.html'
+						});
+					});
 				});
 			}(mui, document));
 		</script>

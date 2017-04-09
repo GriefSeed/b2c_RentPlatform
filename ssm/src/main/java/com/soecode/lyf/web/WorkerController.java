@@ -5,7 +5,6 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.Date;
 
-import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,10 +15,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.soecode.lyf.entity.Account;
+import com.soecode.lyf.entity.Header;
+import com.soecode.lyf.entity.HeaderItem;
 import com.soecode.lyf.entity.Item;
 import com.soecode.lyf.entity.Items;
+import com.soecode.lyf.entity.Rule;
 import com.soecode.lyf.service.ItemService;
 import com.soecode.lyf.service.ItemsService;
+import com.soecode.lyf.service.RuleService;
 import com.soecode.lyf.util.Util;
 
 @Controller
@@ -29,6 +32,8 @@ public class WorkerController {
 	private ItemService itemService;
 	@Autowired
 	private ItemsService itemsService;
+	@Autowired
+	private RuleService ruleService;
 
 	@RequestMapping(value = "/queryItemById")
 	@ResponseBody
@@ -45,12 +50,11 @@ public class WorkerController {
 	@RequestMapping(value = "/changeItem")
 	@ResponseBody
 	private String changeItem(@RequestBody Item item) throws Exception {
+		// 取出原始数据
+		Item itemTemp = itemService.queryByItemId(item.getItemId());
 		if (item.getItemImg().indexOf("base64") != -1) {
 			// 先根据itemsId找出存储的图片，切去/img/,取出名称
-			Item itemTemp = itemService.queryByItemId(item.getItemId());
-
 			long imgName = (new Date()).getTime() / 1000;
-
 			// 取item的BASE64图片格式，转换为文件后存储
 			String[] d = item.getItemImg().split("base64,");
 			String suffix = Util.imgSuffix(d[0]);
@@ -73,6 +77,17 @@ public class WorkerController {
 			item.setItemImg("/img/" + imgName + suffix); // 存储
 
 		}
+		// 调用商品类型的降价规则,不能用item,要用items,价格未受污染,公式：总价*损耗折扣*时间折扣
+		Rule r = ruleService.selectRuleByItemsId(item.getItemsId());
+		Items i = itemsService.queryByItemsId(item.getItemsId());
+		if (r != null) {
+			System.out.println("i have a banana");
+			// 因为都使用整数，所以要乘0.01
+			double cutPrice = i.getItemsPrice()
+					* (1 - (item.getDamage() / r.getDamageUnit()) * r.getDamageCut() * 0.01)
+					* (1 - (Integer.valueOf(item.getUsedTime()) / r.getUsedTimeUnit()) * r.getUsedTimeCut() * 0.01);
+			item.setUnitCost((int) cutPrice);
+		}
 		itemService.modifyItemAll(item);
 		return "\"success\"";
 	}
@@ -80,7 +95,7 @@ public class WorkerController {
 	@RequestMapping(value = "/changeItems")
 	@ResponseBody
 	private String changeItems(@RequestBody Items items) throws Exception {
-		System.out.println(items.getItemsId()+" banana");
+		System.out.println(items.getItemsId() + " banana");
 		if (items.getItemsImg().indexOf("base64") != -1) {
 			// 先根据itemsId找出存储的图片，切去/img/,取出名称
 			Items itemsTemp = itemsService.queryByItemsId(items.getItemsId());
@@ -108,6 +123,96 @@ public class WorkerController {
 
 		}
 		itemsService.modifyItemsAll(items);
+		return "\"success\"";
+	}
+
+	/**
+	 * 查找相关的变价规则，有则提供修改，没有就让工作人员添加
+	 * 
+	 * @param itemsId
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/selectRule")
+	@ResponseBody
+	private Rule selectRule(@RequestBody int itemsId) throws Exception {
+		return ruleService.selectRuleByItemsId(itemsId);
+	}
+
+	/**
+	 * 增加规则，新增加商品时必须要同时生成对应的降价规则
+	 * 
+	 * @param rule
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/addRule")
+	@ResponseBody
+	private String addRule(@RequestBody Rule rule) throws Exception {
+		ruleService.insertRule(rule);
+		return "\"success\"";
+	}
+
+	/**
+	 * 修改订单
+	 * 
+	 * @param rule
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/changeRule")
+	@ResponseBody
+	private String changeRule(@RequestBody Rule rule) throws Exception {
+		ruleService.modifyRule(rule);
+		return "\"success\"";
+	}
+
+	/**
+	 * 点击后，订单改为欠费debt阶段，修改相关数据，增加已使用的时间，
+	 * 
+	 * @param header
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/debtHeader")
+	@ResponseBody
+	private String debtHeader(@RequestBody Header header) throws Exception {
+		// 查询订单，抽取订单生成日期
+
+		// 查询相关的item
+		// 计算间隔日期，将时间一一存入相关的item的used_time，并将使用时间存入订单的end_date
+
+		return "\"success\"";
+	}
+
+	/**
+	 * debt欠费阶段，工作人员将商品损耗写入对应的header_item里
+	 * 
+	 * @param headerItem
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/addItemDamage")
+	@ResponseBody
+	private String addItemDamage(@RequestBody HeaderItem headerItem) throws Exception {
+		// 查询订单，抽取订单生成日期
+		// 查询相关的item
+		// 计算间隔日期，将时间一一存入相关的item的used_time，并将使用时间存入订单的end_date
+
+		return "\"success\"";
+	}
+
+	/**
+	 * 关闭订单
+	 * 
+	 * @param header
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/closeHeader")
+	@ResponseBody
+	private String closeHeader(@RequestBody Header header) throws Exception {
+
 		return "\"success\"";
 	}
 

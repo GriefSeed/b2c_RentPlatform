@@ -284,7 +284,11 @@
 					"css/mui.min.css"
 				],
 				"refer": [
-					"item/itemDetail.html"
+					"item/itemDetail.html",
+					"item/itemRule.html",
+					"item/itemAdd.html",
+					"item/addItemRule.html",
+					"item/modifyItemRule.html"
 				],
 				"priority": 0
 			},
@@ -295,6 +299,34 @@
 					"css/mui.min.css",
 					"images/qq.png",
 					"js/my.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"item/itemAdd.html": {
+				"resources": [
+					"images/qq.png",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"item/addItemRule.html": {
+				"resources": [
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"item/modifyItemRule.html": {
+				"resources": [
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css"
 				],
 				"refer": [],
 				"priority": 0
