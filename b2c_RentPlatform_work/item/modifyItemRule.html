@@ -17,23 +17,141 @@
 		<div class="mui-content">
 			<div class="mui-input-row mui-radio">
 				<div id="damageDiv">商品类型编号:
-					<input type="text" id="itemsId">
-					<button type="button">查询</button>
+					<input type="text" id="itemsIdInput">
+					<button type="button" id="queryBtn">查询</button>
 				</div>
 				<br />
-				<div id="damageDiv">使用天数减价（百分比）:<br />
-					<input type="text" id="itemsId" style="width: 100px;"> % <input type="text" id="itemsId" style="width: 100px;"> /天
+				<div id="damageDiv">使用天数减价（折扣/单位）:<br />
+					<input type="text" id="usedTimeCutInput" style="width: 100px;"> % —— <input type="text" id="usedTimeUnitInput" style="width: 100px;"> /天
 				</div>
 				<div id="damageDiv">损坏度减价（百分比）:<br />
-					<input type="text" id="itemsId" style="width: 100px;"> % <input type="text" id="itemsId" style="width: 100px;"> /损耗率(%)
+					<input type="text" id="damageCutInput" style="width: 100px;"> % —— <input type="text" id="damageUnitInput" style="width: 100px;"> /损耗率(%)
 				</div>
-				<button type="button" style="margin-left:100px; width: 100px;">修改</button>
-				<button type="button" style="margin-left:50px; width: 100px;">增加</button>
+				<button type="button" style="margin-left:100px; width: 100px;" id="changeBtn">修改</button>
+				<button type="button" style="margin-left:50px; width: 100px;" id="addBtn">增加</button>
 			</div>
 		</div>
 		<script src="../js/mui.min.js"></script>
+		<script src="../js/my.js"></script>
 		<script type="text/javascript">
-			mui.init()
+			(function($, doc) {
+				$.plusReady(function() {
+					//按钮
+					var queryBtn = doc.getElementById("queryBtn");
+					var changeBtn = doc.getElementById("changeBtn");
+					var addBtn = doc.getElementById("addBtn");
+					//输入框
+					var itemsIdInput = doc.getElementById("itemsIdInput");
+					var usedTimeCutInput = doc.getElementById("usedTimeCutInput");
+					var usedTimeUnitInput = doc.getElementById("usedTimeUnitInput");
+					var damageCutInput = doc.getElementById("damageCutInput");
+					var damageUnitInput = doc.getElementById("damageUnitInput");
+
+					queryBtn.addEventListener('tap', function(event) {
+						if(itemsIdInput.value == '') {
+							$.toast("请输入商品类型编号");
+						} else {
+							$.ajax(PHONE_IP + '/worker/queryRule', {
+								data: JSON.stringify(itemsIdInput.value),
+								dataType: 'json', //服务器返回json格式数据
+								type: 'post', //HTTP请求类型d
+								timeout: 10000, //超时时间设置为10秒；
+								headers: {
+									'Content-Type': 'application/json'
+								},
+								success: function(data) {
+									if(data != null) {
+										damageCutInput.value = data.damageCut;
+										damageUnitInput.value = data.damageUnit;
+										usedTimeCutInput.value = data.usedTimeCut;
+										usedTimeUnitInput.value = data.usedTimeUnit;
+									} else {
+										usedTimeCutInput.value = '';
+										usedTimeUnitInput.value = '';
+										damageCutInput.value = '';
+										damageUnitInput.value = '';
+										$.toast("该商品类型没有制定降价规则");
+									}
+								},
+								error: function(xhr, type, errorThrown) {
+									//异常处理；
+									$.toast('查询失败' + xhr);
+								}
+
+							});
+						}
+
+					});
+
+					changeBtn.addEventListener('tap', function(event) {
+						if(itemsIdInput.value == '') {
+							$.toast("请输入商品类型编号");
+						} else {
+							$.ajax(PHONE_IP + '/worker/changeRule', {
+								data: {
+									'itemsId': itemsIdInput.value,
+									'damageUnit': damageUnitInput.value,
+									'damageCut': damageCutInput.value,
+									'usedTimeUnit': usedTimeUnitInput.value,
+									'usedTimeCut': usedTimeCutInput.value
+								},
+								dataType: 'json', //服务器返回json格式数据
+								type: 'post', //HTTP请求类型d
+								timeout: 10000, //超时时间设置为10秒；
+								headers: {
+									'Content-Type': 'application/json'
+								},
+								success: function(data) {
+									if(data == 'success') {
+										$.toast("修改成功");
+									} else {
+										$.toast("修改失败");
+									}
+								},
+								error: function(xhr, type, errorThrown) {
+									//异常处理；
+									$.toast('修改失败' + xhr);
+								}
+
+							});
+						}
+					});
+
+					addBtn.addEventListener('tap', function(event) {
+						if(itemsIdInput.value == '') {
+							$.toast("请输入商品类型编号");
+						} else {
+							$.ajax(PHONE_IP + '/worker/addRule', {
+								data: {
+									'itemsId': itemsIdInput.value,
+									'damageUnit': damageUnitInput.value,
+									'damageCut': damageCutInput.value,
+									'usedTimeUnit': usedTimeUnitInput.value,
+									'usedTimeCut': usedTimeCutInput.value
+								},
+								dataType: 'json', //服务器返回json格式数据
+								type: 'post', //HTTP请求类型d
+								timeout: 10000, //超时时间设置为10秒；
+								headers: {
+									'Content-Type': 'application/json'
+								},
+								success: function(data) {
+									if(data == 'success') {
+										$.toast("增加成功");
+									} else {
+										$.toast("增加失败");
+									}
+								},
+								error: function(xhr, type, errorThrown) {
+									//异常处理；
+									$.toast('增加失败' + xhr);
+								}
+
+							});
+						}
+					});
+				});
+			}(mui, document));
 		</script>
 	</body>
 

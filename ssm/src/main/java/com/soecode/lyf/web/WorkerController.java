@@ -83,8 +83,7 @@ public class WorkerController {
 		if (r != null) {
 			System.out.println("i have a banana");
 			// 因为都使用整数，所以要乘0.01
-			double cutPrice = i.getItemsPrice()
-					* (1 - (item.getDamage() / r.getDamageUnit()) * r.getDamageCut() * 0.01)
+			double cutPrice = i.getItemsPrice() * (1 - (item.getDamage() / r.getDamageUnit()) * r.getDamageCut() * 0.01)
 					* (1 - (Integer.valueOf(item.getUsedTime()) / r.getUsedTimeUnit()) * r.getUsedTimeCut() * 0.01);
 			item.setUnitCost((int) cutPrice);
 		}
@@ -133,10 +132,14 @@ public class WorkerController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/selectRule")
+	@RequestMapping(value = "/queryRule")
 	@ResponseBody
 	private Rule selectRule(@RequestBody int itemsId) throws Exception {
-		return ruleService.selectRuleByItemsId(itemsId);
+		Rule r = ruleService.selectRuleByItemsId(itemsId);
+		if (r != null) {
+			return r;
+		} else
+			return null;
 	}
 
 	/**

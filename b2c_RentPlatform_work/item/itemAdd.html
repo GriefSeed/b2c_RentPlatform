@@ -15,6 +15,17 @@
 			<a id="rightBar" class="mui-icon icon icon-weibiaoti1 mui-pull-right"></a>
 		</header>
 		<div class="mui-content">
+			<form class="mui-input-group">
+				<div class="mui-input-row mui-radio">
+					<label>商品类型</label>
+					<input name="radio1" type="radio" onclick="getRadioVals(this)" value="items">
+				</div>
+				<div class="mui-input-row mui-radio">
+					<label>具体商品</label>
+					<input name="radio1" type="radio" onclick="getRadioVals(this)" value="item" checked="">
+				</div>
+			</form>
+
 			<div>
 				<div style="align-content: center;">
 					<div>
@@ -44,7 +55,7 @@
 				<div id="descriptionDiv">描述:
 					<input type="text" id="description">
 				</div>
-				<button id="changeBtn" style="margin-left: 200px;">提交更改</button>
+				<button id="changeBtn" style="margin-left: 200px;">确认提交</button>
 			</div>
 		</div>
 		<script src="../js/mui.min.js"></script>
