@@ -187,9 +187,11 @@ public class WorkerController {
 	@RequestMapping(value = "/usingHeader")
 	@ResponseBody
 	private String usingHeader(@RequestBody int headerId) throws Exception {
-		// 保证除了状态status外，其他数据不被修改
+		// 保证除了状态status和start_date外，其他数据不被修改
 		Header header = new Header();
 		header.setHeaderId(headerId);
+		//录入时间，开始计费
+		header.setStartDate(new Date());
 		header.setStatus("USING");
 		headerService.modifyHeaderUsing(header);
 		return "\"success\"";
