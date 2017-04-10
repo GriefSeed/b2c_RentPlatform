@@ -54,6 +54,9 @@
 				<p class="headerFont">剩余时间：
 					<a id="remainderTimeDom"></a>
 				</p>
+				<button type="button" id="usingBtn" style="display: none;">已收货</button>
+				<button type="button" id="debtBtn" style="display: none;">已归还</button>
+				<button type="button" id="closeBtn" style="display: none;">关闭</button>
 			</div>
 			<div>
 				<ul id="itemsListDom" class="mui-table-view" style="background-color:#E8E8E8;margin-top: 0;">
@@ -86,6 +89,34 @@
 		<script src="../js/mui.min.js"></script>
 		<script src="../js/my.js"></script>
 		<script type="text/javascript">
+			var usingBtn = document.getElementById('usingBtn');
+			var debtBtn = document.getElementById('debtBtn');
+			var closeBtn = document.getElementById('closeBtn');
+
+			function btnForHeaderStatus(type) {
+				console.log(type);
+				if(type == 'NEW') {
+					//隐藏按钮
+					usingBtn.style.display = "";
+					debtBtn.style.display = "none";
+					closeBtn.style.display = "none";
+				}
+				if(type == 'USING') {
+					usingBtn.style.display = "none";
+					debtBtn.style.display = "";
+					closeBtn.style.display = "none";
+				}
+				if(type == 'DEBT') {
+					usingBtn.style.display = "none";
+					debtBtn.style.display = "none";
+					closeBtn.style.display = "";
+				}
+				if(type == 'CLOSE') {
+					usingBtn.style.display = "none";
+					debtBtn.style.display = "none";
+					closeBtn.style.display = "none";
+				}
+			}
 			(function($, doc) {
 				var rentCost = 0;
 				var compens = 0;
@@ -151,6 +182,8 @@
 					status.innerHTML = obj.status;
 					startDateDom.innerHTML = timeFormatter(obj.startDate);
 					statusDom.innerHTML = headerStatusTrans(obj.status);
+					//加入按钮控制
+					btnForHeaderStatus(obj.status);
 					window.setInterval(function() {
 						showDeadline(obj.startDate);
 					}, interval);
