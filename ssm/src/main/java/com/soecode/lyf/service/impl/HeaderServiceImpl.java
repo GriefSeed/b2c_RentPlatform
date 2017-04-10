@@ -14,7 +14,7 @@ public class HeaderServiceImpl implements HeaderService {
 
 	@Autowired
 	private HeaderDao headerDao;
-	
+
 	@Override
 	public int insertHeader(Header header) {
 		return headerDao.insertHeader(header);
@@ -33,6 +33,21 @@ public class HeaderServiceImpl implements HeaderService {
 	@Override
 	public int deleteHeader(int headerId) {
 		return headerDao.deleteHeader(headerId);
+	}
+
+	@Override
+	public void modifyHeaderUsing(Header header) {
+		headerDao.modifyHeaderUsing(header);
+	}
+
+	@Override
+	public void modifyHeaderDebt(Header header) {
+		headerDao.modifyHeaderDebt(header);
+	}
+
+	@Override
+	public void modifyHeaderCLOSE(Header header) {
+		headerDao.modifyHeaderCLOSE(header);
 	}
 
 }

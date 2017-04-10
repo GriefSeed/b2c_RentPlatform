@@ -2,7 +2,8 @@
 	"main.html": {
 		"refer": [
 			"setting.html",
-			"item/itemMain.html"
+			"item/itemMain.html",
+			"order/orderDetail.html"
 		],
 		"resources": [
 			"js/app.js",
@@ -81,6 +82,25 @@
 			"fonts/mui.ttf",
 			"css/mui.min.css",
 			"js/my.js"
+		]
+	},
+	"order/orderDetail.html": {
+		"resources": [
+			"fonts/mui.ttf",
+			"js/mui.min.js",
+			"js/my.js",
+			"css/mui.min.css"
+		],
+		"refer": [
+			"order/orderItemAttrition.html"
+		]
+	},
+	"order/orderItemAttrition.html": {
+		"resources": [
+			"js/mui.min.js",
+			"js/my.js",
+			"css/mui.min.css",
+			"fonts/mui.ttf"
 		]
 	}
 }

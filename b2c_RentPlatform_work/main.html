@@ -12,10 +12,12 @@
 				font-size: 14px;
 				color: #8f8f94;
 			}
+			
 			.mui-btn {
 				padding: 10px;
 			}
-			.btn{
+			
+			.btn {
 				width: 200px;
 			}
 		</style>
@@ -30,10 +32,10 @@
 				<div style="width: 200px;margin: 100px auto 100px auto;">
 					<p><button id="userManager" class="btn">用户管理</button></p>
 					<p><button id='itemManager' class="btn">商品管理</button></p>
-					<p><button id='headerManager' class="btn">订单管理</button></p>
+					<p><button id='orderManager' class="btn">订单管理</button></p>
 					<p><button id='my' class="btn">我的页面</button></p>
 				</div>
-				
+
 			</div>
 		</div>
 		<script src="js/mui.min.js"></script>
@@ -50,19 +52,25 @@
 				}, false);
 				$.plusReady(function() {
 					var itemManagerBtn = doc.getElementById('itemManager');
-					itemManagerBtn.addEventListener('tap',function(event){
+					var orderManagerBtn = doc.getElementById('orderManager');
+					itemManagerBtn.addEventListener('tap', function(event) {
 						$.openWindow({
-							'id':'item/itemMain.html',
-							'url':'item/itemMain.html'
+							'id': 'item/itemMain.html',
+							'url': 'item/itemMain.html'
 						});
 					});
-					
-					
+
+					orderManagerBtn.addEventListener('tap', function(event) {
+						$.openWindow({
+							'id': 'order/orderDetail.html',
+							'url': 'order/orderDetail.html'
+						});
+					});
 					$.oldBack = mui.back;
 					var backButtonPress = 0;
 					$.back = function(event) {
 						backButtonPress++;
-						if (backButtonPress > 1) {
+						if(backButtonPress > 1) {
 							plus.runtime.quit();
 						} else {
 							plus.nativeUI.toast('再按一次退出应用');
