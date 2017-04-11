@@ -25,6 +25,7 @@
 			<div id="damageDiv">订单编号:
 				<input type="text" id="headerIdInput">
 				<button type="button" id="queryBtn">查询</button>
+				<button type="button" id="cleanBtn">重置</button>
 			</div>
 			<div>
 				<p class="headerFont">订单编号：
@@ -58,7 +59,7 @@
 				<button type="button" id="debtBtn" style="display: none;">已归还</button>
 				<button type="button" id="closeBtn" style="display: none;">关闭</button>
 			</div>
-			<div>
+			<div id="itemDiv">
 				<ul id="itemsListDom" class="mui-table-view" style="background-color:#E8E8E8;margin-top: 0;">
 					<!--<li class="mui-table-view-cell">
 						<div class="mui-slider-cell" onclick="itemDetail(this)">
@@ -93,6 +94,7 @@
 			var debtBtn = document.getElementById('debtBtn');
 			var closeBtn = document.getElementById('closeBtn');
 
+			//检查状态，进行按钮隐藏
 			function btnForHeaderStatus(type) {
 				console.log(type);
 				if(type == 'NEW') {
@@ -121,19 +123,19 @@
 				var rentCost = 0;
 				var compens = 0;
 				var amountDom = doc.getElementById("amountDom");
+				var itemDiv = doc.getElementById('itemDiv');
 				$.init({
 					swipeBack: true //启用右滑关闭功能
 				});
 				$.plusReady(function() {
 					var queryBtnBtn = doc.getElementById('queryBtn');
-					//定义刷新时间
+					var header_id;
 					var refreshTime = 1000;
 					queryBtn.addEventListener('tap', function(event) {
-						var header_id = doc.getElementById('headerIdInput').value;
+						header_id = doc.getElementById('headerIdInput').value; //定义刷新时间
 						if(header_id == '') {
 							$.toast('请输入订单编号');
-						} else {
-							//发送数据，接收order
+						} else { //发送数据，接收order
 							$.ajax(PHONE_IP + '/main/getOrderDetail', {
 								data: header_id,
 								dataType: 'json', //服务器返回json格式数据
@@ -158,6 +160,12 @@
 										changeHeaderItemMessage(headerItemList);
 										//计价
 										amountDom.innerHTML = compens + rentCost;
+
+										if(header.status == 'DEBT')
+											//启用点击，录入损耗
+											itemDiv.style.pointerEvents = 'auto';
+										else
+											itemDiv.style.pointerEvents = 'none';
 									}
 								},
 								error: function(xhr, type, errorThrown) {
@@ -169,6 +177,116 @@
 
 					});
 
+					usingBtn.addEventListener('tap', function(event) {
+						//发送数据，更改状态
+						$.ajax(PHONE_IP + '/worker/usingHeader', {
+							data: header_id,
+							dataType: 'json', //服务器返回json格式数据
+							type: 'post', //HTTP请求类型d
+							timeout: 10000, //超时时间设置为10秒；
+							headers: {
+								'Content-Type': 'application/json'
+							},
+							success: function(data) {
+								//查不到就弹框，很粗暴的写法
+								if(data == 'success') {
+									refreshHeader();
+									//禁止点击，录入损耗
+									itemDiv.style.pointerEvents = 'none';
+									$.toast("用户已收货，状态改为USING");
+								} else
+									$.toast('加载异常');
+							},
+							error: function(xhr, type, errorThrown) {
+								//异常处理；
+								$.toast("加载异常")
+							}
+						});
+					});
+					debtBtn.addEventListener('tap', function(event) {
+						//更改状态，写入商品使用时间
+						$.ajax(PHONE_IP + '/worker/debtHeader', {
+							data: header_id,
+							dataType: 'json', //服务器返回json格式数据
+							type: 'post', //HTTP请求类型d
+							timeout: 10000, //超时时间设置为10秒；
+							headers: {
+								'Content-Type': 'application/json'
+							},
+							success: function(data) {
+								//查不到就弹框，很粗暴的写法
+								if(data == 'success') {
+									refreshHeader();
+									//允许item点击，录入损耗
+									itemDiv.style.pointerEvents = 'auto';
+									$.toast("商品已回收，状态改为DEBT");
+								} else
+									$.toast('加载异常');
+							},
+							error: function(xhr, type, errorThrown) {
+								//异常处理；
+								$.toast("加载异常")
+							}
+						});
+					});
+					closeBtn.addEventListener('tap', function(event) {
+						//更改状态，关闭订单
+						$.ajax(PHONE_IP + '/worker/closeHeader', {
+							data: header_id,
+							dataType: 'json', //服务器返回json格式数据
+							type: 'post', //HTTP请求类型d
+							timeout: 10000, //超时时间设置为10秒；
+							headers: {
+								'Content-Type': 'application/json'
+							},
+							success: function(data) {
+								//查不到就弹框，很粗暴的写法
+								if(data == 'success') {
+									refreshHeader();
+									//禁止item点击，禁止录入损耗
+									itemDiv.style.pointerEvents = 'none';
+									$.toast("商品已回收，状态改为DEBT");
+								} else
+									$.toast('加载异常');
+							},
+							error: function(xhr, type, errorThrown) {
+								//异常处理；
+								$.toast("加载异常")
+							}
+						});
+					});
+
+					cleanBtn.addEventListener('tap', function(event) {
+						location.reload();
+					});
+					//改变状态都要刷新数据，所以就将其封装为一个method
+					function refreshHeader() {
+						$.ajax(PHONE_IP + '/main/getOrderDetail', {
+							data: header_id,
+							dataType: 'json', //服务器返回json格式数据
+							type: 'post', //HTTP请求类型d
+							timeout: 10000, //超时时间设置为10秒；
+							headers: {
+								'Content-Type': 'application/json'
+							},
+							success: function(data) {
+								//查不到就弹框，很粗暴的写法
+								if(data.header == null) {
+									$.toast("无此订单");
+								} else {
+									var header = data.header;
+									var itemList = data.itemList;
+									var headerItemList = data.headerItemList;
+									//注入订单头区域，因为只是刷新状态，所以就没用刷新商品和赔偿等信息
+									changeHeader(header, refreshTime);
+								}
+							},
+							error: function(xhr, type, errorThrown) {
+								//异常处理；
+								$.toast("加载异常")
+							}
+						});
+					}
 				});
 
 				function changeHeader(obj, interval) {
