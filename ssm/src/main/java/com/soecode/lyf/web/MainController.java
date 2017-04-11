@@ -21,12 +21,14 @@ import com.soecode.lyf.dto.Order;
 import com.soecode.lyf.dto.OrderDetail;
 import com.soecode.lyf.entity.Account;
 import com.soecode.lyf.entity.Address;
+import com.soecode.lyf.entity.Comment;
 import com.soecode.lyf.entity.Header;
 import com.soecode.lyf.entity.HeaderItem;
 import com.soecode.lyf.entity.Item;
 import com.soecode.lyf.entity.Items;
 import com.soecode.lyf.service.AccountService;
 import com.soecode.lyf.service.AddressService;
+import com.soecode.lyf.service.CommentService;
 import com.soecode.lyf.service.HeaderItemService;
 import com.soecode.lyf.service.HeaderService;
 import com.soecode.lyf.service.ItemService;
@@ -51,6 +53,8 @@ public class MainController {
 	private HeaderService headerService;
 	@Autowired
 	private HeaderItemService headerItemService;
+	@Autowired
+	private CommentService commentService;
 	@Autowired
 	private Header header;
 
@@ -102,10 +106,10 @@ public class MainController {
 	private List<Address> getAccontAddressList(@RequestBody int accountId) {
 		return addressService.queryByAccountId(accountId);
 	}
-	
-	
+
 	/**
 	 * 生成订单，生成header和header_item里的信息，冻结商品,1表示已租
+	 * 
 	 * @param order
 	 * @return
 	 */
@@ -130,8 +134,8 @@ public class MainController {
 			hi.setHeaderId(header.getHeaderId());
 			hi.setItemId(Integer.parseInt(i.replace("item_", "")));
 			headerItemService.insertHeaderItem(hi);
-			
-			//同时锁上相应的商品，让其他人不能选择
+
+			// 同时锁上相应的商品，让其他人不能选择
 			Item it = new Item();
 			it.setItemId(Integer.parseInt(i.replace("item_", "")));
 			it.setStatus(1);
@@ -151,40 +155,88 @@ public class MainController {
 	@ResponseBody
 	@RequestMapping(value = "/getOrderDetail")
 	public OrderDetail getOrderDetail(@RequestBody int headerId) {
-		List<HeaderItem> headerItemList= headerItemService.getItemsByHeaderId(headerId);
+		List<HeaderItem> headerItemList = headerItemService.getItemsByHeaderId(headerId);
 		OrderDetail od = new OrderDetail();
 		ArrayList<Item> itemList = new ArrayList<Item>();
-		//将所有商品的详细信息塞进去
-		for(HeaderItem hi: headerItemList){
+		// 将所有商品的详细信息塞进去
+		for (HeaderItem hi : headerItemList) {
 			itemList.add(itemService.queryByItemId(hi.getItemId()));
 		}
-		//塞订单头
+		// 塞订单头
 		od.setHeader(headerService.getHeaderByHeaderId(headerId));
-		//塞订单头-商品表里的赔偿信息
+		// 塞订单头-商品表里的赔偿信息
 		od.setHeaderItemList(headerItemList);
-		//塞订单详细列表
+		// 塞订单详细列表
 		od.setItemList(itemList);
 		return od;
 	}
+
 	/**
 	 * 取消订单，删除header和header_item表里的信息，解冻商品,0表示待租
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/cancelOrder")
 	public String cancelOrder(@RequestBody int headerId) {
-		//先在header_item里取到所有相关商品
-		List<HeaderItem> hi= headerItemService.getItemsByHeaderId(headerId);
-		//再循环，同时对商品进行解冻和删除header_item里的信息
-		for(HeaderItem kid : hi){
+		// 先在header_item里取到所有相关商品
+		List<HeaderItem> hi = headerItemService.getItemsByHeaderId(headerId);
+		// 再循环，同时对商品进行解冻和删除header_item里的信息
+		for (HeaderItem kid : hi) {
 			Item i = new Item();
 			i.setItemId(kid.getItemId());
 			i.setStatus(0);
 			itemService.modifyItemStatus(i);
 		}
 		headerItemService.removeHeaderItems(headerId);
-		//最后删除header表里的信息
+		// 最后删除header表里的信息
 		headerService.deleteHeader(headerId);
 		return "\"success\"";
 	}
-	
+
+	/**
+	 * 用户从订单进入了评论页面后，查找相关的评论，没有就放回null
+	 * 
+	 * @param headerItemId
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/queryComment")
+	public Comment queryComment(@RequestBody int headerItemId) {
+		// 抽取header_item_id,先检查是否存在评论，没有就插入，有就更改
+		Comment cTemp = commentService.selectOneComment(headerItemId);
+		if (cTemp == null) {
+			return null;
+		}
+		return cTemp;
+	}
+
+	/**
+	 * 用户新增或修改评论,前台要负责将itemId、headerItemId事先存入comment
+	 * 
+	 * @param comment
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/modifyComment")
+	public String modifyComment(@RequestBody Comment comment) {
+		// 抽取header_item_id,先检查是否存在评论，没有就插入，有就更改
+		Comment cTemp = commentService.selectOneComment(comment.getHeaderItemId());
+		if (cTemp == null) {
+			commentService.saveComment(comment);
+		} else {
+			commentService.modifyComment(comment);
+		}
+		return "\"success\"";
+	}
+
+	/**
+	 * 查找该商品下的所有评论
+	 * 
+	 * @param itemId
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/queryItemAllComment")
+	public List<Comment> queryItemAllComment(@RequestBody int itemId) {
+		return commentService.selectItemAllComment(itemId);
+	}
 }

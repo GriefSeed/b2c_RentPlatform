@@ -435,6 +435,17 @@
 					"css/mui.min.css",
 					"images/example_pic.jpg"
 				],
+				"refer": [
+					"comment/commentDetail.html"
+				],
+				"priority": 0
+			},
+			"comment/commentDetail.html": {
+				"resources": [
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css"
+				],
 				"refer": [],
 				"priority": 0
 			}

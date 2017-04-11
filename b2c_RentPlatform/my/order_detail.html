@@ -48,7 +48,7 @@
 				</p>
 				<button id="cancelBtn" type="button">取消</button>
 			</div>
-			<div>
+			<div id="itemsDiv">
 				<ul id="itemsListDom" class="mui-table-view" style="background-color:#E8E8E8;margin-top: 0;">
 					<!--<li class="mui-table-view-cell">
 						<div class="mui-slider-cell" onclick="itemDetail(this)">
@@ -79,6 +79,30 @@
 		<script src="../js/mui.min.js"></script>
 		<script src="../js/my.js"></script>
 		<script type="text/javascript">
+			//检查订单状态，隐藏按钮，评论不可点击
+			function statusCheck(status) {
+				var itemsDiv = document.getElementById('itemsDiv');
+				var cancelBtn = document.getElementById('cancelBtn');
+				itemsDiv.style.pointerEvents = 'none';
+				if(status != 'NEW') {
+					cancelBtn.style.display = "none";
+					itemsDiv.style.pointerEvents = 'none';
+				}
+				if(status == 'CLOSE') {
+					//只有当CLOSE时, 才能点击
+					itemsDiv.style.pointerEvents = 'auto';
+				}
+			}
+
+			function commentDetail(headerItemId, itemId) {
+				mui.openWindow({
+					url: "../comment/commentDetail.html",
+					extras: {
+						headerItemId: headerItemId,
+						itemId: itemId
+					}
+				});
+			}
 			(function($, doc) {
 				var cancelBtn = doc.getElementById("cancelBtn");
 				var rentCost = 0;
@@ -112,6 +136,7 @@
 							changeHeaderItemMessage(headerItemList);
 							//计价
 							amountDom.innerHTML = compens + rentCost;
+							statusCheck(header.status);
 						},
 						error: function(xhr, type, errorThrown) {
 							//异常处理；
@@ -175,7 +200,7 @@
 						var li = document.createElement('li');
 						li.className = 'mui-table-view-cell';
 						htmlStr = "";
-						htmlStr += '<div id="' + itemList[kid].itemId + '" class="mui-slider-cell" onclick="itemDetail(this)">';
+						htmlStr += '<div id="' + itemList[kid].itemId + '" class="mui-slider-cell" onclick="commentDetail(' + headerItemList[kid].headerItemId + ',' + itemList[kid].itemId + ')">';
 						htmlStr += '<div class="oa-contact-cell mui-table">';
 						htmlStr += '<div class="oa-contact-avatar mui-table-cell"><img width="50px" src="' + PHONE_IP + itemList[kid].itemImg + '" />';
 						htmlStr += '</div>';
