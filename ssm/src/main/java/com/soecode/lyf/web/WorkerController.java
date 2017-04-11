@@ -190,7 +190,7 @@ public class WorkerController {
 		// 保证除了状态status和start_date外，其他数据不被修改
 		Header header = new Header();
 		header.setHeaderId(headerId);
-		// 录入时间，开始计费
+		//录入时间，开始计费
 		header.setStartDate(new Date());
 		header.setStatus("USING");
 		headerService.modifyHeaderUsing(header);
@@ -206,26 +206,22 @@ public class WorkerController {
 	 */
 	@RequestMapping(value = "/debtHeader")
 	@ResponseBody
-	private String debtHeader(@RequestBody int headerId) throws Exception {
+	private String debtHeader(@RequestBody Header header) throws Exception {
 		// 查询订单，抽取订单生成日期，并将现在的时间存入订单的end_date
-		Header headerTemp = headerService.getHeaderByHeaderId(headerId);
-		headerTemp.setEndDate(new Date());
-		headerTemp.setStatus("DEBT");
+		Header h = headerService.getHeaderByHeaderId(header.getHeaderId());
+		h.setEndDate(new Date());
 		// 计算从USING到debt之间的相差天数,因为订单里面包含很多商品，但租赁时间都是一样的，所以可以用同一个时间
-		int usedTime = Util.daysBetween(headerTemp.getStartDate(), headerTemp.getEndDate());
+		int usedTime = Util.daysBetween(h.getCreateDate(), h.getEndDate());
 		// 查询所有相关的item
-		List<HeaderItem> headerItems = headerItemService.getItemsByHeaderId(headerTemp.getHeaderId());
+		List<HeaderItem> headerItems = headerItemService.getItemsByHeaderId(h.getHeaderId());
 
 		// 计算间隔日期，将时间一一与原来的usedTime相加，重新存入相关的item的used_time
 		for (HeaderItem hi : headerItems) {
 			Item i = itemService.queryByItemId(hi.getItemId());
-			// 因为使用日期是String,没办法
-			i.setUsedTime((Integer.valueOf(i.getUsedTime()) + Integer.valueOf(usedTime)) + "");
-			// 存储进数据库
+			i.setUsedTime(i.getUsedTime() + usedTime);
+			//存储进数据库
 			itemService.modifyItemAll(i);
 		}
-		// 最后将headerTemp存入数据库
-		headerService.modifyHeaderDebt(headerTemp);
 		return "\"success\"";
 	}
 
@@ -239,7 +235,7 @@ public class WorkerController {
 	@RequestMapping(value = "/addItemDamage")
 	@ResponseBody
 	private String addItemDamage(@RequestBody HeaderItem headerItem) throws Exception {
-		// 查看item是否为1，即锁定状态,这工作交给前端做，前端加个条件判断，非debt不允许调到损耗输入界面
+		//查看item是否为1，即锁定状态,这工作交给前端做，前端加个条件判断，非debt不允许调到损耗输入界面
 		headerItemService.modifyItemAttrition(headerItem);
 		return "\"success\"";
 	}
@@ -253,9 +249,9 @@ public class WorkerController {
 	 */
 	@RequestMapping(value = "/closeHeader")
 	@ResponseBody
-	private String closeHeader(@RequestBody int headerId) throws Exception {
+	private String closeHeader(@RequestBody Header header) throws Exception {
 		Header headerTemp = new Header();
-		headerTemp.setHeaderId(headerId);
+		headerTemp.setHeaderId(header.getHeaderId());
 		headerTemp.setStatus("CLOSE");
 		headerService.modifyHeaderCLOSE(headerTemp);
 		return "\"success\"";
