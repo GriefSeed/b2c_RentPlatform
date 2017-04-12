@@ -16,7 +16,7 @@ public interface CommentDao {
 	 * @param comment
 	 * @return
 	 */
-	@Insert("INSERT INTO comment VALUES (#{headerItemId},#{itemId},#{score},#{comment})")
+	@Insert("INSERT INTO comment (header_item_id,item_id,account_id,score,comment) VALUES (#{headerItemId},#{itemId},#{accountId},#{score},#{comment})")
 	int saveComment(Comment comment);
 
 	/**
@@ -44,4 +44,13 @@ public interface CommentDao {
 	 */
 	@Select("SELECT * FROM comment where header_item_id = #{headerItemId}")
 	Comment selectOneComment(int headerItemId);
+
+	/**
+	 * 在数据库中抽取该商品的平均评分
+	 * 
+	 * @param itemId
+	 * @return
+	 */
+	@Select("SELECT avg(score) FROM comment where item_id = #{itemId}")
+	Double selectAvgScoreOfItem(int itemId);
 }

@@ -35,4 +35,9 @@ public class CommentServiceImpl implements CommentService {
 		return commentDao.selectOneComment(headerItemId);
 	}
 
+	@Override
+	public Double selectAvgScoreOfItem(int itemId) {
+		return commentDao.selectAvgScoreOfItem(itemId);
+	}
+
 }

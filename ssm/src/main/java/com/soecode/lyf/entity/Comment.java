@@ -4,6 +4,7 @@ public class Comment {
 	private int commentId;
 	private int headerItemId;
 	private int itemId;
+	private int accountId;
 	private int score;
 	private String comment;
 	public int getCommentId() {
@@ -23,6 +24,13 @@ public class Comment {
 	}
 	public void setItemId(int itemId) {
 		this.itemId = itemId;
+	}
+	
+	public int getAccountId() {
+		return accountId;
+	}
+	public void setAccountId(int accountId) {
+		this.accountId = accountId;
 	}
 	public int getScore() {
 		return score;

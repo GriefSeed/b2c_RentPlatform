@@ -40,4 +40,13 @@ public interface CommentService {
 	 * @return
 	 */
 	Comment selectOneComment(int headerItemId);
+
+	/**
+	 * 在数据库中抽取该商品的平均评分
+	 * 
+	 * @param itemId
+	 * @return
+	 */
+	Double selectAvgScoreOfItem(int itemId);
+
 }

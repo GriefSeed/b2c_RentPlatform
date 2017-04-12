@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.soecode.lyf.dto.CommentAvg;
 import com.soecode.lyf.dto.Order;
 import com.soecode.lyf.dto.OrderDetail;
 import com.soecode.lyf.entity.Account;
@@ -229,14 +230,21 @@ public class MainController {
 	}
 
 	/**
-	 * 查找该商品下的所有评论
+	 * 查找该商品下的所有评论和平均分
 	 * 
 	 * @param itemId
 	 * @return
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/queryItemAllComment")
-	public List<Comment> queryItemAllComment(@RequestBody int itemId) {
-		return commentService.selectItemAllComment(itemId);
+	public CommentAvg queryItemAllComment(@RequestBody int itemId) {
+		CommentAvg commentAvg = new CommentAvg();
+		if (commentService.selectAvgScoreOfItem(itemId) != null)
+			commentAvg.setAvgScore(commentService.selectAvgScoreOfItem(itemId));
+		else
+			commentAvg.setAvgScore(null);
+		commentAvg.setCommentList(commentService.selectItemAllComment(itemId));
+		return commentAvg;
 	}
+
 }
