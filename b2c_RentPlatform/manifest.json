@@ -388,7 +388,10 @@
 					"js/my.js",
 					"fonts/mui.ttf",
 					"css/mui.min.css",
-					"tab-webview-subpage-shopcar.html"
+					"tab-webview-subpage-shopcar.html",
+					"images/example_pic.jpg",
+					"images/star.jpg",
+					"images/star-dark.jpg"
 				],
 				"refer": [
 					"tab-webview-main.html",
@@ -444,7 +447,8 @@
 				"resources": [
 					"js/mui.min.js",
 					"fonts/mui.ttf",
-					"css/mui.min.css"
+					"css/mui.min.css",
+					"js/my.js"
 				],
 				"refer": [],
 				"priority": 0

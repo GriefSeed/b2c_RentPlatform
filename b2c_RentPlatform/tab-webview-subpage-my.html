@@ -101,7 +101,7 @@
 				var account = JSON.parse(localStorage.getItem("account"));
 				var accountImg = doc.getElementById("account_img");
 				var logoutBtn = document.getElementById('logoutBtn');
-				console.log(account.showImg)
+				console.log(account.showImg);
 				accountImg.setAttribute("src",PHONE_IP + account.showImg);
 				
 				logoutBtn.addEventListener('tap', function() {

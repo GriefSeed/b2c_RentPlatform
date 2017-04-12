@@ -19,33 +19,108 @@
 			<div id="damageDiv" style="margin-top: 50px;">
 				<div style="margin-left: 10px;">
 					<label>垃圾</label>
-					<input name="radio1" type="radio">
+					<input id="1" name="radio1" type="radio" onclick="getRedioVal(this)" value="1.0">
 					<label>一般</label>
-					<input name="radio1" type="radio">
+					<input id="2" name="radio1" type="radio" onclick="getRedioVal(this)" value="2.0">
 					<label>满意</label>
-					<input name="radio1" type="radio">
+					<input id="3" name="radio1" type="radio" onclick="getRedioVal(this)" value="3.0" checked="">
 					<label>非常满意</label>
-					<input name="radio1" type="radio">
+					<input id="4" name="radio1" type="radio" onclick="getRedioVal(this)" value="4.0">
 					<label>超出期望</label>
-					<input name="radio1" type="radio">
+					<input id="5" name="radio1" type="radio" onclick="getRedioVal(this)" value="5.0">
+					<label id="scoreLabel" style="margin-left:20px;font-size: 30px;color: red;">3.0</label>
 				</div>
 				<div class="mui-input-row" style="margin: 10px 5px;">
-					<textarea id="textarea" rows="5" placeholder="多行文本框"></textarea>
+					<textarea id="textarea" rows="5" placeholder="评论"></textarea>
 				</div>
 				<br />
 				<button type="button" id="commitBtn">确认</button>
 			</div>
 		</div>
 		<script src="../js/mui.min.js"></script>
+		<script src="../js/my.js"></script>
 		<script type="text/javascript">
 			mui.init()
-				(function($, doc) {
-					$.plusReady(function() {
-						var self = plus.webview.currentWebview();
-						console.log(self.headerItemId);
-						console.log(self.itemId);
+			var account = JSON.parse(localStorage.account);
+			var score = 3;
+			var scoreLabel = document.getElementById('scoreLabel');
+			var textarea = document.getElementById('textarea');
+			var commitBtn = document.getElementById('commitBtn');
+
+			function getRedioVal(obj) {
+				if(obj.value == '1.0') {
+					scoreLabel.innerHTML = '1.0';
+					score = 1;
+				}
+				if(obj.value == '2.0') {
+					scoreLabel.innerHTML = '2.0';
+					score = 2;
+				}
+				if(obj.value == '3.0') {
+					scoreLabel.innerHTML = '3.0';
+					score = 3;
+				}
+				if(obj.value == '4.0') {
+					scoreLabel.innerHTML = '4.0';
+					score = 4;
+				}
+				if(obj.value == '5.0') {
+					scoreLabel.innerHTML = '5.0';
+					score = 5;
+				}
+			}
+			(function($, doc) {
+				$.plusReady(function() {
+					var self = plus.webview.currentWebview();
+					var headerItemId = self.headerItemId;
+					var itemId = self.itemId;
+					$.ajax(PHONE_IP + '/main/queryComment', {
+						data: headerItemId,
+						dataType: 'json', //服务器返回json格式数据
+						type: 'post', //HTTP请求类型d
+						timeout: 10000, //超时时间设置为10秒；
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						success: function(data) {
+							if(data == null) {
+								$.toast("你还没有写评论");
+							} else {
+								score = data.score;
+								scoreLabel.innerHTML = score + ".0";
+								doc.getElementById(score).checked = true;
+								textarea.value = data.comment;
+							}
+						},
+						error: function(xhr, type, errorThrown) {
+							//异常处理；
+						}
 					});
-				}(mui, document));
+					commitBtn.addEventListener('tap', function(event) {
+						$.ajax(PHONE_IP + '/main/modifyComment', {
+							data: {
+								"accountId": account.accountId,
+								"headerItemId": headerItemId,
+								"itemId": itemId,
+								"score": score,
+								"comment": textarea.value,
+							},
+							dataType: 'json', //服务器返回json格式数据
+							type: 'post', //HTTP请求类型d
+							timeout: 10000, //超时时间设置为10秒；
+							headers: {
+								'Content-Type': 'application/json'
+							},
+							success: function(data) {
+								$.toast("评论成功");
+							},
+							error: function(xhr, type, errorThrown) {
+								//异常处理；
+							}
+						});
+					});
+				});
+			}(mui, document));
 		</script>
 	</body>
 
