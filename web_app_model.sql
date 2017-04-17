@@ -97,6 +97,12 @@ CREATE TABLE `comment` (
 PRIMARY KEY (`comment_id`) 
 );
 
+CREATE TABLE `items_type` (
+`items_type_id` int(20) NOT NULL AUTO_INCREMENT,
+`items_type_name` varchar(20) NULL,
+PRIMARY KEY (`items_type_id`) 
+);
+
 
 ALTER TABLE `header` ADD CONSTRAINT `header_account_mto` FOREIGN KEY (`account_id`) REFERENCES `account` (`account_id`);
 ALTER TABLE `header_item` ADD CONSTRAINT `header_item_header_mto` FOREIGN KEY (`header_id`) REFERENCES `header` (`header_id`);
@@ -108,4 +114,5 @@ ALTER TABLE `rule` ADD CONSTRAINT `items_rule_oto` FOREIGN KEY (`items_id`) REFE
 ALTER TABLE `comment` ADD CONSTRAINT `header_item_comment_oto` FOREIGN KEY (`header_item_id`) REFERENCES `header_item` (`header_item_id`);
 ALTER TABLE `comment` ADD CONSTRAINT `item_comment_otm` FOREIGN KEY (`item_id`) REFERENCES `item` (`item_id`);
 ALTER TABLE `comment` ADD CONSTRAINT `account_comment_otm` FOREIGN KEY (`account_id`) REFERENCES `account` (`account_id`);
+ALTER TABLE `items` ADD CONSTRAINT `items_items_type_name` FOREIGN KEY (`items_type`) REFERENCES `items_type` (`items_type_id`);
 

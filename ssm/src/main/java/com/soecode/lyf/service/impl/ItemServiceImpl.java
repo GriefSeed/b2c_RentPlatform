@@ -37,4 +37,14 @@ public class ItemServiceImpl implements ItemService {
 		itemDao.modifyItemAll(item);
 	}
 
+	@Override
+	public List<Item> queryLikeItemTypeName(String itemTypeName) {
+		return itemDao.queryLikeItemTypeName(itemTypeName);
+	}
+
+	@Override
+	public List<Item> queryLikeItemName(String itemName) {
+		return itemDao.queryLikeItemName(itemName);
+	}
+
 }

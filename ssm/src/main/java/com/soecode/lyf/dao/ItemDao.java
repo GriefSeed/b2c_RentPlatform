@@ -37,9 +37,27 @@ public interface ItemDao {
 
 	/**
 	 * 更改单个商品的所有信息
+	 * 
 	 * @param item
 	 */
 	@Update("UPDATE item SET item_name = #{itemName}, unit_cost = #{unitCost}, item_img = #{itemImg}, items_id = #{itemsId}, status = #{status}, used_time = #{usedTime}, damage = #{damage}, description = #{description} WHERE item_id = #{itemId}")
 	void modifyItemAll(Item item);
 
+	/**
+	 * 根据商品类型模糊查找符合名字的商品
+	 * 
+	 * @param itemTypeName
+	 * @return
+	 */
+	@Select("SELECT i.* FROM items its,item i,items_type it WHERE "
+			+ "its.items_type = it.items_type_id AND its.items_id = i.items_id AND it.items_type_name LIKE \"%\"#{itemTypeName}\"%\"")
+	List<Item> queryLikeItemTypeName(@Param("itemTypeName") String itemTypeName);
+
+	/**
+	 * 根据商品名字模糊查找符合名字的商品
+	 * @param itemName
+	 * @return
+	 */
+	@Select("SELECT i.* FROM item i WHERE i.item_name LIKE \"%\"#{itemName}\"%\"")
+	List<Item> queryLikeItemName(@Param("itemName") String itemName);
 }

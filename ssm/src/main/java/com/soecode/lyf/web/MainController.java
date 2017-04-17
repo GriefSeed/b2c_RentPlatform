@@ -3,6 +3,7 @@ package com.soecode.lyf.web;
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -247,4 +248,27 @@ public class MainController {
 		return commentAvg;
 	}
 
+	/**
+	 * 返回搜索结果
+	 * 
+	 * @param str
+	 * @return
+	 */
+	public List<Item> searchResult(@RequestBody String str) {
+		// 优先查找用户的完整
+		List itemList = itemService.queryLikeItemTypeName(str);
+		if (itemList == null) {
+			// 计算用户字符串的所有组合，从最后，即最长那条开始找，不为null即返回
+			List<String> strGroup = Util.orderCharGroup("abc");
+			// 使用Collections反转List
+			Collections.reverse(strGroup);
+			for (String strTemp : strGroup) {
+				itemList = itemService.queryLikeItemTypeName(str);
+				if (itemList != null) {
+					return itemList;
+				}
+			}
+		}
+		return itemList;
+	}
 }

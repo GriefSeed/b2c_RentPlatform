@@ -3,6 +3,7 @@ package com.soecode.lyf.service;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.soecode.lyf.entity.Item;
@@ -17,12 +18,27 @@ public interface ItemService {
 	 * 
 	 * @param item
 	 */
-	@Update("UPDATE item SET status = #{status} WHERE item_id = #{itemId}")
 	void modifyItemStatus(Item item);
-	
+
 	/**
 	 * 更改单个商品的所有信息
+	 * 
 	 * @param item
 	 */
 	void modifyItemAll(Item item);
+
+	/**
+	 * 模糊查找符合名字的商品类型
+	 * 
+	 * @param itemName
+	 * @return
+	 */
+	List<Item> queryLikeItemTypeName(String itemTypeName);
+	
+	/**
+	 * 根据商品名字模糊查找符合名字的商品
+	 * @param itemName
+	 * @return
+	 */
+	List<Item> queryLikeItemName(String itemName);
 }
