@@ -47,4 +47,14 @@ public class ItemServiceImpl implements ItemService {
 		return itemDao.queryLikeItemName(itemName);
 	}
 
+	@Override
+	public int getAvgCostOfAccountHeader(int accountId) {
+		return itemDao.getAvgCostOfAccountHeader(accountId);
+	}
+
+	@Override
+	public List<Item> getAllItem() {
+		return itemDao.getAllItem();
+	}
+
 }

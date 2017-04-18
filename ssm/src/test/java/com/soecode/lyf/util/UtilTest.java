@@ -10,7 +10,7 @@ public class UtilTest {
 
 	@Test
 	public void OrderCharGroupTest() throws Exception {
-		List<String> aimStr = Util.orderCharGroup("abc");
+		List<String> aimStr = Util.orderCharGroup("水壶电");
 		for (String str : aimStr) {
 			System.out.println(str);
 		}

@@ -55,9 +55,28 @@ public interface ItemDao {
 
 	/**
 	 * 根据商品名字模糊查找符合名字的商品
+	 * 
 	 * @param itemName
 	 * @return
 	 */
 	@Select("SELECT i.* FROM item i WHERE i.item_name LIKE \"%\"#{itemName}\"%\"")
 	List<Item> queryLikeItemName(@Param("itemName") String itemName);
+
+	/**
+	 * 返回该用户的所有购买过的商品的平均价格
+	 * 
+	 * @param accountId
+	 * @return
+	 */
+	@Select("SELECT AVG(i.unit_cost) FROM header h,item i,header_item hi,account a WHERE h.header_id = hi.header_id AND i.item_id = hi.item_id AND a.account_id = #{accountId};")
+	int getAvgCostOfAccountHeader(@Param("accountId") int accountId);
+
+	/**
+	 * 返回商品列表里的所有商品,还没租出去的
+	 * 
+	 * @return
+	 */
+	@Select("select * from item i where i.status = 0")
+	List<Item> getAllItem();
+
 }

@@ -34,11 +34,27 @@ public interface ItemService {
 	 * @return
 	 */
 	List<Item> queryLikeItemTypeName(String itemTypeName);
-	
+
 	/**
 	 * 根据商品名字模糊查找符合名字的商品
+	 * 
 	 * @param itemName
 	 * @return
 	 */
 	List<Item> queryLikeItemName(String itemName);
+
+	/**
+	 * 返回该用户的所有购买过的商品的平均价格
+	 * 
+	 * @param accountId
+	 * @return
+	 */
+	int getAvgCostOfAccountHeader(@Param("accountId") int accountId);
+
+	/**
+	 * 返回商品列表里的所有商品
+	 * 
+	 * @return
+	 */
+	List<Item> getAllItem();
 }
