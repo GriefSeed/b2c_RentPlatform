@@ -2,8 +2,10 @@ package com.soecode.lyf.service.impl;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -11,7 +13,9 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.soecode.lyf.BaseTest;
+import com.soecode.lyf.dto.EmailVo;
 import com.soecode.lyf.entity.Item;
+import com.soecode.lyf.service.AccountService;
 import com.soecode.lyf.service.BookService;
 import com.soecode.lyf.service.ItemService;
 import com.soecode.lyf.util.Util;
@@ -20,6 +24,9 @@ public class itemServicesTest extends BaseTest {
 
 	@Autowired
 	private ItemService itemService;
+
+	@Autowired
+	private AccountService accountService;
 
 	@Test
 	public void searchFunTest() {
@@ -127,4 +134,20 @@ public class itemServicesTest extends BaseTest {
 			}
 		}
 	}
+
+	@Test
+	public void sendEmailTest() throws Exception {
+		EmailVo emailVo = new EmailVo();
+		emailVo.setReceivers(new String[] { "1049640434@qq.com" });
+		emailVo.setCc(new String[] {});
+		emailVo.setBcc(new String[] {});
+		emailVo.setSubject("测试");
+		emailVo.setSender("shusen2013@outlook.com");
+		emailVo.setEmailContent("你的新密码是XXX，请尽快修改密码");
+
+		accountService.sendEmailMessageOfSimpleText(emailVo, new Date());
+		;
+
+	}
+
 }

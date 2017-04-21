@@ -36,4 +36,17 @@
 	<!-- 4.扫描web相关的bean -->
 	<context:component-scan base-package="com.soecode.lyf.web" />
 	<context:component-scan base-package="com.soecode.lyf.entity" />
+
+	<!-- 配置发邮件的bean -->
+	<bean id="emailTemplate" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="defaultEncoding" value="utf-8" />
+		<property name="host" value="smtp.qq.com" />
+		<property name="username" value="1049640434@qq.com" />
+		<property name="password" value="apple584835165" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+			</props>
+		</property>
+	</bean>
 </beans>
