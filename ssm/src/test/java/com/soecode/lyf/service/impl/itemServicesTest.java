@@ -141,7 +141,7 @@ public class itemServicesTest extends BaseTest {
 		emailVo.setReceivers(new String[] { "1049640434@qq.com" });
 		emailVo.setCc(new String[] {});
 		emailVo.setBcc(new String[] {});
-		emailVo.setSubject("测试");
+		emailVo.setSubject("B2C物品租赁平台——更改密码");
 		emailVo.setSender("shusen2013@outlook.com");
 		emailVo.setEmailContent("你的新密码是XXX，请尽快修改密码");
 

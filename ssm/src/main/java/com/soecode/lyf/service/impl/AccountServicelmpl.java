@@ -40,6 +40,7 @@ public class AccountServicelmpl implements AccountService {
 		if (emailVo.getCc().length > 0) {
 			simpleTextMessage.setCc(emailVo.getCc());
 		}
+		simpleTextMessage.setSubject(emailVo.getSubject());
 		simpleTextMessage.setText(emailVo.getEmailContent());
 
 		if (null == date) {
