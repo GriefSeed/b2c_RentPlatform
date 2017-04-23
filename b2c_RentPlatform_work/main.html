@@ -53,6 +53,20 @@
 				$.plusReady(function() {
 					var itemManagerBtn = doc.getElementById('itemManager');
 					var orderManagerBtn = doc.getElementById('orderManager');
+					var userManagerBtn = doc.getElementById('userManager');
+					var myManagerBtn = doc.getElementById('my');
+					userManagerBtn.addEventListener('tap', function(event) {
+						$.openWindow({
+							'id': 'user/userMain.html',
+							'url': 'item/userMain.html'
+						});
+					});
+					myManagerBtn.addEventListener('tap', function(event) {
+						$.openWindow({
+							'id': 'my.html',
+							'url': 'my.html'
+						});
+					});
 					itemManagerBtn.addEventListener('tap', function(event) {
 						$.openWindow({
 							'id': 'item/itemMain.html',

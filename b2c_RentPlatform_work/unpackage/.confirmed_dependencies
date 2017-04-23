@@ -3,7 +3,8 @@
 		"refer": [
 			"setting.html",
 			"item/itemMain.html",
-			"order/orderDetail.html"
+			"order/orderDetail.html",
+			"my.html"
 		],
 		"resources": [
 			"js/app.js",
@@ -101,6 +102,15 @@
 			"js/my.js",
 			"css/mui.min.css",
 			"fonts/mui.ttf"
+		]
+	},
+	"my.html": {
+		"resources": [
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"images/qq.png",
+			"js/my.js"
 		]
 	}
 }

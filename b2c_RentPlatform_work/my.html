@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<style>
+			.workerImg {
+				width: 100px;
+				height: 100px;
+				border-radius: 50%;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<header class="mui-bar mui-bar-nav own-main-background-color">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 id="title" class="mui-title">个人主页</h1>
+			<a id="rightBar" class="mui-icon icon icon-weibiaoti1 mui-pull-right"></a>
+		</header>
+		<div class="mui-content">
+			<div>
+				<div style="margin-left: 200px;">
+					<img id='Img' src="http://192.168.56.1:8080/ssm/img/workImg_1.png" class="workerImg" /></br>
+					<button type="button" id="changeImg" style="margin-left: 6px;">更改头像</button>
+				</div>
+				<div id="nameDiv">昵称:
+					<input type="text" id="itemName">
+				</div>
+				<div id="priceDiv">邮箱:
+					<input type="text" id="unitCost">
+				</div>
+				<div id="itemsIdDiv">性别:
+					<input type="text" id="itemsId">
+				</div>
+				<div id="statusDiv">年龄：
+					<input type="text" id="statusInput">
+				</div>
+				
+				<button type="button" style="margin-left:120px; width: 100px;" id="changeBtn">提交修改</button>
+				<button type="button" style="margin-left:50px; width: 100px;" id="addBtn">修改密码</button>
+			</div>
+
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/my.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+	</body>
+
+</html>

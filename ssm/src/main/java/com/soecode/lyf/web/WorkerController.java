@@ -3,6 +3,7 @@ package com.soecode.lyf.web;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -259,6 +260,59 @@ public class WorkerController {
 		headerTemp.setStatus("CLOSE");
 		headerService.modifyHeaderCLOSE(headerTemp);
 		return "\"success\"";
+	}
+
+	/**
+	 * 物品推荐功能
+	 * 
+	 * @param accountId
+	 * @return
+	 */
+	@RequestMapping(value = "/commentItemFun")
+	@ResponseBody
+	private List<Item> commentItemFun(@RequestBody int accountId) {
+		// 先拿到平均值
+		int accountAvgCost = itemService.getAvgCostOfAccountHeader(accountId);
+		// 然后拿全部商品
+		List<Item> itemList = itemService.getAllItem();
+		if (!itemList.isEmpty()) {
+			// 将所有Item以价格排序,价格从低到高
+			itemList.sort((f, s) -> Integer.compare(f.getUnitCost(), s.getUnitCost()));
+			// 记录下标变量,和被选中的商品
+			int aimIndex = -1;
+			List<Item> itemChoosed = new ArrayList<Item>();
+			// 挑选跟平均价格差距最少的那个，向前向后取足够的商品个数
+			for (Item item : itemList) {
+				if (item.getUnitCost() > accountAvgCost) {
+					aimIndex = itemList.indexOf(item);
+					break;
+				}
+				// 如果比平均价格都高的商品全租出去了,那就从低处开始
+				if (item.getUnitCost() < accountAvgCost) {
+					aimIndex = itemList.indexOf(item);
+					break;
+				}
+			}
+			int itemChoosedNum = 0;
+			int i = aimIndex;
+			// 向后取够2个，因为自己也算一个，所以
+			while (i <= itemList.size() - 1 && itemList.size() >= itemList.size() - i && itemChoosedNum < 2) {
+				itemChoosed.add(itemList.get(i));
+				itemChoosedNum++;
+				i++;
+			}
+			// 如果向后没有3个，那就向前取够数,如果前面也没有，那就只返回后面的也没办法了
+			i = aimIndex;
+			i--;
+			while (i <= itemList.size() - 1 && itemList.size() >= itemList.size() - i && itemChoosedNum < 5) {
+				itemChoosed.add(itemList.get(i));
+				itemChoosedNum++;
+				i--;
+			}
+			// 返回选中的物品
+			return itemChoosed;
+		}
+		return null;
 	}
 
 }

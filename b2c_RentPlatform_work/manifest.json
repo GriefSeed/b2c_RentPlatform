@@ -212,7 +212,8 @@
 				"refer": [
 					"setting.html",
 					"item/itemMain.html",
-					"order/orderDetail.html"
+					"order/orderDetail.html",
+					"my.html"
 				],
 				"priority": 1
 			},
@@ -351,6 +352,17 @@
 					"js/my.js",
 					"css/mui.min.css",
 					"fonts/mui.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"my.html": {
+				"resources": [
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"images/qq.png",
+					"js/my.js"
 				],
 				"refer": [],
 				"priority": 0

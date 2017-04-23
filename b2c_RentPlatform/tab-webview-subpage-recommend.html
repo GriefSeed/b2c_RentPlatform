@@ -8,119 +8,154 @@
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 		<link rel="stylesheet" href="css/mui.min.css">
-		<style>
-			html,
-			body {
-				background-color: #efeff4;
+		<style type="text/css">
+			.mui-table-view:after {
+				height: 0px;
 			}
-			.title {
-				padding: 20px 15px 10px;
-				color: #6d6d72;
-				font-size: 15px;
-				background-color: #fff;
+			/*图片显示的时候设置为自动 因为 从服务器来的图片大小相同*/
+			
+			.mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-object {
+				line-height: auto;
+				max-width: auto;
+				height: auto;
+				border-top-right-radius: 4px;
+				border-top-left-radius: 4px;
+			}
+			
+			.mui-table-view-cell {
+				margin-bottom: 10px;
+			}
+			
+			.bgDiv {
+				border: 1px solid rgba(204, 204, 204, 0.7);
+				border-radius: 5px;
+				background-color: white;
+				width: 100%;
+			}
+			
+			.mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body {
+				margin-top: 2px;
+				margin-bottom: 5px;
+				height: auto;
+			}
+			
+			.mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body p {
+				white-space: pre;
+				color: black;
+			}
+			
+			.mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body p.mui-ellipsis-2 {
+				height: 30px;
+			}
+			
+			.mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body .price-one {
+				margin-top: 12px;
+				float: left;
+				font-size: 1.1em;
+				margin-left: 7%;
+				color: red;
+				margin-bottom: 10px;
+			}
+			
+			.mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body .price-two {
+				margin-top: 12px;
+				float: right;
+				font-size: 1.1em;
+				margin-right: 7%;
+				text-decoration: line-through;
 			}
 		</style>
 	</head>
 
 	<body>
-		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
-			<div class="mui-scroll">
-				<div class="title">
-					这是webview模式选项卡中的第2个子页面，该页面展示一个支持下拉刷新、上拉加载的消息列表
-				</div>
-				<ul class="mui-table-view">
-					<li class="mui-table-view-cell"><a href="" class="mui-navigate-right">Item 1</a>
-					</li>
-					<li class="mui-table-view-cell"><a href="" class="mui-navigate-right">Item 2</a>
-					</li>
-					<li class="mui-table-view-cell"><a href="" class="mui-navigate-right">Item 3</a>
-					</li>
-					<li class="mui-table-view-cell"><a href="" class="mui-navigate-right">Item 4</a>
-					</li>
-					<li class="mui-table-view-cell"><a href="" class="mui-navigate-right">Item 5</a>
-					</li>
-					<li class="mui-table-view-cell"><a href="" class="mui-navigate-right">Item 6</a>
-					</li>
-					<li class="mui-table-view-cell"><a href="" class="mui-navigate-right">Item 7</a>
-					</li>
-					<li class="mui-table-view-cell"><a href="" class="mui-navigate-right">Item 8</a>
-					</li>
-					<li class="mui-table-view-cell"><a href="" class="mui-navigate-right">Item 9</a>
-					</li>
-					<li class="mui-table-view-cell"><a href="" class="mui-navigate-right">Item 10</a>
-					</li>
-					<li class="mui-table-view-cell"><a href="" class="mui-navigate-right">Item 11</a>
-					</li>
-					<li class="mui-table-view-cell"><a href="" class="mui-navigate-right">Item 12</a>
-					</li>
-					<li class="mui-table-view-cell"><a href="" class="mui-navigate-right">Item 13</a>
-					</li>
-					<li class="mui-table-view-cell"><a href="" class="mui-navigate-right">Item 14</a>
-					</li>
-					<li class="mui-table-view-cell"><a href="" class="mui-navigate-right">Item 15</a>
-					</li>
-					<li class="mui-table-view-cell"><a href="" class="mui-navigate-right">Item 16</a>
-					</li>
-					<li class="mui-table-view-cell"><a href="" class="mui-navigate-right">Item 17</a>
-					</li>
-					<li class="mui-table-view-cell"><a href="" class="mui-navigate-right">Item 18</a>
-					</li>
-					<li class="mui-table-view-cell"><a href="" class="mui-navigate-right">Item 19</a>
-					</li>
-					<li class="mui-table-view-cell"><a href="" class="mui-navigate-right">Item 20</a>
-					</li>
+		<div class="mui-content">
+			<div class="mui-content own-content-padding">
+				<ul id="productsList" class="mui-table-view mui-grid-view own-gray-color" style="margin-top: 0px;">
+					<!--<li class="mui-table-view-cell mui-media mui-col-xs-6">
+				<a href="#">
+					<div class="bgDiv">
+						<img class="mui-media-object" src="../img/bg.jpeg"/>
+						<div class="mui-media-body">
+							<p class="mui-ellipsis-2">解放军我皮肤降温哦放假我就饿假我就饿假我就饿假我就饿假我就饿</p>
+							<p class="price-one">¥99.0</p>
+							<p class="price-two">¥188.0</p>
+						</div>
+					</div>
+				</a>
+			</li>-->
 				</ul>
 			</div>
 		</div>
 		<script src="js/mui.min.js"></script>
+		<script src="js/my.js"></script>
 		<script>
-			mui.init({
-				swipeBack: false,
-				pullRefresh: {
-					container: '#pullrefresh',
-					down: {
-						callback: pulldownRefresh
-					},
-					up: {
-						contentrefresh: '正在加载...',
-						callback: pullupRefresh
-					}
+			(function($, doc) {
+				$.init({
+					swipeBack: false
+				});
+
+				$.plusReady(function() {
+					var account = JSON.parse(localStorage.getItem("account"));
+					var item = {
+						item_id: "0",
+						item_name: "name",
+						item_img: "url",
+						unit_cost: "0",
+						damage: "0"
+					};
+					
+					//ajax获取后台列表
+					$.ajax(PHONE_IP + '/worker/commentItemFun', {
+						data: account.accountId,
+						dataType: 'json', //服务器返回json格式数据
+						type: 'post', //HTTP请求类型d
+						timeout: 10000, //超时时间设置为10秒；
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						success: function(data) {
+							//遍历队列
+							for(var kid in data) {
+								item.item_id = data[kid].itemId;
+								item.item_name = data[kid].itemName;
+								item.item_img = PHONE_IP + data[kid].itemImg;
+								item.unit_cost = data[kid].unitCost;
+								item.damage = data[kid].damage;
+								productlistSuccess(item);
+							}
+						},
+						error: function(xhr, type, errorThrown) {
+							//异常处理；
+
+							$.toast('登陆失败' + xhr);
+
+						}
+					});
+
+					categorydetailWebview = plus.webview.currentWebview();
+					productsList = document.getElementById('productsList');
+					//$.toast(getUrlParam('items_id'));
+					//$.toast(items_id);
+					//productlistSuccess();
+					//监听页面hide事件，当页面返回的时候将里面的数据清空
+					/*categorydetailWebview.addEventListener('hide', function() {
+						//将数据清空以及主要显示列表页面的innerhtml设置为''
+						productsList.innerHTML = '';
+						datalist = [];
+					}, false);*/
+
+				});
+				//成功查询分类列表下的数据
+				function productlistSuccess(item) {
+
+					var li = document.createElement('li');
+					li.className = 'mui-table-view-cell mui-media mui-col-xs-6';
+					li.innerHTML = '<a href="item_detail.html?item_id=' + item.item_id + '"><div class= "bgDiv"><img class="mui-media-object" src="' + item.item_img + '"/><div class="mui-media-body"><p class="mui-ellipsis-2">' + item.item_name + '_' + item.item_id + '</p><p class="price-one">¥' + item.unit_cost + '</p><p class="price-one">损耗率' + item.damage + '%</p></div></div></a>';
+					productsList.appendChild(li);
+
 				}
-			});
-			/**
-			 * 下拉刷新具体业务实现
-			 */
-			function pulldownRefresh() {
-				setTimeout(function() {
-					var table = document.body.querySelector('.mui-table-view');
-					var cells = document.body.querySelectorAll('.mui-table-view-cell');
-					for (var i = cells.length, len = i + 3; i < len; i++) {
-						var li = document.createElement('li');
-						li.className = 'mui-table-view-cell';
-						li.innerHTML = '<a class="mui-navigate-right">Item ' + (i + 1) + '</a>';
-						//下拉刷新，新纪录插到最前面；
-						table.insertBefore(li, table.firstChild);
-					}
-					mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
-				}, 1000);
-			}
-			var count = 0;
-			/**
-			 * 上拉加载具体业务实现
-			 */
-			function pullupRefresh() {
-				setTimeout(function() {
-					mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2)); //参数为true代表没有更多数据了。
-					var table = document.body.querySelector('.mui-table-view');
-					var cells = document.body.querySelectorAll('.mui-table-view-cell');
-					for (var i = cells.length, len = i + 20; i < len; i++) {
-						var li = document.createElement('li');
-						li.className = 'mui-table-view-cell';
-						li.innerHTML = '<a class="mui-navigate-right">Item ' + (i + 1) + '</a>';
-						table.appendChild(li);
-					}
-				}, 1000);
-			}
+			}(mui, document));
 		</script>
 	</body>
+
 </html>
