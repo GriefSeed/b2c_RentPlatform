@@ -49,5 +49,10 @@ public class AccountServicelmpl implements AccountService {
 		simpleTextMessage.setSentDate(date);
 
 		mailSender.send(simpleTextMessage);
+	}
+
+	@Override
+	public Account queryByAccountId(int accountId) {
+		return accountDao.queryByAccountId(accountId);
 	};
 }

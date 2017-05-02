@@ -21,17 +21,22 @@ import com.soecode.lyf.entity.Header;
 import com.soecode.lyf.entity.HeaderItem;
 import com.soecode.lyf.entity.Item;
 import com.soecode.lyf.entity.Items;
+import com.soecode.lyf.entity.Message;
 import com.soecode.lyf.entity.Rule;
+import com.soecode.lyf.service.AccountService;
 import com.soecode.lyf.service.HeaderItemService;
 import com.soecode.lyf.service.HeaderService;
 import com.soecode.lyf.service.ItemService;
 import com.soecode.lyf.service.ItemsService;
+import com.soecode.lyf.service.MessageService;
 import com.soecode.lyf.service.RuleService;
 import com.soecode.lyf.util.Util;
 
 @Controller
 @RequestMapping("/worker")
 public class WorkerController {
+	@Autowired
+	private AccountService accountService;
 	@Autowired
 	private ItemService itemService;
 	@Autowired
@@ -42,6 +47,8 @@ public class WorkerController {
 	private HeaderService headerService;
 	@Autowired
 	private HeaderItemService headerItemService;
+	@Autowired
+	private MessageService messageService;
 
 	@RequestMapping(value = "/queryItemById")
 	@ResponseBody
@@ -259,6 +266,49 @@ public class WorkerController {
 		headerTemp.setHeaderId(headerId);
 		headerTemp.setStatus("CLOSE");
 		headerService.modifyHeaderCLOSE(headerTemp);
+		return "\"success\"";
+	}
+
+	/**
+	 * 查询用户
+	 * 
+	 * @param headerId
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/queryAccount")
+	@ResponseBody
+	private Account queryAccount(@RequestBody int accountId) throws Exception {
+		return accountService.queryByAccountId(accountId);
+	}
+
+	/**
+	 * 查询用户所有历史信息
+	 * 
+	 * @param headerId
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/queryAccountAllMessage")
+	@ResponseBody
+	private List<Message> queryAccountAllMessage(@RequestBody int acceptAccountId) throws Exception {
+		return messageService.queryByAcceptAccountId(acceptAccountId);
+	}
+
+	/**
+	 * 发送新消息，就是插入一个新消息
+	 * 
+	 * @param headerId
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/sendMessage")
+	@ResponseBody
+	private String sendMessage(@RequestBody Message message) throws Exception {
+		message.setCreateDate(new Date());
+		// 0是工作人员发给用户，1是用户反馈给工作人员
+		message.setType(0);
+		messageService.insertMessage(message);
 		return "\"success\"";
 	}
 

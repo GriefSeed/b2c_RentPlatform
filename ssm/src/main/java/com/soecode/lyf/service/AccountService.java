@@ -2,6 +2,9 @@ package com.soecode.lyf.service;
 
 import java.util.Date;
 
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+
 import com.soecode.lyf.dto.EmailVo;
 import com.soecode.lyf.entity.Account;
 
@@ -14,4 +17,12 @@ public interface AccountService {
 	 * @param emailVo
 	 */
 	public void sendEmailMessageOfSimpleText(EmailVo emailVo, Date date);
+
+	/**
+	 * 根据编号ID查询用户
+	 * 
+	 * @param accountId
+	 * @return
+	 */
+	Account queryByAccountId(@Param("accountId") int accountId);
 }

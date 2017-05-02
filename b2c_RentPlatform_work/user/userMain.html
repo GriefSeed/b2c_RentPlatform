@@ -1,0 +1,144 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav own-main-background-color">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 id="title" class="mui-title">用户管理</h1>
+			<a id="rightBar" class="mui-icon icon icon-weibiaoti1 mui-pull-right"></a>
+		</header>
+
+		<div class="mui-content">
+			<form class="mui-input-group">
+				<div class="mui-input-row">
+					<label>用户编号</label>
+					<input type="text" class="mui-input-clear" placeholder="请输入用户编号" id="queryId">
+				</div>
+				<div class="mui-button-row">
+					<button type="button" class="mui-btn mui-btn-primary" id="queryBtn">查询</button>
+					<button type="button" class="mui-btn mui-btn-danger" id="resetBtn">重置</button>
+				</div>
+			</form>
+			<div style="align-content: center;">
+				<div>
+					<img id='Img' src='../images/qq.png' /></br>
+				</div>
+			</div>
+			<div id="nameDiv">账号名称:
+				<label type="text" id="accountName" style="color: brown;"></label>
+			</div>
+			<div id="nameDiv">真实名称:
+				<label type="text" id="name" style="color: brown;"></label>
+			</div>
+			<div id="nameDiv">性别:
+				<label type="text" id="sex" style="color: brown;"></label>
+			</div>
+			<div id="nameDiv">年龄:
+				<label type="text" id="age" style="color: brown;"></label>
+			</div>
+			<div id="nameDiv">邮箱:
+				<label type="text" id="email" style="color: brown;"></label>
+			</div>
+			<div id="nameDiv">信用值:
+				<input type="text" id="credit">
+			</div>
+			<div id="nameDiv">状态:
+				<input type="text" id="status">
+			</div>
+			<button type="button" style="margin-left:100px; width: 100px;" id="changeBtn">提交更改</button>
+			<button type="button" style="margin-left:50px; width: 100px;" id="messageBtn">历史信息</button>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/my.js"></script>
+		<script type="text/javascript">
+			//查出用户后再进行历史信息查询
+			var account;
+			(function($, doc) {
+				$.plusReady(function() {
+					//按钮
+					var queryBtn = doc.getElementById("queryBtn");
+					var changeBtn = doc.getElementById("changeBtn");
+					var messageBtn = doc.getElementById("messageBtn");
+					//输入框
+					var accountQueryInput = doc.getElementById('queryId');
+					var ImgDom = doc.getElementById('Img');
+					var accountNameDom = doc.getElementById("accountName");
+					var nameDom = doc.getElementById("name");
+					var sexDom = doc.getElementById("sex");
+					var ageDom = doc.getElementById("age");
+					var emailDom = doc.getElementById("email");
+					var creditDom = doc.getElementById("credit");
+					var statusDom = doc.getElementById("status");
+
+					queryBtn.addEventListener('tap', function(event) {
+						if(accountQueryInput.value == '') {
+							$.toast("请输入商品类型编号");
+						} else {
+							$.ajax(PHONE_IP + '/worker/queryAccount', {
+								data: JSON.stringify(accountQueryInput.value),
+								dataType: 'json', //服务器返回json格式数据
+								type: 'post', //HTTP请求类型d
+								timeout: 10000, //超时时间设置为10秒；
+								headers: {
+									'Content-Type': 'application/json'
+								},
+								success: function(data) {
+									if(data != null) {
+										account = data;
+										ImgDom.src = PHONE_IP + data.showImg;
+										accountNameDom.innerHTML = data.accountName;
+										nameDom.innerHTML = data.name;
+										sexDom.innerHTML = data.sex;
+										ageDom.innerHTML = data.age;
+										emailDom.innerHTML = data.email;
+										creditDom.value = data.credit;
+										statusDom.value = data.status;
+									} else {
+										$.toast("该用户不存在");
+									}
+								},
+								error: function(xhr, type, errorThrown) {
+									//异常处理
+									$.toast('查询失败' + xhr);
+								}
+
+							});
+						}
+
+					});
+
+					changeBtn.addEventListener('tap', function(event) {
+						if(account.accountId == null) {
+							$.toast("请先查询用户");
+						} else {
+
+						}
+					});
+
+					messageBtn.addEventListener('tap', function(event) {
+						if(account.accountId == 'underfined') {
+							$.toast("请先查询用户账号");
+						} else {
+							//打开窗口
+							$.openWindow({
+								id: 'userMessage.html',
+								url: 'userMessage.html',
+								extras: {
+									accountId: account.accountId
+								}
+							});
+						}
+					});
+				});
+			}(mui, document));
+		</script>
+	</body>
+
+</html>

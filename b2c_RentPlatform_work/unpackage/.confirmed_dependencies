@@ -4,7 +4,8 @@
 			"setting.html",
 			"item/itemMain.html",
 			"order/orderDetail.html",
-			"my.html"
+			"my.html",
+			"user/userMain.html"
 		],
 		"resources": [
 			"js/app.js",
@@ -111,6 +112,36 @@
 			"css/mui.min.css",
 			"images/qq.png",
 			"js/my.js"
+		]
+	},
+	"user/userMain.html": {
+		"resources": [
+			"fonts/mui.ttf",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"images/qq.png",
+			"js/my.js"
+		],
+		"refer": [
+			"user/userMessage.html"
+		]
+	},
+	"user/userMessage.html": {
+		"resources": [
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"js/my.js"
+		],
+		"refer": [
+			"user/userMessageDetail.html"
+		]
+	},
+	"user/userMessageDetail.html": {
+		"resources": [
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css"
 		]
 	}
 }

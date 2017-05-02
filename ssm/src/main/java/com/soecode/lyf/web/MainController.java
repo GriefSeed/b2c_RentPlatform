@@ -28,6 +28,7 @@ import com.soecode.lyf.entity.Header;
 import com.soecode.lyf.entity.HeaderItem;
 import com.soecode.lyf.entity.Item;
 import com.soecode.lyf.entity.Items;
+import com.soecode.lyf.entity.Message;
 import com.soecode.lyf.service.AccountService;
 import com.soecode.lyf.service.AddressService;
 import com.soecode.lyf.service.CommentService;
@@ -35,6 +36,7 @@ import com.soecode.lyf.service.HeaderItemService;
 import com.soecode.lyf.service.HeaderService;
 import com.soecode.lyf.service.ItemService;
 import com.soecode.lyf.service.ItemsService;
+import com.soecode.lyf.service.MessageService;
 import com.soecode.lyf.util.Util;
 
 @Controller
@@ -57,6 +59,8 @@ public class MainController {
 	private HeaderItemService headerItemService;
 	@Autowired
 	private CommentService commentService;
+	@Autowired
+	private MessageService messageService;
 	@Autowired
 	private Header header;
 
@@ -270,5 +274,25 @@ public class MainController {
 			}
 		}
 		return itemList;
+	}
+
+	/**
+	 * 返回用户的所有信息
+	 * 
+	 * @param accountId
+	 * @return
+	 */
+	public List<Message> getAccountMessage(@RequestBody int accountId) {
+		return messageService.queryByAcceptAccountId(accountId);
+	}
+
+	/**
+	 * 插入信息
+	 * 
+	 * @param message
+	 */
+	public void addMessage(@RequestBody Message message) {
+		message.setCreateDate(new Date());
+		messageService.insertMessage(message);
 	}
 }
