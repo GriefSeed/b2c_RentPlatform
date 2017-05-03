@@ -124,6 +124,7 @@
 		<script src="js/mui.min.js"></script>
 		<script src="js/mui.enterfocus.js"></script>
 		<script src="js/app.js"></script>
+		<script src="js/my.js"></script>
 		<script>
 			(function($, doc) {
 				$.init({
@@ -141,8 +142,7 @@
 					mainPage.addEventListener("loaded", function() {
 						main_loaded_flag = true;
 					});
-					
-					
+
 					// close splash
 					setTimeout(function() {
 						//关闭 splash
@@ -156,14 +156,52 @@
 					var regButton = doc.getElementById('reg');
 					var forgetButton = doc.getElementById('forgetPassword');
 					loginButton.addEventListener('tap', function(event) {
-						var loginInfo = {
-							account: accountBox.value,
-							password: passwordBox.value
-						};
-						$.openWindow({
-							'id':'main.html',
-							'url':'main.html'
+						var work_account_tmp = JSON.stringify({
+							"accountName": accountBox.value,
+							"password": passwordBox.value
 						});
+						//$.toast(Person.name + Person.password + '');
+						//$.toast(JSON.stringify(account));
+						$.ajax(PHONE_IP + '/worker/login', {
+							data: work_account_tmp,
+							//{accountName: "css"  
+							//,password: passwordBox.value}
+
+							dataType: 'json', //服务器返回json格式数据
+							type: 'post', //HTTP请求类型d
+							timeout: 10000, //超时时间设置为10秒；
+							headers: {
+								'Content-Type': 'application/json'
+							},
+							success: function(data) {
+								var work_account = data;
+								/*for(var kid in data){
+									if(data[kid].accountId > 0)
+										account = data[kid];
+								}*/
+								$.toast(work_account);
+								//console.log(account.accountId);
+								if(work_account != null && work_account.workAccountId > 0) {
+									//$.toast('登deng' + data.persons);
+									//将返回的json格式数据转换为对象，并存入session中
+									localStorage.work_account = JSON.stringify(work_account); //session不能存js对象，只能存字符串
+									console.log(localStorage.work_account);
+									$.openWindow({
+										id: 'main.html',
+										url: 'main.html'
+									});
+								} else
+									$.toast('用户名或密码错误');
+
+							},
+							error: function(xhr, type, errorThrown) {
+								//异常处理；
+
+								$.toast('登陆失败' + xhr);
+
+							}
+						});
+
 					});
 					$.enterfocus('#login-form input', function() {
 						$.trigger(loginButton, 'tap');
@@ -177,7 +215,6 @@
 						}, 50);
 					}, false);
 
-					
 					//
 					var backButtonPress = 0;
 					$.back = function(event) {

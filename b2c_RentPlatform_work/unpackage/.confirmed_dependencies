@@ -20,7 +20,8 @@
 			"css/mui.min.css",
 			"css/style.css",
 			"js/mui.enterfocus.js",
-			"fonts/mui.ttf"
+			"fonts/mui.ttf",
+			"js/my.js"
 		],
 		"refer": [
 			"main.html"
@@ -134,14 +135,24 @@
 			"js/my.js"
 		],
 		"refer": [
-			"user/userMessageDetail.html"
+			"user/userMessageDetail.html",
+			"user/userMessageEdit.html"
 		]
 	},
 	"user/userMessageDetail.html": {
 		"resources": [
 			"js/mui.min.js",
 			"fonts/mui.ttf",
-			"css/mui.min.css"
+			"css/mui.min.css",
+			"js/my.js"
+		]
+	},
+	"user/userMessageEdit.html": {
+		"resources": [
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"js/my.js"
 		]
 	}
 }

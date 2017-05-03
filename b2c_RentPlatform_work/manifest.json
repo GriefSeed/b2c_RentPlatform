@@ -270,7 +270,8 @@
 					"images/qihoo.png",
 					"images/qq.png",
 					"images/sinaweibo.png",
-					"images/weixin.png"
+					"images/weixin.png",
+					"js/my.js"
 				],
 				"refer": [
 					"unlock.html",
@@ -389,7 +390,8 @@
 					"js/my.js"
 				],
 				"refer": [
-					"user/userMessageDetail.html"
+					"user/userMessageDetail.html",
+					"user/userMessageEdit.html"
 				],
 				"priority": 0
 			},
@@ -397,7 +399,18 @@
 				"resources": [
 					"js/mui.min.js",
 					"fonts/mui.ttf",
-					"css/mui.min.css"
+					"css/mui.min.css",
+					"js/my.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"user/userMessageEdit.html": {
+				"resources": [
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"js/my.js"
 				],
 				"refer": [],
 				"priority": 0

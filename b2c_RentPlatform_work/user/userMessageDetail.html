@@ -16,18 +16,30 @@
 		</header>
 
 		<div class="mui-content">
-			<div>主题：</div>
-			<div>日期：</div>
-			<div>内容：</div>
+			<div>标题：
+				<font id="messageTitle"></font>
+			</div><br />
+			<div>日期：
+				<font id="messageDate"></font>
+			</div><br />
+			<div style="width: 55px;float: left;">内容：</div>
+			<div id="messageDetail"></div>
 		</div>
 		<script src="../js/mui.min.js"></script>
+		<script src="../js/my.js"></script>
 		<script type="text/javascript">
 			mui.init();
 			(function($, doc) {
 				$.plusReady(function() {
 					var self = plus.webview.currentWebview();
 					var aimMessage = self.aimMessage;
-					console.log(aimMessage.title);
+					var messageTitle = doc.getElementById('messageTitle');
+					var messageDate = doc.getElementById('messageDate')
+					var messageDetail = doc.getElementById('messageDetail');
+
+					messageTitle.innerHTML = aimMessage.title;
+					messageDate.innerHTML = timeFormatter(aimMessage.createDate);
+					messageDetail.innerHTML = aimMessage.message;
 				});
 			}(mui, document));
 		</script>

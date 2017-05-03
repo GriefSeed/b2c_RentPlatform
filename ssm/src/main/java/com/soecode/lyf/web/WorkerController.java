@@ -23,6 +23,7 @@ import com.soecode.lyf.entity.Item;
 import com.soecode.lyf.entity.Items;
 import com.soecode.lyf.entity.Message;
 import com.soecode.lyf.entity.Rule;
+import com.soecode.lyf.entity.WorkAccount;
 import com.soecode.lyf.service.AccountService;
 import com.soecode.lyf.service.HeaderItemService;
 import com.soecode.lyf.service.HeaderService;
@@ -30,6 +31,7 @@ import com.soecode.lyf.service.ItemService;
 import com.soecode.lyf.service.ItemsService;
 import com.soecode.lyf.service.MessageService;
 import com.soecode.lyf.service.RuleService;
+import com.soecode.lyf.service.WorkAccountService;
 import com.soecode.lyf.util.Util;
 
 @Controller
@@ -49,6 +51,22 @@ public class WorkerController {
 	private HeaderItemService headerItemService;
 	@Autowired
 	private MessageService messageService;
+	@Autowired
+	private WorkAccountService workAccountService;
+
+	@RequestMapping(value = "/login")
+	@ResponseBody
+	private WorkAccount login(@RequestBody WorkAccount a) {
+		// System.out.println(Util.getLocalIP());// 获得本机IP );
+		// System.out.println("your are success!");
+		// Map<String, Object> map = new HashMap<String, Object>();
+		// account = new Account();
+		WorkAccount workAccount = workAccountService.queryByAccountName(a.getAccountName());
+		if (workAccount != null && workAccount.getPassword().equals(a.getPassword().toString()))
+			return workAccount;
+		else
+			return null;
+	}
 
 	@RequestMapping(value = "/queryItemById")
 	@ResponseBody
