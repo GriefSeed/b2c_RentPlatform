@@ -214,7 +214,8 @@
 					"item/itemMain.html",
 					"order/orderDetail.html",
 					"my.html",
-					"user/userMain.html"
+					"user/userMain.html",
+					"feedback.html"
 				],
 				"priority": 1
 			},
@@ -413,6 +414,18 @@
 					"js/my.js"
 				],
 				"refer": [],
+				"priority": 0
+			},
+			"feedback.html": {
+				"resources": [
+					"js/mui.min.js",
+					"js/my.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css"
+				],
+				"refer": [
+					"user/userMessageDetail.html"
+				],
 				"priority": 0
 			}
 		},

@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav own-main-background-color">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">反馈</h1>
+			<a id="rightBar" class="mui-icon icon icon-weibiaoti1 mui-pull-right"></a>
+		</header>
+
+		<div class="mui-content">
+			<div>
+				<div style="width: 55px;float: left;padding-top: 10px;">标题：</div>
+				<div style="width: 300px;float: left;">
+					<input id="messageTitle" type="text" class="mui-input-clear" placeholder="标题在20字以内">
+				</div>
+			</div>
+
+			<div style="position: absolute;margin-top: 70px;">
+				<div style="width: 55px;float: left;">内容：</div>
+				<div style="width:300px;float: left;"><textarea id="messageDetail"></textarea></div>
+			</div>
+			<div style="margin: 150px auto auto 200px;">
+				<button id="sendMessageBtn" type="button">反馈</button>
+			</div>
+
+		</div>
+		<script src="../js/mui.min.js "></script>
+		<script src="../js/my.js"></script>
+		<script type="text/javascript ">
+			mui.init();
+			(function($, doc) {
+				$.plusReady(function() {
+					var account = JSON.parse(localStorage.getItem('account'));
+					var self = plus.webview.currentWebview();
+					var acceptAccountId = self.acceptAccountId;
+					console.log(acceptAccountId + ' duck');
+
+					var titleDom = doc.getElementById('messageTitle');
+					var detailDom = doc.getElementById('messageDetail');
+					var sendMessageBtn = doc.getElementById('sendMessageBtn');
+					var message = {
+						sendAccountId: 0,
+						acceptAccountId: 0,
+						type: 0,
+						title: '',
+						message: '',
+						createDate: '',
+						status: ''
+					};
+					sendMessageBtn.addEventListener('tap', function(event) {
+						message.title = titleDom.value;
+						message.message = detailDom.value;
+						//用户反馈不需要填写工作人员编号
+						//message.acceptAccountId = acceptAccountId;
+						message.sendAccountId = parseInt(account.accountId);
+						if(message.title != '' && message.message != '') {
+
+							$.ajax(PHONE_IP + '/main/sendMessage', {
+								data: JSON.stringify(message),
+								dataType: 'json', //服务器返回json格式数据
+								type: 'post', //HTTP请求类型d
+								timeout: 10000, //超时时间设置为10秒；
+								headers: {
+									'Content-Type': 'application/json'
+								},
+								success: function(data) {
+									if(data != null) {
+										titleDom.value = '';
+										detailDom.value = '';
+										$.toast('反馈成功');
+
+									} else {
+										$.toast("反馈失败");
+									}
+								},
+								error: function(xhr, type, errorThrown) {
+									//异常处理
+									$.toast('操作失败' + xhr);
+								}
+
+							});
+						} else {
+							$.toast('请输入标题和内容')
+						}
+
+					});
+
+				});
+			}(mui, document));
+		</script>
+	</body>
+
+</html>

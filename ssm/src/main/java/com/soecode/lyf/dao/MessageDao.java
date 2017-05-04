@@ -40,4 +40,12 @@ public interface MessageDao {
 	@Insert("INSERT INTO message(send_account_id,accept_account_id,type,title,message,create_date,status) VALUES (#{sendAccountId},#{acceptAccountId},#{type},#{title},#{message},#{createDate},#{status})")
 	int insertMessage(Message message);
 
+	/**
+	 * 根据类型查询信息
+	 * 
+	 * @param acceptAccountId
+	 * @return
+	 */
+	@Select("SELECT * FROM message where type=#{type}")
+	List<Message> queryMessageByType(@Param("type") int type);
 }

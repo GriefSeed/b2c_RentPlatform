@@ -5,7 +5,8 @@
 			"item/itemMain.html",
 			"order/orderDetail.html",
 			"my.html",
-			"user/userMain.html"
+			"user/userMain.html",
+			"feedback.html"
 		],
 		"resources": [
 			"js/app.js",
@@ -153,6 +154,17 @@
 			"fonts/mui.ttf",
 			"css/mui.min.css",
 			"js/my.js"
+		]
+	},
+	"feedback.html": {
+		"resources": [
+			"js/mui.min.js",
+			"js/my.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css"
+		],
+		"refer": [
+			"user/userMessageDetail.html"
 		]
 	}
 }

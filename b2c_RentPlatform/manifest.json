@@ -351,7 +351,9 @@
 				],
 				"refer": [
 					"login.html",
-					"my/orders.html"
+					"my/orders.html",
+					"my/message.html",
+					"my/messageEdit.html"
 				],
 				"priority": 0
 			},
@@ -450,6 +452,28 @@
 					"fonts/mui.ttf",
 					"css/mui.min.css",
 					"js/my.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"my/message.html": {
+				"resources": [
+					"js/mui.min.js",
+					"js/my.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css"
+				],
+				"refer": [
+					"my/message_detail.html"
+				],
+				"priority": 0
+			},
+			"my/messageEdit.html": {
+				"resources": [
+					"js/mui.min.js",
+					"js/my.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css"
 				],
 				"refer": [],
 				"priority": 0

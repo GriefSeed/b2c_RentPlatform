@@ -32,4 +32,12 @@ public interface MessageService {
 	 * @return
 	 */
 	int insertMessage(Message message);
+
+	/**
+	 * 根据类型查询信息
+	 * 
+	 * @param acceptAccountId
+	 * @return
+	 */
+	List<Message> queryMessageByType(@Param("type") int type);
 }

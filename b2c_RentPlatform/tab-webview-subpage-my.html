@@ -50,7 +50,7 @@
 				</div>
 			</div>
 
-			<ul class="mui-table-view"">
+			<ul class="mui-table-view">
 				<li class="mui-table-view-cell">
 					<a class="mui-navigate-right" onclick="orderPage()">
 						<span class="mui-icon iconfont icon-wodedingdan"></span> 我的订单
@@ -64,7 +64,7 @@
 			</ul>
 			<ul class="mui-table-view" style="margin-top: 20px;">
 				<li class="mui-table-view-cell">
-					<a class="mui-navigate-right" href="../mine/change-email-needtem.html">
+					<a class="mui-navigate-right" onclick="messagePage()">
 						<span class="mui-icon mui-icon-email"></span> 信息中心
 					</a>
 				</li>
@@ -74,12 +74,11 @@
 					</a>
 				</li>
 				<li class="mui-table-view-cell">
-					<a class="mui-navigate-right" href="../mine/change-psd-needtem.html">
+					<a class="mui-navigate-right" onclick="sendMessagePage()">
 						反馈
 					</a>
 				</li>
 			</ul>
-			
 
 			<ul id="logoutBtn" class="mui-table-view" style="margin-top: 20px;margin-bottom: 20px;">
 				<li class="mui-table-view-cell" style="text-align: center;">
@@ -100,10 +99,10 @@
 			$.plusReady(function() {
 				var account = JSON.parse(localStorage.getItem("account"));
 				var accountImg = doc.getElementById("account_img");
-				var logoutBtn = document.getElementById('logoutBtn');
+				var logoutBtn = doc.getElementById("logoutBtn");
 				console.log(account.showImg);
-				accountImg.setAttribute("src",PHONE_IP + account.showImg);
-				
+				accountImg.setAttribute("src", PHONE_IP + account.showImg);
+
 				logoutBtn.addEventListener('tap', function() {
 					var btnArray = ['否', '是'];
 					$.confirm('确认要退出登录吗？', 'WARNING', btnArray, function(e) {
@@ -123,10 +122,25 @@
 				}, false)
 			})
 		}(mui, document));
-		function orderPage(){
+
+		function orderPage() {
 			mui.openWindow({
-				url:"my/orders.html",
-				id:"my/orders.html"
+				url: "my/orders.html",
+				id: "my/orders.html"
+			});
+		}
+
+		function messagePage() {
+			mui.openWindow({
+				url: "my/message.html",
+				id: "my/message.html"
+			});
+		}
+
+		function sendMessagePage() {
+			mui.openWindow({
+				url: "my/messageEdit.html",
+				id: "my/messageEdit.html"
 			});
 		}
 	</script>

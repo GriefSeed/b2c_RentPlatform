@@ -5,13 +5,13 @@
 		<meta charset="UTF-8">
 		<title></title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="css/mui.min.css" rel="stylesheet" />
 	</head>
 
 	<body>
 		<header class="mui-bar mui-bar-nav own-main-background-color">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-			<h1 class="mui-title">消息中心</h1>
+			<h1 class="mui-title">反馈信息</h1>
 			<a id="rightBar" class="mui-icon icon icon-weibiaoti1 mui-pull-right"></a>
 		</header>
 
@@ -20,19 +20,18 @@
 
 			</ul>
 		</div>
-		<script src="../js/mui.min.js"></script>
-		<script src="../js/my.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/my.js"></script>
 		<script type="text/javascript">
-			var account = JSON.parse(localStorage.account);
-			var messageListDom = document.getElementById('messageList');
 			var messageListFromServer;
 			(function($, doc) {
-				$.init({
-					swipeBack: true //启用右滑关闭功能
-				});
 				$.plusReady(function() {
-					$.ajax(PHONE_IP + '/main/getAccountMessage', {
-						data: account.accountId,
+					var self = plus.webview.currentWebview();
+					var accountId = self.accountId;
+
+					var messageList = doc.getElementById('messageList');
+					$.ajax(PHONE_IP + '/worker/feedback', {
+						data: "",
 						dataType: 'json', //服务器返回json格式数据
 						type: 'post', //HTTP请求类型d
 						timeout: 10000, //超时时间设置为10秒；
@@ -59,6 +58,7 @@
 						}
 
 					});
+
 				});
 			}(mui, document));
 
@@ -69,8 +69,8 @@
 						aimMessage = messageListFromServer[kid];
 				}
 				mui.openWindow({
-					id: 'message_detail.html',
-					url: 'message_detail.html',
+					id: 'user/userMessageDetail.html',
+					url: 'user/userMessageDetail.html',
 					extras: {
 						aimMessage: aimMessage
 					}

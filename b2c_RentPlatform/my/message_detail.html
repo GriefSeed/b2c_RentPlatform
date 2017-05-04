@@ -11,25 +11,36 @@
 	<body>
 		<header class="mui-bar mui-bar-nav own-main-background-color">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-			<h1 class="mui-title">这是消息的详细页面</h1>
+			<h1 class="mui-title">信息详情</h1>
 			<a id="rightBar" class="mui-icon icon icon-weibiaoti1 mui-pull-right"></a>
 		</header>
-		
+
 		<div class="mui-content">
-			
+			<div>标题：
+				<font id="messageTitle"></font>
+			</div><br />
+			<div>日期：
+				<font id="messageDate"></font>
+			</div><br />
+			<div style="width: 55px;float: left;">内容：</div>
+			<div id="messageDetail"></div>
 		</div>
 		<script src="../js/mui.min.js"></script>
+		<script src="../js/my.js"></script>
 		<script type="text/javascript">
+			mui.init();
 			(function($, doc) {
-				$.init({
-					swipeBack: true //启用右滑关闭功能
-				});
 				$.plusReady(function() {
 					var self = plus.webview.currentWebview();
-					var name = self.name;
-					var version = self.version;
-					$.alert(name + "  " + version)
-				})
+					var aimMessage = self.aimMessage;
+					var messageTitle = doc.getElementById('messageTitle');
+					var messageDate = doc.getElementById('messageDate')
+					var messageDetail = doc.getElementById('messageDetail');
+
+					messageTitle.innerHTML = aimMessage.title;
+					messageDate.innerHTML = timeFormatter(aimMessage.createDate);
+					messageDetail.innerHTML = aimMessage.message;
+				});
 			}(mui, document));
 		</script>
 	</body>

@@ -330,6 +330,12 @@ public class WorkerController {
 		return "\"success\"";
 	}
 
+	@RequestMapping(value = "/feedback")
+	@ResponseBody
+	private List<Message> feedback() throws Exception {
+		return messageService.queryMessageByType(1);
+	}
+
 	/**
 	 * 物品推荐功能
 	 * 

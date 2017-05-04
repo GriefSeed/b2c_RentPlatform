@@ -30,4 +30,9 @@ public class MessageServiceImpl implements MessageService {
 		return messageDao.queryOneMessage(messageId);
 	}
 
+	@Override
+	public List<Message> queryMessageByType(int type) {
+		return messageDao.queryMessageByType(type);
+	}
+
 }

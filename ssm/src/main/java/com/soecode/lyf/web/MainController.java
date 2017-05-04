@@ -282,17 +282,24 @@ public class MainController {
 	 * @param accountId
 	 * @return
 	 */
+	@ResponseBody
+	@RequestMapping(value = "/getAccountMessage")
 	public List<Message> getAccountMessage(@RequestBody int accountId) {
 		return messageService.queryByAcceptAccountId(accountId);
 	}
 
 	/**
-	 * 插入信息
+	 * 插入信息,反馈信息
 	 * 
 	 * @param message
 	 */
-	public void addMessage(@RequestBody Message message) {
+	@ResponseBody
+	@RequestMapping(value = "/sendMessage")
+	public String sendMessage(@RequestBody Message message) {
 		message.setCreateDate(new Date());
+		// 0是工作人员发给用户，1是用户反馈信息
+		message.setType(1);
 		messageService.insertMessage(message);
+		return "\"success\"";
 	}
 }
