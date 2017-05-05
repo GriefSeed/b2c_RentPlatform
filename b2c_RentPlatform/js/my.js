@@ -27,7 +27,7 @@ function itemStatus(s) {
 	return "error";
 }
 //订单状态转中文
-function headerStatusTrans(s){
+function headerStatusTrans(s) {
 	if(s == 'NEW')
 		return "新建";
 	if(s == 'USING')
@@ -39,10 +39,9 @@ function headerStatusTrans(s){
 }
 
 function nvl(obj1, obj2) {
-	if(obj1 == undefined){
+	if(obj1 == undefined) {
 		return obj2;
-	}
-	else{
+	} else {
 		return obj1;
 	}
 }
@@ -51,7 +50,7 @@ function nvl(obj1, obj2) {
 function itemInLocalSto(obj, model) {
 	if(model == "add") {
 		localStorage.setItem("item_" + obj.itemId, JSON.stringify(obj));
-		localStorage.setItem("itemCart", nvl(localStorage.itemCart,"") + "item_" + obj.itemId + "|");
+		localStorage.setItem("itemCart", nvl(localStorage.itemCart, "") + "item_" + obj.itemId + "|");
 	}
 	if(model == "delete") {
 		localStorage.removeItem("item_" + obj.itemId);
@@ -63,17 +62,16 @@ function itemInLocalSto(obj, model) {
 		else
 			return JSON.parse(localStorage.getItem("item_" + obj.itemId));
 	}
-	if(model == "check"){
-		return nvl(localStorage.getItem("itemCart"),"").indexOf("item_" + obj.itemId);
+	if(model == "check") {
+		return nvl(localStorage.getItem("itemCart"), "").indexOf("item_" + obj.itemId);
 	}
 	return "error";
 }
 
-
-
 //处理数据库的datetime
 function timeFormatter(value) {
-    var da = new Date(value);
-    return da.getFullYear() + "-" + (da.getMonth() + 1) + "-" + da.getDate() + " " + da.getHours() + ":" + da.getMinutes() + ":" + da.getSeconds();
+	var da = new Date(value);
+	return da.getFullYear() + "-" + (da.getMonth() + 1) + "-" + da.getDate();
+	//+ " " + da.getHours() + ":" + da.getMinutes() + ":" + da.getSeconds();
 
 }

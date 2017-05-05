@@ -52,7 +52,7 @@
 				<p class="headerFont">归还时间：
 					<a id="endTimeDom"></a>
 				</p>
-				<p class="headerFont">剩余时间：
+				<p class="headerFont">应当在此时间前归还：
 					<a id="remainderTimeDom"></a>
 				</p>
 				<button type="button" id="usingBtn" style="display: none;">已收货</button>
@@ -93,7 +93,23 @@
 			var usingBtn = document.getElementById('usingBtn');
 			var debtBtn = document.getElementById('debtBtn');
 			var closeBtn = document.getElementById('closeBtn');
+			var startDateDom = document.getElementById('startDateDom');
+			var endTimeDom = document.getElementById('endTimeDom');
+			var remainderTimeDom = document.getElementById('remainderTimeDom');
 
+			//检查订单状态
+			function statusCheck(status) {
+				if(status == 'NEW') {
+					//因为开始时间为null，要等工作人员修改状态后才能显示，所以NEW状态时要显示未收货
+					startDateDom.innerHTML = '未收货';
+					endTimeDom.innerHTML = '未收货';
+					remainderTimeDom = '未收货';
+				}
+				if(status == 'NEW' || status == 'USING') {
+					endTimeDom.innerHTML = '未归还';
+					remainderTimeDom.innerHTML = '未收货';
+				}
+			}
 			//检查状态，进行按钮隐藏
 			function btnForHeaderStatus(type) {
 				console.log(type);
@@ -161,8 +177,10 @@
 										//计价
 										amountDom.innerHTML = compens + rentCost;
 
+										//状态判断
+										statusCheck(header.status);
 										if(header.status == 'DEBT')
-											//启用点击，录入损耗
+										//启用点击，录入损耗
 											itemDiv.style.pointerEvents = 'auto';
 										else
 											itemDiv.style.pointerEvents = 'none';
@@ -300,11 +318,13 @@
 					status.innerHTML = obj.status;
 					startDateDom.innerHTML = timeFormatter(obj.startDate);
 					statusDom.innerHTML = headerStatusTrans(obj.status);
+
+					endTimeDom.innerHTML = timeFormatter(obj.endDate);
+					remainderTimeDom.innerHTML = showDeadline(obj.startDate);
 					//加入按钮控制
 					btnForHeaderStatus(obj.status);
-					window.setInterval(function() {
-						showDeadline(obj.startDate);
-					}, interval);
+
+					//加入状态
 				}
 
 				function changeHeaderItemMessage(headerItemList) {
@@ -351,7 +371,9 @@
 				function showDeadline(startTimeOfDB) {
 					var now = new Date();
 					var startTime = new Date(startTimeOfDB);
-					var endDate = new Date(startTime.getFullYear(), startTime.getMonth() + 3, startTime.getDay());
+					var endDate = startTime.setMonth(startTime.getMonth() + 3);
+					return timeFormatter(endDate);
+					/*var endDate = new Date(startTime.getFullYear(), startTime.getMonth() + 3, startTime.getDay());
 					var leftTime = endDate.getTime() - now.getTime();
 					//秒
 					var leftsecond = parseInt(leftTime / 1000);
@@ -361,7 +383,7 @@
 					var minute = Math.floor((leftsecond - day * 24 * 60 * 60 - hour * 3600) / 60);
 					var second = Math.floor(leftsecond - day * 24 * 60 * 60 - hour * 3600 - minute * 60);
 					var timeDom = document.getElementById("remainderTimeDom");
-					remainderTimeDom.innerHTML = day + "天" + hour + "小时" + minute + "分钟" + second + "秒";
+					remainderTimeDom.innerHTML = day + "天" + hour + "小时" + minute + "分钟" + second + "秒";*/
 				}
 			}(mui, document));
 		</script>
