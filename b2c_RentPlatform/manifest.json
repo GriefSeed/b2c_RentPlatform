@@ -241,9 +241,11 @@
 					"fonts/mui.ttf",
 					"css/style.css",
 					"js/mui.min.js",
-					"js/app.js"
+					"js/app.js",
+					"js/my.js"
 				],
-				"priority": 1
+				"priority": 1,
+				"refer": []
 			},
 			"reg.html": {
 				"href": "reg.html",
@@ -327,7 +329,8 @@
 				],
 				"refer": [
 					"items.html",
-					"item/items.html"
+					"item/items.html",
+					"search/searchResult.html"
 				],
 				"priority": 0
 			},
@@ -476,6 +479,18 @@
 					"css/mui.min.css"
 				],
 				"refer": [],
+				"priority": 0
+			},
+			"search/searchResult.html": {
+				"resources": [
+					"js/mui.min.js",
+					"js/my.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css"
+				],
+				"refer": [
+					"item/item_detail.html"
+				],
 				"priority": 0
 			}
 		},

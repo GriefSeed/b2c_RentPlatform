@@ -1,5 +1,6 @@
 package com.soecode.lyf.web;
 
+import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.soecode.lyf.dto.CommentAvg;
+import com.soecode.lyf.dto.EmailVo;
 import com.soecode.lyf.dto.Order;
 import com.soecode.lyf.dto.OrderDetail;
 import com.soecode.lyf.entity.Account;
@@ -76,6 +78,34 @@ public class MainController {
 			return account;
 		else
 			return null;
+	}
+
+	/**
+	 * 用户忘记密码，发送密码邮件
+	 * 
+	 * @param emailInput
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/sendPasswordEmail")
+	@ResponseBody
+	public String sendPasswordEmail(@RequestBody String emailInput) throws Exception {
+		// 根据email查找账号。如果没有就返回null
+		Account account = accountService.queryByAccountEmail(emailInput);
+		if (account == null)
+			return null;
+		else {
+			// 提取密码，然后发送邮件，返回success字符串
+			EmailVo emailVo = new EmailVo();
+			emailVo.setReceivers(new String[] { account.getEmail() });
+			emailVo.setCc(new String[] {});
+			emailVo.setBcc(new String[] {});
+			emailVo.setSubject("B2C物品租赁平台——更改密码");
+			emailVo.setSender("shusen2013@outlook.com");
+			emailVo.setEmailContent("你的密码是" + account.getPassword() + "，请尽快修改密码,如不是本人操作，请忽略该邮件");
+
+			accountService.sendEmailMessageOfSimpleText(emailVo, new Date());
+			return "\"success\"";
+		}
 	}
 
 	// 返回所有生活类的产品列表
@@ -302,4 +332,54 @@ public class MainController {
 		messageService.insertMessage(message);
 		return "\"success\"";
 	}
+
+	/**
+	 * 搜索功能
+	 * 
+	 * @param str
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/searchFun")
+	public List<Item> searchFun(@RequestBody String searchValue) throws UnsupportedEncodingException {
+		// 转码，既可以在controller层进行转码，也可以在tomcat里配置
+		String str = new String(searchValue.getBytes("ISO-8859-1"), "UTF-8");
+		System.out.println(str + " apple");
+		// 优先从商品表里查找商品，然后再是从类型表里找
+		List<Item> itemList = itemService.queryLikeItemName(str);
+		if (itemList.isEmpty()) {
+			// 计算用户字符串的所有组合，从最后，即最长那条开始找，不为null即返回
+			List<String> strGroup = Util.orderCharGroup(str);
+			// 使用Collections反转List
+			Collections.reverse(strGroup);
+			for (String strTemp : strGroup) {
+				itemList = itemService.queryLikeItemName(strTemp);
+				if (!itemList.isEmpty()) {
+					return itemList;
+				}
+			}
+			// 如果还是为null，那就找商品类型
+			// 优先查找用户的完整字符串
+			itemList = itemService.queryLikeItemTypeName(str);
+			if (itemList.isEmpty()) {
+				// 计算用户字符串的所有组合，从最后，即最长那条开始找，不为null即返回
+				strGroup = Util.orderCharGroup(str);
+				// 使用Collections反转List
+				Collections.reverse(strGroup);
+				for (String strTemp : strGroup) {
+					itemList = itemService.queryLikeItemTypeName(strTemp);
+					if (!itemList.isEmpty()) {
+						return itemList;
+					}
+				}
+			} else {
+				return itemList;
+			}
+		} else {
+			return itemList;
+		}
+		return null;
+	}
+
 }

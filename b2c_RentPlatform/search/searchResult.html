@@ -80,7 +80,7 @@
 					<div class="bgDiv">
 						<img class="mui-media-object" src="../img/bg.jpeg"/>
 						<div class="mui-media-body">
-							<p class="mui-ellipsis-2">测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试</p>
+							<p class="mui-ellipsis-2">解放军我皮肤降温哦放假我就饿假我就饿假我就饿假我就饿假我就饿</p>
 							<p class="price-one">¥99.0</p>
 							<p class="price-two">¥188.0</p>
 						</div>
@@ -96,6 +96,7 @@
 			(function($, doc) {
 				var datalist = []; //数据数组
 				var listHtml = []; //listhtml数组
+
 				var productsList;
 				$.init({
 					swipeBack: true //启用右滑关闭功能
@@ -103,25 +104,17 @@
 
 				$.plusReady(function() {
 					var self = plus.webview.currentWebview();
-					var item_type = self.item_type;
-					var item_type_name = self.item_type_name;
-					document.getElementById('title').innerHTML = item_type_name;
-					var items = {
-						items_id: "0",
-						items_name: "name",
-						items_img: "url",
-						items_price: "0",
-						items_type: self.item_type
+					var searchValue = self.searchValue;
+					var item = {
+						item_id: "0",
+						item_name: "name",
+						item_img: "url",
+						unit_cost: "0",
+						damage: "0"
 					};
-					/*if(typeof(localStorage.account) != "undefined"){
-						var account = JSON.parse(localStorage.account);
-						console.log(account.accountId);
-					}
-					else
-						console.log(localStorage.account);*/
 					//ajax获取后台列表
-					$.ajax(PHONE_IP + '/main/getItemsList', {
-						data: item_type.toString(),
+					$.ajax(PHONE_IP + '/main/searchFun', {
+						data: searchValue,
 						dataType: 'json', //服务器返回json格式数据
 						type: 'post', //HTTP请求类型d
 						timeout: 10000, //超时时间设置为10秒；
@@ -129,14 +122,16 @@
 							'Content-Type': 'application/json'
 						},
 						success: function(data) {
+							//暂时用着这种方法，反正后台名字都一样，也有不同的id
+							document.getElementById('title').innerHTML = "\"" + searchValue + "\" 的搜索结果";
 							//遍历队列
 							for(var kid in data) {
-								items.items_id = data[kid].itemsId;
-								items.items_name = data[kid].itemsName;
-								items.items_img = PHONE_IP + data[kid].itemsImg;
-								items.items_price = data[kid].itemsPrice;
-								items.items_type = data[kid].itemsType;
-								productlistSuccess(items);
+								item.item_id = data[kid].itemId;
+								item.item_name = data[kid].itemName;
+								item.item_img = PHONE_IP + data[kid].itemImg;
+								item.unit_cost = data[kid].unitCost;
+								item.damage = data[kid].damage;
+								productlistSuccess(item);
 							}
 						},
 						error: function(xhr, type, errorThrown) {
@@ -149,6 +144,8 @@
 
 					categorydetailWebview = plus.webview.currentWebview();
 					productsList = document.getElementById('productsList');
+					//$.toast(getUrlParam('items_id'));
+					//$.toast(items_id);
 					//productlistSuccess();
 					//监听页面hide事件，当页面返回的时候将里面的数据清空
 					categorydetailWebview.addEventListener('hide', function() {
@@ -159,12 +156,13 @@
 
 				});
 				//成功查询分类列表下的数据
-				function productlistSuccess(items) {
+				function productlistSuccess(item) {
 
 					var li = document.createElement('li');
 					li.className = 'mui-table-view-cell mui-media mui-col-xs-6';
-					li.innerHTML = '<a href="single_item.html?items_id=' + items.items_id + '"><div class= "bgDiv"><img class="mui-media-object" src="' + items.items_img + '"/><div class="mui-media-body"><p class="mui-ellipsis-2">' + items.items_name + '</p><p class="price-one">¥' + items.items_price + '</p></div></div></a>';
+					li.innerHTML = '<a href="../item/item_detail.html?item_id=' + item.item_id + '"><div class= "bgDiv"><img class="mui-media-object" src="' + item.item_img + '"/><div class="mui-media-body"><p class="mui-ellipsis-2">' + item.item_name + '_' + item.item_id + '</p><p class="price-one">¥' + item.unit_cost + '</p><p class="price-one">损耗率' + item.damage + '%</p></div></div></a>';
 					productsList.appendChild(li);
+
 				}
 			}(mui, document));
 		</script>

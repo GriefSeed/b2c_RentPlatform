@@ -18,4 +18,13 @@ public interface AccountDao {
 	 */
 	@Select("SELECT * FROM account where account_id=#{accountId}")
 	Account queryByAccountId(@Param("accountId") int accountId);
+
+	/**
+	 * 根据email找用户，用于找回密码
+	 * 
+	 * @param email
+	 * @return
+	 */
+	@Select("SELECT * FROM account where email=#{email}")
+	Account queryByAccountEmail(@Param("email") String email);
 }

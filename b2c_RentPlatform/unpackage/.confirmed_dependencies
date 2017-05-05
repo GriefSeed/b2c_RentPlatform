@@ -96,7 +96,8 @@
 		],
 		"refer": [
 			"items.html",
-			"item/items.html"
+			"item/items.html",
+			"search/searchResult.html"
 		]
 	},
 	"items.html": {
@@ -238,6 +239,27 @@
 			"js/my.js",
 			"fonts/mui.ttf",
 			"css/mui.min.css"
+		]
+	},
+	"search/searchResult.html": {
+		"resources": [
+			"js/mui.min.js",
+			"js/my.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css"
+		],
+		"refer": [
+			"item/item_detail.html"
+		]
+	},
+	"forget_password.html": {
+		"resources": [
+			"js/app.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"css/style.css",
+			"js/my.js"
 		]
 	}
 }

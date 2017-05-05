@@ -25,4 +25,12 @@ public interface AccountService {
 	 * @return
 	 */
 	Account queryByAccountId(@Param("accountId") int accountId);
+
+	/**
+	 * 根据email找用户，用于找回密码
+	 * 
+	 * @param email
+	 * @return
+	 */
+	Account queryByAccountEmail(@Param("email") String email);
 }

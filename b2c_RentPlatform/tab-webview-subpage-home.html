@@ -36,9 +36,9 @@
 	<body>
 		<header id="header" class="mui-bar mui-bar-nav">
 			<div class="mui-title mui-input-row mui-search" style="margin-left: 70px;">
-				<input type="search" placeholder="输入商品名称">
+				<input id="searchInput" type="search" placeholder="输入商品名称">
 			</div>
-			<button type="button" style="margin-left: 50px;margin-top: 3px;">搜索</button>
+			<button id="searchBtn" type="button" style="margin-left: 50px;margin-top: 3px;">搜索</button>
 		</header>
 		<div class="mui-content">
 			<div style="margin-top: 30px;">
@@ -175,6 +175,19 @@
 			$.plusReady(function() {
 				var kettleButton = doc.getElementById("kettle");
 				var bootButton = doc.getElementById("boot");
+				var searchBtn = doc.getElementById('searchBtn');
+				var searchInput = doc.getElementById('searchInput');
+
+				searchBtn.addEventListener('tap', function(event) {
+					console.log(searchInput.value + " apple");
+					$.openWindow({
+						url: 'search/searchResult.html',
+						id: 'search/searchResult.html',
+						extras: {
+							searchValue: searchInput.value
+						}
+					});
+				});
 
 				kettleButton.addEventListener('tap', function(event) {
 					$.openWindow({

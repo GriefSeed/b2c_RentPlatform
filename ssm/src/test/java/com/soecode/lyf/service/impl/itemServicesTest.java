@@ -30,7 +30,7 @@ public class itemServicesTest extends BaseTest {
 
 	@Test
 	public void searchFunTest() {
-		String str = "美的MK-TM1502";
+		String str = "电水壶";
 		// 优先从商品表里查找商品，然后再是从类型表里找
 		List<Item> itemList = itemService.queryLikeItemName(str);
 		if (itemList.isEmpty()) {
@@ -54,7 +54,7 @@ public class itemServicesTest extends BaseTest {
 			itemList = itemService.queryLikeItemTypeName(str);
 			if (itemList.isEmpty()) {
 				// 计算用户字符串的所有组合，从最后，即最长那条开始找，不为null即返回
-				strGroup = Util.orderCharGroup("str");
+				strGroup = Util.orderCharGroup(str);
 				// 使用Collections反转List
 				Collections.reverse(strGroup);
 				for (String strTemp : strGroup) {
@@ -143,7 +143,7 @@ public class itemServicesTest extends BaseTest {
 		emailVo.setBcc(new String[] {});
 		emailVo.setSubject("B2C物品租赁平台——更改密码");
 		emailVo.setSender("shusen2013@outlook.com");
-		emailVo.setEmailContent("你的新密码是XXX，请尽快修改密码");
+		emailVo.setEmailContent("你的密码是XXX，请尽快修改密码");
 
 		accountService.sendEmailMessageOfSimpleText(emailVo, new Date());
 		;
