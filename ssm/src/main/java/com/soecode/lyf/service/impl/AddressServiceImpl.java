@@ -19,4 +19,19 @@ public class AddressServiceImpl implements AddressService {
 		return addressDao.queryByAccountId(accountId);
 	}
 
+	@Override
+	public int insertAddress(Address address) {
+		return addressDao.insertAddress(address);
+	}
+
+	@Override
+	public void modifyAddress(Address address) {
+		addressDao.modifyAddress(address);
+	}
+
+	@Override
+	public int removeAddress(int addressId) {
+		return removeAddress(addressId);
+	}
+
 }

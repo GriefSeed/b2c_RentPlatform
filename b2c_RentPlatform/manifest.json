@@ -499,6 +499,18 @@
 					"js/mui.min.js",
 					"fonts/mui.ttf",
 					"css/iconfont.css",
+					"css/mui.min.css",
+					"js/my.js"
+				],
+				"refer": [
+					"my/address_detail.html"
+				],
+				"priority": 0
+			},
+			"my/address_detail.html": {
+				"resources": [
+					"js/mui.min.js",
+					"fonts/mui.ttf",
 					"css/mui.min.css"
 				],
 				"refer": [],

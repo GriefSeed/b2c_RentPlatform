@@ -143,6 +143,30 @@ public class MainController {
 		return addressService.queryByAccountId(accountId);
 	}
 
+	// 增加地址
+	@ResponseBody
+	@RequestMapping(value = "/addAddress")
+	private String addAddress(@RequestBody Address address) {
+		addressService.insertAddress(address);
+		return "\"success\"";
+	}
+
+	// 修改地址
+	@ResponseBody
+	@RequestMapping(value = "/updateAddress")
+	private String updateAddress(@RequestBody Address address) {
+		addressService.modifyAddress(address);
+		return "\"success\"";
+	}
+
+	// 删除地址
+	@ResponseBody
+	@RequestMapping(value = "/deleteAddress")
+	private String deleteAddress(@RequestBody int accountId) {
+		addressService.queryByAccountId(accountId);
+		return "\"success\"";
+	}
+
 	/**
 	 * 生成订单，生成header和header_item里的信息，冻结商品,1表示已租
 	 * 
@@ -331,6 +355,18 @@ public class MainController {
 		message.setType(1);
 		messageService.insertMessage(message);
 		return "\"success\"";
+	}
+
+	/**
+	 * 返回用户所有地址
+	 * 
+	 * @param accountId
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/getAllAddress")
+	public List<Address> getAllAddress(@RequestBody int accountId) {
+		return addressService.queryByAccountId(accountId);
 	}
 
 	/**

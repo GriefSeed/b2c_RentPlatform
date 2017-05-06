@@ -45,38 +45,54 @@
 		<div class="mui-content">
 			<div>
 				<ul id="addressList" class="mui-table-view">
-					<li class="mui-table-view-cell">
+					<!--<li class="mui-table-view-cell">
 						<h5 class="name">colin</h5>
 						<h5 class="number">158xxxx7353</h5>
 						<p class="address mui-ellipsis-2">中国四川省成都市高新区大源村南华路双祥社区25号院n栋n单元n楼n号电梯n号门n栋n单元n楼n号电梯n号门</p>
-					</li>
-					<li class="mui-table-view-cell">
-						<h5 class="name">colin</h5>
-						<h5 class="number">158xxxx7353</h5>
-						<p class="address mui-ellipsis-2">四川成都高新区</p>
-					</li>
-					<li class="mui-table-view-cell">
-						<h5 class="name">colin</h5>
-						<h5 class="number">158xxxx7353</h5>
-						<p class="address mui-ellipsis-2">中国四川省成都市高新区大源村南华路双祥社区25号院n栋n单元n楼n号电梯n号门n栋n单元n楼n号电梯n号门</p>
-					</li>
-					<li class="mui-table-view-cell">
-						<h5 class="name">colin</h5>
-						<h5 class="number">158xxxx7353</h5>
-						<p class="address mui-ellipsis-2">中国四川省成都市高新区大源村南华路双祥社区25号院n栋n单元n楼n号电梯n号门n栋n单元n楼n号电梯n号门</p>
-					</li>
+					</li>-->
 				</ul>
 			</div>
 		</div>
 		</div>
 		<script src="../js/mui.min.js"></script>
+		<script src="../js/my.js"></script>
 		<script type="text/javascript">
 			(function($, doc) {
 				$.init({
 					swipeBack: true //启用右滑关闭功能
 				});
 				$.plusReady(function() {
+					var addressList = doc.getElementById('addressList');
+					var account = JSON.parse(localStorage.getItem('account'));
+					$.ajax(PHONE_IP + '/main/getAllAddress', {
+						data: account.accountId,
+						dataType: 'json', //服务器返回json格式数据
+						type: 'post', //HTTP请求类型d
+						timeout: 10000, //超时时间设置为10秒；
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						success: function(data) {
+							if(data != null) {
+								for(var kid in data) {
+									var li = document.createElement('li');
+									li.className = 'mui-table-view-cell';
+									var htmlStr = '';
+									htmlStr += '<a href="address_detail.html?addressId="' + data[kid].addressId + '">';
+									htmlStr += '<h5 class = "name">' + data[kid].name + '</h5>';
+									htmlStr += '<h5 class = "number">' + data[kid].number + '</h5>';
+									htmlStr += '<p class = "address mui-ellipsis-2" >' + data[kid].addressDetail + '</p>';
+									htmlStr += '</a>';
+									li.innerHTML = htmlStr;
+									addressList.appendChild(li);
+								}
 
+							}
+						},
+						error: function(xhr, type, errorThrown) {
+							$.alert("操作失败" + errorThrown);
+						}
+					});
 				})
 			}(mui, document));
 		</script>
