@@ -68,7 +68,7 @@
 			<nav id="footerBar" class="mui-bar mui-bar-tab">
 				<div id="addressArea" style="height: 50px;">
 					<div id="address" style="width: 400px;height:50px;float: left;">
-						北京大运路紫苑666房
+						北京大运路紫苑666房 13376566998 张三
 					</div>
 					<div id="chooseAddress" style="float: right;background-color: palegoldenrod;">
 						<a href="#popover" id="openPopover" class="mui-badge mui-badge-primary">选择地址</a>
@@ -124,7 +124,7 @@
 						for(var kid in data) {
 							var li = document.createElement('li');
 							li.className = 'mui-table-view-cell';
-							li.innerHTML = '<a onclick="changeAddressLabel(this)">' + data[kid].addressDetail + '</a>';
+							li.innerHTML = '<a id="' + data[kid].addressId + '" onclick="changeAddressLabel(this)">' + data[kid].addressDetail + "  " + data[kid].number + "  " + data[kid].name + '</a>';
 							allAddress.appendChild(li);
 						}
 					},
@@ -228,6 +228,7 @@
 		function changeAddressLabel(obj) {
 			var addressLabel = document.getElementById("address");
 			addressLabel.innerHTML = obj.innerHTML;
+			//选择完后隐藏
 			mui('#popover').popover('hide');
 		}
 	</script>

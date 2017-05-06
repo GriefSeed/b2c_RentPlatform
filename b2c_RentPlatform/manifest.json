@@ -356,7 +356,8 @@
 					"login.html",
 					"my/orders.html",
 					"my/message.html",
-					"my/messageEdit.html"
+					"my/messageEdit.html",
+					"my/address.html"
 				],
 				"priority": 0
 			},
@@ -491,6 +492,16 @@
 				"refer": [
 					"item/item_detail.html"
 				],
+				"priority": 0
+			},
+			"my/address.html": {
+				"resources": [
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/iconfont.css",
+					"css/mui.min.css"
+				],
+				"refer": [],
 				"priority": 0
 			}
 		},

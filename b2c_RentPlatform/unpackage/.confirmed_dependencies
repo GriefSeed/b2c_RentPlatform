@@ -120,7 +120,8 @@
 			"login.html",
 			"my/orders.html",
 			"my/message.html",
-			"my/messageEdit.html"
+			"my/messageEdit.html",
+			"my/address.html"
 		]
 	},
 	"item/items.html": {
@@ -260,6 +261,14 @@
 			"css/mui.min.css",
 			"css/style.css",
 			"js/my.js"
+		]
+	},
+	"my/address.html": {
+		"resources": [
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/iconfont.css",
+			"css/mui.min.css"
 		]
 	}
 }

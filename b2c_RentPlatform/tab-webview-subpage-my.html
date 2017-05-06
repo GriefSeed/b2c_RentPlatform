@@ -57,7 +57,7 @@
 					</a>
 				</li>
 				<li class="mui-table-view-cell">
-					<a id="changeaddress" class="mui-navigate-right" href="../mine/change-address-needtem.html">
+					<a id="changeaddress" class="mui-navigate-right" onclick="addressPage()">
 						<span class="mui-icon iconfont icon-dizhi"></span> 地址管理
 					</a>
 				</li>
@@ -141,6 +141,13 @@
 			mui.openWindow({
 				url: "my/messageEdit.html",
 				id: "my/messageEdit.html"
+			});
+		}
+
+		function addressPage() {
+			mui.openWindow({
+				url: "my/address.html",
+				id: "my/address.html"
 			});
 		}
 	</script>
