@@ -17,12 +17,15 @@ public interface AddressDao {
 	@Select("SELECT * FROM address where account_id=#{accountId}")
 	List<Address> queryByAccountId(@Param("accountId") int accountId);
 
+	@Select("SELECT * FROM address where address_id=#{addressId}")
+	Address queryOneByAddressId(@Param("addressId") int addressId);
+
 	@Insert("INSERT INTO address VALUES (#{addressId},#{accountId},#{name},#{number},#{addressDetail})")
 	int insertAddress(Address address);
 
-	@Update("UPDATE address SET account_id = #{accountId},name = #{name},number = #{number},address_detail = #{addressDetail} WHERE account_id = #{accountId}")
+	@Update("UPDATE address SET account_id = #{accountId},name = #{name},number = #{number},address_detail = #{addressDetail} WHERE address_id = #{addressId}")
 	void modifyAddress(Address address);
 
-	@Delete("DELETE FROM address WHERE addressId = #{addressId}")
+	@Delete("DELETE FROM address WHERE address_id = #{addressId}")
 	int removeAddress(@Param("addressId") int addressId);
 }

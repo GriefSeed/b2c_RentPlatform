@@ -12,6 +12,8 @@ import com.soecode.lyf.entity.Address;
 public interface AddressService {
 	List<Address> queryByAccountId(int accountId);
 
+	Address queryOneByAddressId(int addressId);
+
 	int insertAddress(Address address);
 
 	void modifyAddress(Address address);

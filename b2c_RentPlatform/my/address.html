@@ -57,6 +57,7 @@
 		<script src="../js/mui.min.js"></script>
 		<script src="../js/my.js"></script>
 		<script type="text/javascript">
+			var addressListFromServer;
 			(function($, doc) {
 				$.init({
 					swipeBack: true //启用右滑关闭功能
@@ -64,6 +65,17 @@
 				$.plusReady(function() {
 					var addressList = doc.getElementById('addressList');
 					var account = JSON.parse(localStorage.getItem('account'));
+					var sendMessage = doc.getElementById('sendMessage');
+
+					window.addEventListener("pageflowrefresh", function(e) {
+						location.reload();
+					});
+					sendMessage.addEventListener('tap', function(event) {
+						mui.openWindow({
+							id: 'address_detail.html',
+							url: 'address_detail.html',
+						});
+					});
 					$.ajax(PHONE_IP + '/main/getAllAddress', {
 						data: account.accountId,
 						dataType: 'json', //服务器返回json格式数据
@@ -74,11 +86,12 @@
 						},
 						success: function(data) {
 							if(data != null) {
+								addressListFromServer = data;
 								for(var kid in data) {
 									var li = document.createElement('li');
 									li.className = 'mui-table-view-cell';
 									var htmlStr = '';
-									htmlStr += '<a href="address_detail.html?addressId="' + data[kid].addressId + '">';
+									htmlStr += '<a id="' + data[kid].addressId + '" onclick="showAddressDetail(this)">';
 									htmlStr += '<h5 class = "name">' + data[kid].name + '</h5>';
 									htmlStr += '<h5 class = "number">' + data[kid].number + '</h5>';
 									htmlStr += '<p class = "address mui-ellipsis-2" >' + data[kid].addressDetail + '</p>';
@@ -95,6 +108,20 @@
 					});
 				})
 			}(mui, document));
+
+			function showAddressDetail(obj) {
+				for(var kid in addressListFromServer) {
+					if(addressListFromServer[kid].addressId == obj.id) {
+						mui.openWindow({
+							id: 'address_detail.html',
+							url: 'address_detail.html',
+							extras: {
+								aimAddress: addressListFromServer[kid]
+							}
+						});
+					}
+				}
+			}
 		</script>
 	</body>
 

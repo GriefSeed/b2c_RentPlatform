@@ -143,27 +143,24 @@ public class MainController {
 		return addressService.queryByAccountId(accountId);
 	}
 
-	// 增加地址
-	@ResponseBody
-	@RequestMapping(value = "/addAddress")
-	private String addAddress(@RequestBody Address address) {
-		addressService.insertAddress(address);
-		return "\"success\"";
-	}
-
-	// 修改地址
+	// 修改地址和增加地址
 	@ResponseBody
 	@RequestMapping(value = "/updateAddress")
 	private String updateAddress(@RequestBody Address address) {
-		addressService.modifyAddress(address);
+		// 先根据ID找到查找是否有相关的地址，如果没有，那么就新增，如果有，那就修改
+		if (addressService.queryOneByAddressId(address.getAddressId()) != null) {
+			addressService.modifyAddress(address);
+		} else {
+			addressService.insertAddress(address);
+		}
 		return "\"success\"";
 	}
 
 	// 删除地址
 	@ResponseBody
 	@RequestMapping(value = "/deleteAddress")
-	private String deleteAddress(@RequestBody int accountId) {
-		addressService.queryByAccountId(accountId);
+	private String deleteAddress(@RequestBody int addressId) {
+		addressService.removeAddress(addressId);
 		return "\"success\"";
 	}
 

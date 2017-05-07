@@ -31,7 +31,12 @@ public class AddressServiceImpl implements AddressService {
 
 	@Override
 	public int removeAddress(int addressId) {
-		return removeAddress(addressId);
+		return addressDao.removeAddress(addressId);
+	}
+
+	@Override
+	public Address queryOneByAddressId(int addressId) {
+		return addressDao.queryOneByAddressId(addressId);
 	}
 
 }

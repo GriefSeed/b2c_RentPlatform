@@ -18,28 +18,131 @@
 		<div class="mui-content">
 			<form class="mui-input-group">
 				<div class="mui-input-row">
-					<input type="text" class="mui-input-clear" placeholder="收货人姓名" />
+					<input id="name" type="text" class="mui-input-clear" placeholder="收货人姓名" />
 				</div>
 				<div class="mui-input-row">
-					<input type="text" class="mui-input-clear" placeholder="手机号码" />
+					<input id="number" type="text" class="mui-input-clear" placeholder="手机号码" />
 				</div>
 				<div class="mui-input-row" style="height: 4em; padding-top: 2px;">
-					<textarea placeholder="详细地址"></textarea>
+					<textarea id="addressDetail" placeholder="详细地址"></textarea>
 				</div>
 
 			</form>
 			<button id="save_btn" type="button">保存</button>
-			<button id="delete_btn" type="button" disabled="disabled">删除</button>
+			<button id="delete_btn" type="button">删除</button>
 		</div>
 		<script src="../js/mui.min.js"></script>
+		<script src="../js/my.js"></script>
 		<script type="text/javascript">
+			var nameDom = document.getElementById('name');
+			var numberDom = document.getElementById('number');
+			var addressDetailDom = document.getElementById('addressDetail');
+
+			var save_btn = document.getElementById('save_btn');
+			var delete_btn = document.getElementById('delete_btn');
 			(function($, doc) {
 				$.init({
 					swipeBack: true //启用右滑关闭功能
 				});
 				$.plusReady(function() {
+					var account = JSON.parse(localStorage.getItem('account'));
+					var address = {
+						accountId: 0,
+						name: "",
+						number: "",
+						addressDetail: ""
+					};
 					var delete_btn = doc.getElementById("delete_btn");
-					delete_btn.removeAttribute("disabled"); //移除button的不可用属性
+					var self = plus.webview.currentWebview();
+					var aimAddress = self.aimAddress;
+					if(aimAddress != null) {
+						address['addressId'] = aimAddress.addressId;
+						address.accountId = account.accountId;
+						address.name = aimAddress.name;
+						address.number = aimAddress.number;
+						address.addressDetail = aimAddress.addressDetail;
+						nameDom.value = aimAddress.name;
+						numberDom.value = aimAddress.number;
+						addressDetailDom.value = aimAddress.addressDetail;
+					} else {
+						delete_btn.disabled = 'true'; //button的不可用属性
+					}
+
+					delete_btn.addEventListener('tap', function() {
+						$.ajax(PHONE_IP + '/main/deleteAddress', {
+							data: aimAddress.addressId,
+							dataType: 'json', //服务器返回json格式数据
+							type: 'post', //HTTP请求类型d
+							timeout: 10000, //超时时间设置为10秒；
+							headers: {
+								'Content-Type': 'application/json'
+							},
+							success: function(data) {
+								nameDom.value = "";
+								numberDom.value = "";
+								addressDetailDom.value = "";
+								aimAddress = null;
+								delete_btn.disabled = 'true'; //button的不可用属性
+								plus.webview.getWebviewById('my/address.html').reload();
+								plus.webview.getWebviewById('tab-webview-subpage-shopcar.html').reload();
+								$.toast('删除成功');
+
+							},
+							error: function(xhr, type, errorThrown) {
+								$.alert("操作失败" + errorThrown);
+							}
+						});
+					});
+					save_btn.addEventListener('tap', function() {
+						//修改
+						if('addressId' in address) {
+							address.accountId = account.accountId;
+							address.name = nameDom.value;
+							address.number = numberDom.value;
+							address.addressDetail = addressDetailDom.value;
+							$.ajax(PHONE_IP + '/main/updateAddress', {
+								data: JSON.stringify(address),
+								dataType: 'json', //服务器返回json格式数据
+								type: 'post', //HTTP请求类型d
+								timeout: 10000, //超时时间设置为10秒；
+								headers: {
+									'Content-Type': 'application/json'
+								},
+								success: function(data) {
+									$.toast('修改成功');
+									plus.webview.getWebviewById('my/address.html').reload();
+									plus.webview.getWebviewById('tab-webview-subpage-shopcar.html').reload();
+								},
+								error: function(xhr, type, errorThrown) {
+									$.alert("操作失败" + errorThrown);
+								}
+							});
+						}
+						//新增
+						else {
+							address.accountId = account.accountId;
+							address.name = nameDom.value;
+							address.number = numberDom.value;
+							address.addressDetail = addressDetailDom.value;
+							$.ajax(PHONE_IP + '/main/updateAddress', {
+								data: JSON.stringify(address),
+								dataType: 'json', //服务器返回json格式数据
+								type: 'post', //HTTP请求类型d
+								timeout: 10000, //超时时间设置为10秒；
+								headers: {
+									'Content-Type': 'application/json'
+								},
+								success: function(data) {
+									plus.webview.getWebviewById('my/address.html').reload();
+									plus.webview.getWebviewById('tab-webview-subpage-shopcar.html').reload();
+									$.toast('新增成功');
+								},
+								error: function(xhr, type, errorThrown) {
+									$.alert("操作失败" + errorThrown);
+								}
+							});
+						}
+					});
 				})
 			}(mui, document));
 		</script>

@@ -26,7 +26,7 @@
 			<div id="itemImg" style="margin-left: 100px;"></div>
 			<div style="width: 100%;position: absolute;">
 				<div style="width: 70%;margin-right: 100px;height: 150px;float: left;">
-					
+
 					<div>商品名称:
 						<a id="itemName"></a>
 					</div>
@@ -136,7 +136,7 @@
 							//暂时用着这种方法，反正后台名字都一样，也有不同的id
 							document.getElementById('title').innerHTML = data.itemName + '-' + data.itemId + '号';
 							console.log(data.itemImg + "hhh ");
-							item_img_div.innerHTML = '<img src=" ' + PHONE_IP + data.itemImg + ' " width="300px "/>';
+							item_img_div.innerHTML = '<img src="' + PHONE_IP + data.itemImg + '" width="300px "/>';
 							item_name_div.innerHTML = data.itemName;
 
 							item_unit_cost_div.innerHTML = data.unitCost + '元';
