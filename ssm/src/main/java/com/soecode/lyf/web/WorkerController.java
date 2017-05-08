@@ -2,6 +2,7 @@ package com.soecode.lyf.web;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
@@ -66,6 +67,44 @@ public class WorkerController {
 			return workAccount;
 		else
 			return null;
+	}
+
+	/**
+	 * 工作人员修改个人信息
+	 * 
+	 * @param a
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/changeInfor")
+	@ResponseBody
+	private WorkAccount changeInfor(@RequestBody WorkAccount workAccount) throws Exception {
+		// 取出原始数据,因为下面要将原图片删除
+		WorkAccount workAccountTemp = workAccountService.queryByAccountId(workAccount.getWorkAccountId());
+		if (workAccount.getShowImg().indexOf("base64") != -1) {
+			// 直接就将照片压缩命名，重新塞进accountImg
+			long imgName = (new Date()).getTime() / 1000;
+			// 取item的BASE64图片格式，转换为文件后存储
+			String[] d = workAccount.getShowImg().split("base64,");
+			String suffix = Util.imgSuffix(d[0]);
+			// 使用spring的base64工具包转二进制
+			byte[] bs = Base64Utils.decodeFromString(d[1]);
+			// 删去原文件
+			(new File(System.getProperty("webapp.root") + "\\img\\"
+					+ workAccountTemp.getShowImg().toString().replace("/img/", ""))).delete();
+			File file = new File(System.getProperty("webapp.root") + "\\img\\" + imgName + suffix);
+			file.createNewFile();
+			OutputStream os = new FileOutputStream(file);
+			os.write(bs);
+			os.flush();
+			os.close();
+			// 将文件名写入item的itemImg，代替itemImg里的BASE64字符串
+			workAccount.setShowImg("/img/" + imgName + suffix); // 存储
+
+		}
+		workAccountService.modifyWorkAccount(workAccount);
+		return workAccountService.queryByAccountName(workAccount.getAccountName());
 	}
 
 	@RequestMapping(value = "/queryItemById")

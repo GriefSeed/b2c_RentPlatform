@@ -45,7 +45,7 @@
 			<div class="headImg">
 				<div class="touxiang">
 					<div>
-						<img id="account_img" src="" style="width: 100%; height: 100%; border-radius: 50%;" />
+						<img id="account_img" onclick="myInforPage()" src="" style="width: 100%; height: 100%; border-radius: 50%;" />
 					</div>
 				</div>
 			</div>
@@ -148,6 +148,13 @@
 			mui.openWindow({
 				url: "my/address.html",
 				id: "my/address.html"
+			});
+		}
+
+		function myInforPage() {
+			mui.openWindow({
+				url: "my/myInfor.html",
+				id: "my/myInfor.html"
 			});
 		}
 	</script>

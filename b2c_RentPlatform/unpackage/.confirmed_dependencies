@@ -53,7 +53,12 @@
 	},
 	"reg.html": {
 		"resources": [
-			"fonts/mui.ttf"
+			"fonts/mui.ttf",
+			"js/app.js",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"css/style.css",
+			"js/my.js"
 		]
 	},
 	"main_tab/home.html": {
@@ -121,7 +126,8 @@
 			"my/orders.html",
 			"my/message.html",
 			"my/messageEdit.html",
-			"my/address.html"
+			"my/address.html",
+			"my/myInfor.html"
 		]
 	},
 	"item/items.html": {
@@ -280,6 +286,14 @@
 			"js/mui.min.js",
 			"fonts/mui.ttf",
 			"css/mui.min.css",
+			"js/my.js"
+		]
+	},
+	"my/myInfor.html": {
+		"resources": [
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"js/mui.min.js",
 			"js/my.js"
 		]
 	}

@@ -59,5 +59,15 @@ public class AccountServicelmpl implements AccountService {
 	@Override
 	public Account queryByAccountEmail(String email) {
 		return accountDao.queryByAccountEmail(email);
+	}
+
+	@Override
+	public int insertAccountMain(Account account) {
+		return accountDao.insertAccountMain(account);
+	}
+
+	@Override
+	public void modifyAccount(Account account) {
+		accountDao.modifyAccount(account);
 	};
 }

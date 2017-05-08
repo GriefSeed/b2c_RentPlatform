@@ -43,9 +43,9 @@
 	owner.reg = function(regInfo, callback) {
 		callback = callback || $.noop;
 		regInfo = regInfo || {};
-		regInfo.account = regInfo.account || '';
+		regInfo.accountName = regInfo.accountName || '';
 		regInfo.password = regInfo.password || '';
-		if(regInfo.account.length < 5) {
+		if(regInfo.accountName.length < 5) {
 			return callback('用户名最短需要 5 个字符');
 		}
 		if(regInfo.password.length < 6) {

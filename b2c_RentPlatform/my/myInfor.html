@@ -5,7 +5,7 @@
 		<meta charset="UTF-8">
 		<title></title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
 		<style>
 			.workerImg {
 				width: 100px;
@@ -19,7 +19,7 @@
 
 		<header class="mui-bar mui-bar-nav own-main-background-color">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-			<h1 id="title" class="mui-title">个人主页</h1>
+			<h1 id="title" class="mui-title">信息修改</h1>
 			<a id="rightBar" class="mui-icon icon icon-weibiaoti1 mui-pull-right"></a>
 		</header>
 		<div class="mui-content">
@@ -34,7 +34,9 @@
 				<div>邮箱:
 					<label type="text" id="emailDom"></label>
 				</div>
-
+				<div>信用度:
+					<label type="text" id="creditDom"></label>
+				</div>
 				<br />
 				<div>昵称:
 					<input type="text" id="nameInput">
@@ -42,19 +44,19 @@
 				<div>性别:
 					<input type="text" id="sexInput">
 				</div>
-				<div>年龄：
+				<div id="statusDiv">年龄：
 					<input type="text" id="ageInput">
 				</div>
 
-				<button type="button" style="margin-left:120px; width: 100px;" id="changeBtn">提交修改</button>
-				<button type="button" style="margin-left:50px; width: 100px;" id="addBtn">修改密码</button>
+				<button type="button" style="margin:auto auto; width: 100px;" id="changeBtn">提交修改</button>
 			</div>
 
 		</div>
-		<script src="js/mui.min.js"></script>
-		<script src="js/my.js"></script>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/my.js"></script>
 		<script type="text/javascript">
-			var work_account = JSON.parse(localStorage.getItem('work_account'));
+			var account = JSON.parse(localStorage.getItem('account'));
+
 			var accountNameDom = document.getElementById('accountNameDom');
 			var emailDom = document.getElementById('emailDom');
 			var creditDom = document.getElementById('creditDom');
@@ -63,19 +65,20 @@
 			var ageInput = document.getElementById('ageInput');
 
 			var ImgDom = document.getElementById('Img');
-			var changeImgBtn = document.getElementById('changeImgBtn');
 			(function($, doc) {
 
 				$.init();
 				$.plusReady(function() {
 
-					accountNameDom.innerHTML = work_account.accountName;
-					emailDom.innerHTML = work_account.email;
-					nameInput.value = work_account.name;
-					sexInput.value = work_account.sex;
-					ageInput.value = work_account.age;
-					ImgDom.src = PHONE_IP + work_account.showImg;
+					accountNameDom.innerHTML = account.accountName;
+					emailDom.innerHTML = account.email;
+					creditDom.innerHTML = account.credit;
+					nameInput.value = account.name;
+					sexInput.value = account.sex;
+					ageInput.value = account.age;
+					ImgDom.src = PHONE_IP + account.showImg;
 
+					var changeImgBtn = doc.getElementById('changeImgBtn');
 					changeImgBtn.addEventListener('tap', function(event) {
 						if($.os.plus) {
 							var a = [{
@@ -103,13 +106,12 @@
 							})
 						}
 					}, false);
-
 					changeBtn.addEventListener('tap', function(event) {
-						work_account.name = nameInput.value
-						work_account.sex = sexInput.value;
-						work_account.age = ageInput.value;
-						$.ajax(PHONE_IP + '/worker/changeInfor', {
-							data: JSON.stringify(work_account),
+						account.name = nameInput.value
+						account.sex = sexInput.value;
+						account.age = ageInput.value;
+						$.ajax(PHONE_IP + '/main/changeInfor', {
+							data: JSON.stringify(account),
 							dataType: 'json', //服务器返回json格式数据
 							type: 'post', //HTTP请求类型d
 							timeout: 10000, //超时时间设置为10秒；
@@ -118,7 +120,8 @@
 							},
 							success: function(data) {
 								if(data != null) {
-									localStorage.setItem('work_account', JSON.stringify(data));
+									localStorage.setItem('account', JSON.stringify(data));
+									plus.webview.getWebviewById('tab-webview-subpage-my.html').reload();
 									console.log(JSON.stringify(data));
 									$.toast('修改成功');
 								} else {
@@ -147,7 +150,7 @@
 
 						Img.onload = function() {
 							var data = getBase64Image(Img); //base64编码,PS:console有长度限制，打印出来的字符不完全
-							work_account.showImg = data;
+							account.showImg = data;
 
 						}
 					},

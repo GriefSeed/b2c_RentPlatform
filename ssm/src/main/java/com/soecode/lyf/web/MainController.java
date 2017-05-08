@@ -1,5 +1,9 @@
 package com.soecode.lyf.web;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.util.ArrayList;
@@ -15,6 +19,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.Base64Utils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,6 +36,7 @@ import com.soecode.lyf.entity.HeaderItem;
 import com.soecode.lyf.entity.Item;
 import com.soecode.lyf.entity.Items;
 import com.soecode.lyf.entity.Message;
+import com.soecode.lyf.entity.WorkAccount;
 import com.soecode.lyf.service.AccountService;
 import com.soecode.lyf.service.AddressService;
 import com.soecode.lyf.service.CommentService;
@@ -68,8 +74,8 @@ public class MainController {
 
 	@RequestMapping(value = "/login")
 	@ResponseBody
-	private Account login(@RequestBody Account a, Model model) {
-		System.out.println(Util.getLocalIP());// 获得本机IP );
+	private Account login(@RequestBody Account a) {
+		// System.out.println(Util.getLocalIP());// 获得本机IP );
 		// System.out.println("your are success!");
 		// Map<String, Object> map = new HashMap<String, Object>();
 		// account = new Account();
@@ -78,6 +84,62 @@ public class MainController {
 			return account;
 		else
 			return null;
+	}
+
+	/**
+	 * 用户注册
+	 * 
+	 * @param a
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/register")
+	@ResponseBody
+	private Account register(@RequestBody Account a) {
+		accountService.insertAccountMain(a);
+		Account account = accountService.getOneByName(a.getAccountName());
+		if (account != null)
+			return account;
+		else
+			return null;
+	}
+
+	/**
+	 * 用户修改个人信息
+	 * 
+	 * @param a
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/changeInfor")
+	@ResponseBody
+	private Account changeInfor(@RequestBody Account a) throws Exception {
+		// 取出原始数据,因为下面要将原图片删除
+		Account accountTemp = accountService.queryByAccountId(a.getAccountId());
+		if (a.getShowImg().indexOf("base64") != -1) {
+			// 直接就将照片压缩命名，重新塞进accountImg
+			long imgName = (new Date()).getTime() / 1000;
+			// 取item的BASE64图片格式，转换为文件后存储
+			String[] d = a.getShowImg().split("base64,");
+			String suffix = Util.imgSuffix(d[0]);
+			// 使用spring的base64工具包转二进制
+			byte[] bs = Base64Utils.decodeFromString(d[1]);
+			// 删去原文件
+			(new File(System.getProperty("webapp.root") + "\\img\\"
+					+ accountTemp.getShowImg().toString().replace("/img/", ""))).delete();
+			File file = new File(System.getProperty("webapp.root") + "\\img\\" + imgName + suffix);
+			file.createNewFile();
+			OutputStream os = new FileOutputStream(file);
+			os.write(bs);
+			os.flush();
+			os.close();
+			// 将文件名写入item的itemImg，代替itemImg里的BASE64字符串
+			a.setShowImg("/img/" + imgName + suffix); // 存储
+
+		}
+		accountService.modifyAccount(a);
+		return accountService.getOneByName(a.getAccountName());
 	}
 
 	/**

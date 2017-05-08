@@ -11,28 +11,33 @@
 			.area {
 				margin: 20px auto 0px auto;
 			}
+			
 			.mui-input-group:first-child {
 				margin-top: 20px;
 			}
+			
 			.mui-input-group label {
 				width: 22%;
 			}
+			
 			.mui-input-row label~input,
 			.mui-input-row label~select,
 			.mui-input-row label~textarea {
 				width: 78%;
 			}
+			
 			.mui-checkbox input[type=checkbox],
 			.mui-radio input[type=radio] {
 				top: 6px;
 			}
+			
 			.mui-content-padded {
 				margin-top: 25px;
 			}
+			
 			.mui-btn {
 				padding: 10px;
 			}
-			
 		</style>
 	</head>
 
@@ -63,12 +68,11 @@
 			<div class="mui-content-padded">
 				<button id='reg' class="mui-btn mui-btn-block mui-btn-primary">注册</button>
 			</div>
-			<div class="mui-content-padded">
-				<p>注册真实可用，注册成功后的用户可用于登录，但是示例程序并未和服务端交互，用户相关数据仅存储于本地。</p>
-			</div>
+
 		</div>
 		<script src="js/mui.min.js"></script>
 		<script src="js/app.js"></script>
+		<script src="js/my.js"></script>
 		<script>
 			(function($, doc) {
 				$.init();
@@ -81,37 +85,59 @@
 					var emailBox = doc.getElementById('email');
 					regButton.addEventListener('tap', function(event) {
 						var regInfo = {
-							account: accountBox.value,
+							accountName: accountBox.value,
 							password: passwordBox.value,
 							email: emailBox.value
 						};
 						var passwordConfirm = passwordConfirmBox.value;
-						if (passwordConfirm != regInfo.password) {
+						if(passwordConfirm != regInfo.password) {
 							plus.nativeUI.toast('密码两次输入不一致');
 							return;
 						}
 						app.reg(regInfo, function(err) {
-							if (err) {
+							if(err) {
 								plus.nativeUI.toast(err);
 								return;
 							}
-							plus.nativeUI.toast('注册成功');
-							/*
-							 * 注意：
-							 * 1、因本示例应用启动页就是登录页面，因此注册成功后，直接显示登录页即可；
-							 * 2、如果真实案例中，启动页不是登录页，则需修改，使用mui.openWindow打开真实的登录页面
-							 */
-							plus.webview.getLaunchWebview().show("pop-in",200,function () {
-								plus.webview.currentWebview().close("none");
+							$.ajax(PHONE_IP + '/main/register', {
+								data: JSON.stringify(regInfo),
+								dataType: 'json', //服务器返回json格式数据
+								type: 'post', //HTTP请求类型d
+								timeout: 10000, //超时时间设置为10秒；
+								headers: {
+									'Content-Type': 'application/json'
+								},
+								success: function(data) {
+									if(data != null) {
+										localStorage.setItem('account', JSON.stringify(data));
+										/*
+										 * 注意：
+										 * 1、因本示例应用启动页就是登录页面，因此注册成功后，直接显示登录页即可；
+										 * 2、如果真实案例中，启动页不是登录页，则需修改，使用mui.openWindow打开真实的登录页面
+										 */
+										plus.webview.getLaunchWebview().show("pop-in", 200, function() {
+											plus.webview.currentWebview().close("none");
+										});
+										$.toast('注册成功');
+									} else {
+										$.toast("没有历史信息");
+									}
+								},
+								error: function(xhr, type, errorThrown) {
+									//异常处理
+									$.toast('查询失败' + xhr);
+								}
+
 							});
+
 							//若启动页不是登录页，则需通过如下方式打开登录页
-//							$.openWindow({
-//								url: 'login.html',
-//								id: 'login',
-//								show: {
-//									aniShow: 'pop-in'
-//								}
-//							});
+							/*$.openWindow({
+								url: 'login.html',
+								id: 'login',
+								show: {
+									aniShow: 'pop-in'
+								}
+							});*/
 						});
 					});
 				});

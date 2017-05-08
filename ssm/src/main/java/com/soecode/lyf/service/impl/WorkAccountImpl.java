@@ -23,4 +23,9 @@ public class WorkAccountImpl implements WorkAccountService {
 		return workAccountDao.queryByAccountName(accountName);
 	}
 
+	@Override
+	public void modifyWorkAccount(WorkAccount workAccount) {
+		workAccountDao.modifyWorkAccount(workAccount);
+	}
+
 }

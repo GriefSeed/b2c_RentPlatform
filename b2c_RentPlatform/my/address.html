@@ -67,9 +67,7 @@
 					var account = JSON.parse(localStorage.getItem('account'));
 					var sendMessage = doc.getElementById('sendMessage');
 
-					window.addEventListener("pageflowrefresh", function(e) {
-						location.reload();
-					});
+					
 					sendMessage.addEventListener('tap', function(event) {
 						mui.openWindow({
 							id: 'address_detail.html',

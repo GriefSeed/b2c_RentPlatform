@@ -254,7 +254,8 @@
 					"fonts/mui.ttf",
 					"css/style.css",
 					"js/mui.min.js",
-					"js/app.js"
+					"js/app.js",
+					"js/my.js"
 				],
 				"refer": [
 					"login.html"
@@ -357,7 +358,8 @@
 					"my/orders.html",
 					"my/message.html",
 					"my/messageEdit.html",
-					"my/address.html"
+					"my/address.html",
+					"my/myInfor.html"
 				],
 				"priority": 0
 			},
@@ -512,6 +514,16 @@
 					"js/mui.min.js",
 					"fonts/mui.ttf",
 					"css/mui.min.css",
+					"js/my.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"my/myInfor.html": {
+				"resources": [
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"js/mui.min.js",
 					"js/my.js"
 				],
 				"refer": [],

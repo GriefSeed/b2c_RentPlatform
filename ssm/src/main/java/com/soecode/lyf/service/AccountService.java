@@ -2,8 +2,10 @@ package com.soecode.lyf.service;
 
 import java.util.Date;
 
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.soecode.lyf.dto.EmailVo;
 import com.soecode.lyf.entity.Account;
@@ -33,4 +35,20 @@ public interface AccountService {
 	 * @return
 	 */
 	Account queryByAccountEmail(@Param("email") String email);
+
+	/**
+	 * 注册时插入主数据，主数据注册后不能更改，除了密码
+	 * 
+	 * @param account
+	 * @return
+	 */
+	int insertAccountMain(Account account);
+
+	/**
+	 * 用户修改辅数据
+	 * 
+	 * @param account
+	 * @return
+	 */
+	void modifyAccount(Account account);
 }
