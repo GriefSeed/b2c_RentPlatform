@@ -1,6 +1,5 @@
 <!doctype html>
 <html>
-
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
@@ -55,17 +54,19 @@
 			<div style="position: absolute;width: 500px;margin-top: 130px;">
 				<ul id="commentListDom" class="mui-table-view" style="background-color:#E8E8E8;margin-top: 0;">
 					<!--<li class="mui-table-view-cell" style="background-color: white;">
-					<div class="mui-slider-cell">
-						<div class="oa-contact-cell mui-table">
-							<div class="oa-contact-content mui-table-cell ">
-								<div class="mui-clearfix ">
-									<h4 class="oa-contact-name "><img src="../images/star.jpg"><img src="../images/star-dark.jpg"></h4>
-									<span class="oa-contact-position mui-h6 ">测试</span>
+						<div class="mui-slider-cell">
+							<div class="oa-contact-cell mui-table">
+								<div class="oa-contact-content mui-table-cell ">
+									<div class="mui-clearfix ">
+										<h4 class="oa-contact-name "><img src="../images/star.jpg"><img src="../images/star-dark.jpg"></h4>
+										<span class="oa-contact-position mui-h6 ">用户昵称</span>
+										<span style="float: right;margin-right:10px ;" class="oa-contact-position mui-h6 ">测试</span><br />
+										<span class="oa-contact-position mui-h6 ">测试</span>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-				</li>-->
+					</li>-->
 				</ul>
 			</div>
 		</div>
@@ -73,9 +74,12 @@
 		<script src="../js/my.js "></script>
 		<script type="text/javascript ">
 			//加载平均分和评论
-			function queryAvgAndComment(commentList) {
+			function queryAvgAndComment(data) {
 				var commentListDom = document.getElementById('commentListDom');
 				var htmlStr = '';
+				var commentList = data.commentList;
+				var accountNameList = data.accountNameList;
+				//因为两个是同步存储的，所以只用一个for就可以同步输出
 				for(var kid in commentList) {
 					htmlStr += '<li class="mui-table-view-cell" style="background-color: white;">';
 					htmlStr += '<div class="mui-slider-cell">';
@@ -91,6 +95,8 @@
 						htmlStr += '<img src = "../images/star-dark.jpg">';
 					}
 					htmlStr += '</h4>';
+					htmlStr += '<span class="oa-contact-position mui-h6 ">' + accountNameList[kid] + '</span>';
+					htmlStr += '<span style="float: right;margin-right:10px ;" class="oa-contact-position mui-h6 ">' + timeFormatter(commentList[kid].createDate) + '</span><br />';
 					htmlStr += '<span class="oa-contact-position mui-h6">' + commentList[kid].comment + '</span>';
 					htmlStr += '</div>';
 					htmlStr += '</div>';
@@ -172,15 +178,19 @@
 							'Content-Type': 'application/json'
 						},
 						success: function(data) {
-							if(data.commentList != null) {
-								var scoreLabel = doc.getElementById('scoreLabel');
-								scoreLabel.innerHTML = data.avgScore;
-								queryAvgAndComment(data.commentList);
+							if(data != null) {
+								if(data.commentList != null) {
+									var scoreLabel = doc.getElementById('scoreLabel');
+									scoreLabel.innerHTML = data.avgScore;
+									queryAvgAndComment(data);
+								}
 							}
-
+							else{
+								var commentListDom = document.getElementById('commentListDom');
+								commentListDom.innerHTML = "<h3 style='margin-left: 150px;'>还没人评论</h3>";
+							}
 						},
-						error: function(xhr, type, errorThrown) {
-							//异常处理；
+						error: function(xhr, type, errorThrown) { //异常处理；
 							$.toast('error' + xhr);
 						}
 					});

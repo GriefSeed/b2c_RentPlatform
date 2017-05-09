@@ -358,8 +358,10 @@ public class MainController {
 		// 抽取header_item_id,先检查是否存在评论，没有就插入，有就更改
 		Comment cTemp = commentService.selectOneComment(comment.getHeaderItemId());
 		if (cTemp == null) {
+			comment.setCreateDate(new Date());
 			commentService.saveComment(comment);
 		} else {
+			comment.setCreateDate(new Date());
 			commentService.modifyComment(comment);
 		}
 		return "\"success\"";
@@ -375,12 +377,21 @@ public class MainController {
 	@RequestMapping(value = "/queryItemAllComment")
 	public CommentAvg queryItemAllComment(@RequestBody int itemId) {
 		CommentAvg commentAvg = new CommentAvg();
-		if (commentService.selectAvgScoreOfItem(itemId) != null)
+		if (commentService.selectAvgScoreOfItem(itemId) != null) {
 			commentAvg.setAvgScore(commentService.selectAvgScoreOfItem(itemId));
-		else
-			commentAvg.setAvgScore(null);
-		commentAvg.setCommentList(commentService.selectItemAllComment(itemId));
-		return commentAvg;
+			// 塞评论和用户名
+			List<Comment> comments = commentService.selectItemAllComment(itemId);
+			List<String> accountNameList = new ArrayList<String>();
+			for (Comment c : comments) {
+				accountNameList.add(accountService.queryByAccountId(c.getAccountId()).getAccountName());
+			}
+			commentAvg.setAccountNameList(accountNameList);
+			commentAvg.setCommentList(comments);
+			return commentAvg;
+
+		} else
+			// commentAvg.setAvgScore(null);
+			return null;
 	}
 
 	/**

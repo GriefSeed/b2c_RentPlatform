@@ -16,7 +16,7 @@ public interface CommentDao {
 	 * @param comment
 	 * @return
 	 */
-	@Insert("INSERT INTO comment (header_item_id,item_id,account_id,score,comment) VALUES (#{headerItemId},#{itemId},#{accountId},#{score},#{comment})")
+	@Insert("INSERT INTO comment (header_item_id,item_id,account_id,score,comment,create_date) VALUES (#{headerItemId},#{itemId},#{accountId},#{score},#{comment},#{createDate})")
 	int saveComment(Comment comment);
 
 	/**
@@ -24,7 +24,7 @@ public interface CommentDao {
 	 * 
 	 * @param comment
 	 */
-	@Update("UPDATE comment SET score = #{score},comment = #{comment} WHERE header_item_id = #{headerItemId}")
+	@Update("UPDATE comment SET score = #{score},comment = #{comment},create_date = #{createDate} WHERE header_item_id = #{headerItemId}")
 	void modifyComment(Comment comment);
 
 	/**
