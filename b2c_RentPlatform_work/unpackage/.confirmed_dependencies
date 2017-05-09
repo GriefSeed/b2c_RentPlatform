@@ -114,6 +114,9 @@
 			"css/mui.min.css",
 			"images/qq.png",
 			"js/my.js"
+		],
+		"refer": [
+			"passwordChange.html"
 		]
 	},
 	"user/userMain.html": {
@@ -165,6 +168,16 @@
 		],
 		"refer": [
 			"user/userMessageDetail.html"
+		]
+	},
+	"passwordChange.html": {
+		"resources": [
+			"js/app.js",
+			"js/mui.min.js",
+			"js/my.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"css/style.css"
 		]
 	}
 }

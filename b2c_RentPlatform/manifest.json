@@ -359,7 +359,8 @@
 					"my/message.html",
 					"my/messageEdit.html",
 					"my/address.html",
-					"my/myInfor.html"
+					"my/myInfor.html",
+					"my/passwordChange.html"
 				],
 				"priority": 0
 			},
@@ -523,6 +524,18 @@
 				"resources": [
 					"fonts/mui.ttf",
 					"css/mui.min.css",
+					"js/mui.min.js",
+					"js/my.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"my/passwordChange.html": {
+				"resources": [
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css",
+					"js/app.js",
 					"js/mui.min.js",
 					"js/my.js"
 				],

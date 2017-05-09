@@ -51,4 +51,12 @@ public interface AccountService {
 	 * @return
 	 */
 	void modifyAccount(Account account);
+
+	/**
+	 * 用户修改密码
+	 * 
+	 * @param account
+	 * @return
+	 */
+	void modifyAccountPassword(Account account);
 }

@@ -367,7 +367,9 @@
 					"images/qq.png",
 					"js/my.js"
 				],
-				"refer": [],
+				"refer": [
+					"passwordChange.html"
+				],
 				"priority": 0
 			},
 			"user/userMain.html": {
@@ -426,6 +428,18 @@
 				"refer": [
 					"user/userMessageDetail.html"
 				],
+				"priority": 0
+			},
+			"passwordChange.html": {
+				"resources": [
+					"js/app.js",
+					"js/mui.min.js",
+					"js/my.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/style.css"
+				],
+				"refer": [],
 				"priority": 0
 			}
 		},

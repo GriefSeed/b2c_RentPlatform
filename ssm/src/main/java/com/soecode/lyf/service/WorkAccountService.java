@@ -31,4 +31,12 @@ public interface WorkAccountService {
 	 * @return
 	 */
 	void modifyWorkAccount(WorkAccount workAccount);
+
+	/**
+	 * 工作人员修改密码
+	 * 
+	 * @param workAccount
+	 * @return
+	 */
+	void modifyAccountPassword(WorkAccount workAccount);
 }

@@ -47,7 +47,7 @@
 				</div>
 
 				<button type="button" style="margin-left:120px; width: 100px;" id="changeBtn">提交修改</button>
-				<button type="button" style="margin-left:50px; width: 100px;" id="addBtn">修改密码</button>
+				<button type="button" style="margin-left:50px; width: 100px;" id="password_change_btn">修改密码</button>
 			</div>
 
 		</div>
@@ -64,6 +64,8 @@
 
 			var ImgDom = document.getElementById('Img');
 			var changeImgBtn = document.getElementById('changeImgBtn');
+
+			var password_change_btn = document.getElementById('password_change_btn');
 			(function($, doc) {
 
 				$.init();
@@ -76,6 +78,12 @@
 					ageInput.value = work_account.age;
 					ImgDom.src = PHONE_IP + work_account.showImg;
 
+					password_change_btn.addEventListener('tap', function(event) {
+						$.openWindow({
+							id: 'passwordChange.html',
+							url: 'passwordChange.html'
+						});
+					});
 					changeImgBtn.addEventListener('tap', function(event) {
 						if($.os.plus) {
 							var a = [{

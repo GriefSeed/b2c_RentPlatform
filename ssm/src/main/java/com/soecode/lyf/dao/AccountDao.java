@@ -47,4 +47,13 @@ public interface AccountDao {
 	 */
 	@Update("UPDATE account SET name = #{name},show_img = #{showImg},sex = #{sex},age = #{age} where account_id = #{accountId}")
 	void modifyAccount(Account account);
+
+	/**
+	 * 用户修改密码
+	 * 
+	 * @param account
+	 * @return
+	 */
+	@Update("UPDATE account SET password = #{password} where account_id = #{accountId}")
+	void modifyAccountPassword(Account account);
 }

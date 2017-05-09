@@ -32,4 +32,13 @@ public interface WorkAccountDao {
 	 */
 	@Update("UPDATE work_account SET name = #{name},show_img = #{showImg},sex = #{sex},age = #{age} where work_account_id = #{workAccountId}")
 	void modifyWorkAccount(WorkAccount workAccount);
+
+	/**
+	 * 工作人员修改密码
+	 * 
+	 * @param workAccount
+	 * @return
+	 */
+	@Update("UPDATE work_account SET password = #{password} where work_account_id = #{workAccountId}")
+	void modifyAccountPassword(WorkAccount workAccount);
 }

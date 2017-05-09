@@ -70,6 +70,24 @@ public class WorkerController {
 	}
 
 	/**
+	 * 工作人员修改密码
+	 * 
+	 * @param a
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/passwordChanged")
+	@ResponseBody
+	private WorkAccount passwordChanged(@RequestBody WorkAccount a) {
+		workAccountService.modifyAccountPassword(a);
+		WorkAccount workAccount = workAccountService.queryByAccountName(a.getAccountName());
+		if (workAccount != null)
+			return workAccount;
+		else
+			return null;
+	}
+
+	/**
 	 * 工作人员修改个人信息
 	 * 
 	 * @param a

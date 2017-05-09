@@ -69,5 +69,10 @@ public class AccountServicelmpl implements AccountService {
 	@Override
 	public void modifyAccount(Account account) {
 		accountDao.modifyAccount(account);
+	}
+
+	@Override
+	public void modifyAccountPassword(Account account) {
+		accountDao.modifyAccountPassword(account);
 	};
 }

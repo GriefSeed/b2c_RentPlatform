@@ -28,4 +28,9 @@ public class WorkAccountImpl implements WorkAccountService {
 		workAccountDao.modifyWorkAccount(workAccount);
 	}
 
+	@Override
+	public void modifyAccountPassword(WorkAccount workAccount) {
+		workAccountDao.modifyAccountPassword(workAccount);
+	}
+
 }

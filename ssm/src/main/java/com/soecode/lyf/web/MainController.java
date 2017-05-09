@@ -87,6 +87,24 @@ public class MainController {
 	}
 
 	/**
+	 * 用户修改密码
+	 * 
+	 * @param a
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/passwordChanged")
+	@ResponseBody
+	private Account passwordChanged(@RequestBody Account a) {
+		accountService.modifyAccountPassword(a);
+		Account account = accountService.getOneByName(a.getAccountName());
+		if (account != null)
+			return account;
+		else
+			return null;
+	}
+
+	/**
 	 * 用户注册
 	 * 
 	 * @param a
