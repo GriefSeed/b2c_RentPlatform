@@ -9,6 +9,9 @@ import org.apache.ibatis.annotations.Update;
 import com.soecode.lyf.entity.Item;
 
 public interface ItemService {
+
+	int saveItem(Item item);
+
 	List<Item> queryByItemsId(int itemsId);
 
 	Item queryByItemId(int itemId);

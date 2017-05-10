@@ -29,4 +29,9 @@ public class ItemsServiceImpl implements ItemsService {
 		itemsDao.modifyItemsAll(items);
 	}
 
+	@Override
+	public int saveItems(Items items) {
+		return itemsDao.saveItems(items);
+	}
+
 }

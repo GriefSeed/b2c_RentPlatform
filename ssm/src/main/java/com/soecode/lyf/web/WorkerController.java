@@ -84,7 +84,7 @@ public class WorkerController {
 		if (workAccount != null)
 			return workAccount;
 		else
-			return null; 
+			return null;
 	}
 
 	/**
@@ -135,6 +135,81 @@ public class WorkerController {
 	@ResponseBody
 	private Items queryItemsById(@RequestBody int itemsId) {
 		return itemsService.queryByItemsId(itemsId);
+	}
+
+	/**
+	 * 插入Item
+	 * 
+	 * @param item
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/addItem")
+	@ResponseBody
+	private String addItem(@RequestBody Item item) throws Exception {
+		if (item.getItemImg().indexOf("base64") != -1) {
+			// 先根据itemsId找出存储的图片，切去/img/,取出名称
+			long imgName = (new Date()).getTime() / 1000;
+			// 取item的BASE64图片格式，转换为文件后存储
+			String[] d = item.getItemImg().split("base64,");
+			String suffix = Util.imgSuffix(d[0]);
+			// 使用spring的base64工具包转二进制
+			byte[] bs = Base64Utils.decodeFromString(d[1]);
+
+			File file = new File(System.getProperty("webapp.root") + "\\img\\" + imgName + suffix);
+			file.createNewFile();
+			OutputStream os = new FileOutputStream(file);
+			os.write(bs);
+			os.flush();
+			os.close();
+			// 将文件名写入item的itemImg，代替itemImg里的BASE64字符串
+			item.setItemImg("/img/" + imgName + suffix); // 存储
+
+		}
+		// 调用商品类型的降价规则,不能用item,要用items,价格未受污染,公式：总价*损耗折扣*时间折扣
+		Rule r = ruleService.selectRuleByItemsId(item.getItemsId());
+		Items i = itemsService.queryByItemsId(item.getItemsId());
+		if (r != null) {
+			System.out.println("i have a banana");
+			// 因为都使用整数，所以要乘0.01
+			double cutPrice = i.getItemsPrice() * (1 - (item.getDamage() / r.getDamageUnit()) * r.getDamageCut() * 0.01)
+					* (1 - (Integer.valueOf(item.getUsedTime()) / r.getUsedTimeUnit()) * r.getUsedTimeCut() * 0.01);
+			item.setUnitCost((int) cutPrice);
+		}
+		itemService.saveItem(item);
+		return "\"success\"";
+	}
+
+	/**
+	 * 插入Items
+	 * 
+	 * @param item
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/addItems")
+	@ResponseBody
+	private String addItems(@RequestBody Items items) throws Exception {
+		if (items.getItemsImg().indexOf("base64") != -1) {
+			long imgName = (new Date()).getTime() / 1000;
+			// 取item的BASE64图片格式，转换为文件后存储
+			String[] d = items.getItemsImg().split("base64,");
+			String suffix = Util.imgSuffix(d[0]);
+			// 使用spring的base64工具包转二进制
+			byte[] bs = Base64Utils.decodeFromString(d[1]);
+
+			File file = new File(System.getProperty("webapp.root") + "\\img\\" + imgName + suffix);
+			file.createNewFile();
+			OutputStream os = new FileOutputStream(file);
+			os.write(bs);
+			os.flush();
+			os.close();
+			// 将文件名写入item的itemImg，代替itemImg里的BASE64字符串
+			items.setItemsImg("/img/" + imgName + suffix); // 存储
+
+		}
+		itemsService.saveItems(items);
+		return "\"success\"";
 	}
 
 	@RequestMapping(value = "/changeItem")

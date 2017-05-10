@@ -313,7 +313,8 @@
 					"images/qq.png",
 					"js/mui.min.js",
 					"fonts/mui.ttf",
-					"css/mui.min.css"
+					"css/mui.min.css",
+					"js/my.js"
 				],
 				"refer": [],
 				"priority": 0

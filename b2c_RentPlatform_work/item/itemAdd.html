@@ -59,8 +59,193 @@
 			</div>
 		</div>
 		<script src="../js/mui.min.js"></script>
+		<script src="../js/my.js"></script>
 		<script type="text/javascript">
 			mui.init()
+			var nameDiv = document.getElementById('nameDiv');
+			var priceDiv = document.getElementById('priceDiv');
+			var itemsIdDiv = document.getElementById('itemsIdDiv');
+			var statusDiv = document.getElementById('statusDiv');
+			var usedTimeDiv = document.getElementById('usedTimeDiv');
+			var damageDiv = document.getElementById('damageDiv');
+			var descriptionDiv = document.getElementById('descriptionDiv');
+
+			var changeBtn = document.getElementById('changeBtn');
+			//下面是输入框
+			var itemName = document.getElementById('itemName');
+			var unitCost = document.getElementById('unitCost');
+			var itemsId = document.getElementById('itemsId');
+			var statusInput = document.getElementById('statusInput');
+			var damage = document.getElementById('damage');
+			var description = document.getElementById('description');
+			var usedTime = document.getElementById('usedTime');
+
+			//图片
+			var Img = document.getElementById('Img');
+
+			//对象
+			var items = {
+				itemsId: 0,
+				itemsName: '',
+				itemsPrice: 0,
+				itemsImg: '',
+				itemsType: 0,
+				status: -1
+			};
+			var item = {
+				itemId: 0,
+				itemName: '',
+				unitCost: 0,
+				itemImg: '',
+				itemsId: 0,
+				status: -1,
+				usedTime: 0,
+				damage: 0,
+				description: ''
+			};
+
+			//全局变量，选择框的
+			var currentChoose = 'item'; //当前是选择item还是items，决定发送不同的ajax和接收不同的数据，默认是item
+			mui.init()
+				(function($, doc) {
+					$.plusReady(function() {
+
+						var changeImgBtn = doc.getElementById('changeImg');
+						changeImgBtn.addEventListener('tap', function(event) {
+							if($.os.plus) {
+								var a = [{
+									title: "拍照"
+								}, {
+									title: "从手机相册选择"
+								}];
+								plus.nativeUI.actionSheet({
+									title: "选择商品图片",
+									cancel: "取消",
+									buttons: a
+								}, function(b) { /*actionSheet 按钮点击事件*/
+									switch(b.index) {
+										case 0:
+											break;
+										case 1:
+											getImage(); /*拍照*/
+											break;
+										case 2:
+											galleryImg(); /*打开相册*/
+											break;
+										default:
+											break;
+									}
+								})
+							}
+						}, false);
+
+						changeBtn.addEventListener('tap', function(event) {
+							if(currentChoose == 'item') {
+								item.itemName = itemName.value;
+								item.unitCost = unitCost.value;
+								item.itemsId = itemsId.value;
+								item.status = statusInput.value;
+								item.damage = damage.value;
+								item.description = description.value;
+								item.usedTime = usedTime.value;
+								//ajax上传信息
+								$.ajax(PHONE_IP + '/worker/addItem', {
+									data: JSON.stringify(item),
+									dataType: 'json', //服务器返回json格式数据
+									type: 'post', //HTTP请求类型d
+									timeout: 10000, //超时时间设置为10秒；
+									headers: {
+										'Content-Type': 'application/json'
+									},
+									success: function(data) {
+										$.toast("添加成功");
+									},
+									error: function(xhr, type, errorThrown) {
+										//异常处理；
+										$.toast('操作失败' + xhr);
+									}
+
+								});
+							}
+							if(currentChoose == 'items') {
+								console.log(items.itemsId)
+								items.itemsName = itemName.value;
+								items.itemsPrice = unitCost.value;
+								items.itemsType = itemsId.value;
+								items.status = statusInput.value;
+								//ajax上传信息
+								$.ajax(PHONE_IP + '/worker/addItems', {
+									data: JSON.stringify(items),
+									dataType: 'json', //服务器返回json格式数据
+									type: 'post', //HTTP请求类型d
+									timeout: 10000, //超时时间设置为10秒；
+									headers: {
+										'Content-Type': 'application/json'
+									},
+									success: function(data) {
+										$.toast("添加成功");
+									},
+									error: function(xhr, type, errorThrown) {
+										//异常处理；
+										$.toast('操作失败' + xhr);
+									}
+
+								});
+							}
+
+						});
+					});
+
+				}(mui, document));
+
+			function getRadioVals(obj) {
+
+				if(obj.value == 'items') {
+					currentChoose = 'items';
+
+					usedTimeDiv.style.display = 'none';
+					damageDiv.style.display = 'none';
+					descriptionDiv.style.display = 'none';
+				} else {
+					currentChoose = 'item';
+					usedTimeDiv.style.display = '';
+					damageDiv.style.display = '';
+					descriptionDiv.style.display = '';
+				}
+
+			}
+
+			function galleryImg() {
+				//打开相册（用的是H5+的方式，不适用于纯web页面）
+				plus.gallery.pick(
+					function(path) {
+						var Img = document.getElementById('Img');
+						Img.src = path; //设置img的路径
+
+						//把图片base64编码  注意：这里必须在onload事件里执行！这给我坑的不轻
+
+						Img.onload = function() {
+							var data = getBase64Image(Img); //base64编码,PS:console有长度限制，打印出来的字符不完全
+							item.itemImg = data;
+							//偷懒，不加判断了，同时赋值吧
+							items.itemsImg = data;
+						}
+					},
+					function(e) {
+						mui.toast('取消选择');
+					});
+			}
+			//base64编码    
+			function getBase64Image(img) {
+				var canvas = document.createElement("canvas"); //创建canvas DOM元素，并设置其宽高和图片一样
+				canvas.width = img.width;
+				canvas.height = img.height;
+				var ctx = canvas.getContext("2d");
+				ctx.drawImage(img, 0, 0, img.width, img.height); //使用画布画图
+				var ext = img.src.substring(img.src.lastIndexOf(".") + 1).toLowerCase(); //动态截取图片的格式,注意：重绘后图片格式为png
+				var dataURL = canvas.toDataURL("image/" + ext); //返回的是一串Base64编码的URL并指定格式
+				return dataURL;
+			}
 		</script>
 	</body>
 

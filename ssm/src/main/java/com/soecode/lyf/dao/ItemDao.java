@@ -2,6 +2,7 @@ package com.soecode.lyf.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -9,6 +10,10 @@ import org.apache.ibatis.annotations.Update;
 import com.soecode.lyf.entity.Item;
 
 public interface ItemDao {
+
+	@Insert("INSERT INTO item(item_name,unit_cost,item_img,items_id,status,used_time,damage,description) VALUES(#{itemName},#{unitCost},#{itemImg},#{itemsId},#{status},#{usedTime},#{damage},#{description})")
+	int saveItem(Item item);
+
 	/**
 	 * 在单一类商品下查询所有item
 	 * 

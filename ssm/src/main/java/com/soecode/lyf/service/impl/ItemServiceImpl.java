@@ -57,4 +57,9 @@ public class ItemServiceImpl implements ItemService {
 		return itemDao.getAllItem();
 	}
 
+	@Override
+	public int saveItem(Item item) {
+		return itemDao.saveItem(item);
+	}
+
 }
