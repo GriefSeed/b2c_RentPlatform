@@ -50,11 +50,11 @@
 			<form class="mui-input-group">
 				<div class="mui-input-row">
 					<label>账号</label>
-					<input id='account' type="text" class="mui-input-clear mui-input" placeholder="请输入账号">
+					<input id='account' type="text" class="mui-input-clear mui-input" placeholder="账号名至少3个字符">
 				</div>
 				<div class="mui-input-row">
 					<label>密码</label>
-					<input id='password' type="password" class="mui-input-clear mui-input" placeholder="请输入密码">
+					<input id='password' type="password" class="mui-input-clear mui-input" placeholder="密码至少3个字符">
 				</div>
 				<div class="mui-input-row">
 					<label>确认</label>
@@ -64,7 +64,16 @@
 					<label>邮箱</label>
 					<input id='email' type="email" class="mui-input-clear mui-input" placeholder="请输入邮箱">
 				</div>
+				<div class="mui-input-row">
+					<label>验证码</label>
+					<input id='random_num_input' type="text" class="mui-input-clear mui-input" placeholder="请输入下方验证码">
+				</div>
+				<div class="mui-input-row">
+					<label style="height: 30px;width: 200px;">验证码(点击刷新)：</label>
+					<label id='check_num_label' style="font-size: 20px;width: 80px;background-color: blue;"><font id="check_num"></font></label>
+				</div>
 			</form>
+
 			<div class="mui-content-padded">
 				<button id='reg' class="mui-btn mui-btn-block mui-btn-primary">注册</button>
 			</div>
@@ -83,24 +92,50 @@
 					var passwordBox = doc.getElementById('password');
 					var passwordConfirmBox = doc.getElementById('password_confirm');
 					var emailBox = doc.getElementById('email');
+
+					//获取随机码输入框
+					var random_num_input = doc.getElementById('random_num_input');
+					//验证码随机生成
+					var random_num = turn_random_num();
+					var check_num_dom = doc.getElementById('check_num');
+					var check_num_label = doc.getElementById('check_num_label');
+					check_num_dom.innerHTML = random_num;
+					//点击后更换
+
+					check_num_label.addEventListener('tap',
+						function(event) {
+							random_num = turn_random_num();
+							check_num_dom.innerHTML = random_num;
+						});
+
 					regButton.addEventListener('tap', function(event) {
-						var regInfo = {
+						var account_info = {
 							accountName: accountBox.value,
 							password: passwordBox.value,
 							email: emailBox.value
 						};
 						var passwordConfirm = passwordConfirmBox.value;
-						if(passwordConfirm != regInfo.password) {
+						if(passwordConfirm != account_info.password) {
 							plus.nativeUI.toast('密码两次输入不一致');
 							return;
 						}
-						app.reg(regInfo, function(err) {
-							if(err) {
-								plus.nativeUI.toast(err);
-								return;
-							}
+						if(accountBox.value.length < 3 || passwordBox.value.length < 3) {
+							$.toast('账号和密码至少3个字符')
+							return;
+						}
+
+						if(!(account_info.email.length > 3 && account_info.email.indexOf('@') > -1)) {
+							$.toast("邮箱地址不合法");
+							return;
+						}
+						if(random_num_input.value != random_num) {
+							$.toast("验证码不正确");
+							return;
+						}
+
+						app.reg(account_info, function(err) {
 							$.ajax(PHONE_IP + '/main/register', {
-								data: JSON.stringify(regInfo),
+								data: JSON.stringify(account_info),
 								dataType: 'json', //服务器返回json格式数据
 								type: 'post', //HTTP请求类型d
 								timeout: 10000, //超时时间设置为10秒；
@@ -125,7 +160,7 @@
 								},
 								error: function(xhr, type, errorThrown) {
 									//异常处理
-									$.toast('查询失败' + xhr);
+									$.toast('操作失败' + xhr);
 								}
 
 							});
@@ -142,6 +177,13 @@
 					});
 				});
 			}(mui, document));
+
+			function turn_random_num() {
+				var out = -1;
+				while(out < 1000)
+					out = Math.floor(Math.random() * 10000);
+				return out;
+			}
 		</script>
 	</body>
 

@@ -343,11 +343,10 @@
 					"fonts/mui.ttf",
 					"js/mui.min.js",
 					"js/my.js",
-					"css/mui.min.css"
-				],
-				"refer": [
+					"css/mui.min.css",
 					"order/orderItemAttrition.html"
 				],
+				"refer": [],
 				"priority": 0
 			},
 			"order/orderItemAttrition.html": {

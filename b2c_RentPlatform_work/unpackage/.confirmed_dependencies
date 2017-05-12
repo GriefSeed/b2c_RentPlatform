@@ -94,7 +94,8 @@
 			"fonts/mui.ttf",
 			"js/mui.min.js",
 			"js/my.js",
-			"css/mui.min.css"
+			"css/mui.min.css",
+			"order/orderItemAttrition.html"
 		],
 		"refer": [
 			"order/orderItemAttrition.html"
