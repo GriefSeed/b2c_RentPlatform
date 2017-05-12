@@ -128,7 +128,8 @@
 			"my/messageEdit.html",
 			"my/address.html",
 			"my/myInfor.html",
-			"my/passwordChange.html"
+			"my/passwordChange.html",
+			"my/payCredit.html"
 		]
 	},
 	"item/items.html": {
@@ -305,6 +306,14 @@
 			"css/style.css",
 			"js/app.js",
 			"js/mui.min.js",
+			"js/my.js"
+		]
+	},
+	"my/payCredit.html": {
+		"resources": [
+			"images/payCredit.jpg",
+			"js/mui.min.js",
+			"css/mui.min.css",
 			"js/my.js"
 		]
 	}

@@ -56,4 +56,13 @@ public interface AccountDao {
 	 */
 	@Update("UPDATE account SET password = #{password} where account_id = #{accountId}")
 	void modifyAccountPassword(Account account);
+
+	/**
+	 * 工作人员修改辅数据，主要是信用和状态
+	 * 
+	 * @param account
+	 * @return
+	 */
+	@Update("UPDATE account SET credit = #{credit},status = #{status} where account_id = #{accountId}")
+	void modifyAccountByWorker(Account account);
 }

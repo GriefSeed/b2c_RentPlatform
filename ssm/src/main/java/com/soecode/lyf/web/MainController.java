@@ -86,6 +86,17 @@ public class MainController {
 			return null;
 	}
 
+	// 用户支付完后，刷新用户信息和信用值
+	@RequestMapping(value = "/refreshAccount")
+	@ResponseBody
+	private Account refreshAccount(@RequestBody int accoutId) {
+		Account account = accountService.queryByAccountId(accoutId);
+		if (account != null)
+			return account;
+		else
+			return null;
+	}
+
 	/**
 	 * 用户修改密码
 	 * 

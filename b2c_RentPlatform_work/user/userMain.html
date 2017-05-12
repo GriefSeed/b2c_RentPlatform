@@ -118,7 +118,30 @@
 						if(account.accountId == null) {
 							$.toast("请先查询用户");
 						} else {
+							account.credit = creditDom.value;
+							account.status = statusDom.value;
+							console.log(JSON.stringify(account));
+							$.ajax(PHONE_IP + '/worker/modifyAccount', {
+								data: JSON.stringify(account),
+								dataType: 'json', //服务器返回json格式数据
+								type: 'post', //HTTP请求类型d
+								timeout: 10000, //超时时间设置为10秒；
+								headers: {
+									'Content-Type': 'application/json'
+								},
+								success: function(data) {
+									if(data != null) {
+										$.toast('修改成功');
+									} else {
+										$.toast("修改失败");
+									}
+								},
+								error: function(xhr, type, errorThrown) {
+									//异常处理
+									$.toast('操作失败' + xhr);
+								}
 
+							});
 						}
 					});
 

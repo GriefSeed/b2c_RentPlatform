@@ -59,4 +59,12 @@ public interface AccountService {
 	 * @return
 	 */
 	void modifyAccountPassword(Account account);
+
+	/**
+	 * 工作人员修改辅数据，主要是信用和状态
+	 * 
+	 * @param account
+	 * @return
+	 */
+	void modifyAccountByWorker(Account account);
 }

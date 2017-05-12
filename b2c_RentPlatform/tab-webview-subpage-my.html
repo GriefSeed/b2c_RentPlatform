@@ -74,6 +74,11 @@
 					</a>
 				</li>
 				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right" onclick="payPage()">
+						<span class="mui-icon mui-icon-locked"></span> 充值信用
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
 					<a class="mui-navigate-right" onclick="sendMessagePage()">
 						反馈
 					</a>
@@ -162,6 +167,13 @@
 			mui.openWindow({
 				url: "my/passwordChange.html",
 				id: "my/passwordChange.html"
+			});
+		}
+
+		function payPage() {
+			mui.openWindow({
+				url: "my/payCredit.html",
+				id: "my/payCredit.html"
 			});
 		}
 	</script>

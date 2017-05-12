@@ -360,7 +360,8 @@
 					"my/messageEdit.html",
 					"my/address.html",
 					"my/myInfor.html",
-					"my/passwordChange.html"
+					"my/passwordChange.html",
+					"my/payCredit.html"
 				],
 				"priority": 0
 			},
@@ -537,6 +538,16 @@
 					"css/style.css",
 					"js/app.js",
 					"js/mui.min.js",
+					"js/my.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"my/payCredit.html": {
+				"resources": [
+					"images/payCredit.jpg",
+					"js/mui.min.js",
+					"css/mui.min.css",
 					"js/my.js"
 				],
 				"refer": [],

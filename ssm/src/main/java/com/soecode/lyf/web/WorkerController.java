@@ -433,6 +433,20 @@ public class WorkerController {
 	}
 
 	/**
+	 * 修改用户
+	 * 
+	 * @param headerId
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/modifyAccount")
+	@ResponseBody
+	private String modifyAccount(@RequestBody Account account) throws Exception {
+		accountService.modifyAccountByWorker(account);
+		return "\"success\"";
+	}
+
+	/**
 	 * 查询用户所有历史信息
 	 * 
 	 * @param headerId

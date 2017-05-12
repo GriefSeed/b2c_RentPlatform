@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<div class="mui-content">
+			<div style="margin-left: 100px;margin-top: 100px;">
+				<p>
+					<font style="font-size: 20px;">充值注意：</font>
+				</p>
+				<p>
+
+					<font style="color: red;font-size: 20px;">一元钱对应一点信用值</font>
+				</p>
+				<p>
+					<font style="color: red;font-size: 20px;">转账时请打备注："租赁平台+账号"</font>
+				</p>
+				<p>
+					<font style="color: red;font-size: 20px;">充值完后请点击"刷新"按钮</font>
+				</p>
+			</div>
+			<div style="width=300px ;margin-left: 100px;margin-top: 50px;">
+				<img src="../images/payCredit.jpg" width="300px" />
+			</div>
+			<button id="refresh_btn" type="button" style="height: 50px;width: 100px;margin-left: 200px;">刷新</button>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/my.js"></script>
+		<script type="text/javascript">
+			mui.init()
+				(function($, doc) {
+					$.init({
+						swipeBack: true //启用右滑关闭功能
+					});
+
+					$.plusReady(function() {
+						var refresh_btn = doc.getElementById("refresh_btn");
+						var account = JSON.parse(localStorage.getItem('account'));
+
+						refresh_btn.addEventListener('tap', function(event) {
+							$.ajax(PHONE_IP + '/main/refreshAccount', {
+								data: account.accountId,
+								dataType: 'json', //服务器返回json格式数据
+								type: 'post', //HTTP请求类型d
+								timeout: 10000, //超时时间设置为10秒；
+								headers: {
+									'Content-Type': 'application/json'
+								},
+								success: function(data) {
+									if(data != null) {
+										if(account.credit == data.credit) {
+											$.toast('充值未完成，请耐心等待');
+										} else {
+											console.log(JSON.stringify(data));
+											localStorage.setItem('account', JSON.stringify(data));
+											$.toast('充值成功');
+										}
+									} else {
+										$.toast('操作失败');
+									}
+								},
+								error: function(xhr, type, errorThrown) {
+									$.toast('操作失败');
+								}
+							});
+						});
+
+					});
+				}(mui, document));
+		</script>
+	</body>
+
+</html>

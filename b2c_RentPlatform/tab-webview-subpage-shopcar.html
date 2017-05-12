@@ -97,6 +97,8 @@
 			});
 
 			$.plusReady(function() {
+				var account = JSON.parse(localStorage.getItem('account'));
+
 				var itemListDOM = doc.getElementById("itemListDOM");
 				var cleanCartBtn = doc.getElementById("cleanCart");
 				var createOrderBtn = doc.getElementById("createOrder");
@@ -136,6 +138,13 @@
 
 				//点击生成订单，将数据传给后台，将列表清空，
 				createOrderBtn.addEventListener('tap', function(event) {
+					//如果信用值小于租赁价格的10倍，那么就不能下订单
+					if(account.credit < amount * 10) {
+						console.log("apple");
+						$.toast('信用值不够，请充值')
+						return;
+					}
+
 					if(localStorage.getItem("itemCart") != null) {
 						//不需要将字符串切成数组，将其放入对象，直接交给后台处理
 						var order = JSON.stringify({
