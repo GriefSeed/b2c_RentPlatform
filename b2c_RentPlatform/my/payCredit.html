@@ -19,7 +19,7 @@
 					<font style="color: red;font-size: 20px;">一元钱对应一点信用值</font>
 				</p>
 				<p>
-					<font style="color: red;font-size: 20px;">转账时请打备注："租赁平台+账号"</font>
+					<font style="color: red;font-size: 20px;">转账时请打备注："租赁平台充值信用+账号"</font>
 				</p>
 				<p>
 					<font style="color: red;font-size: 20px;">充值完后请点击"刷新"按钮</font>
@@ -59,6 +59,8 @@
 										} else {
 											console.log(JSON.stringify(data));
 											localStorage.setItem('account', JSON.stringify(data));
+											//购物车刷新一次
+											plus.webview.getWebviewById('tab-webview-subpage-shopcar.html').reload();
 											$.toast('充值成功');
 										}
 									} else {

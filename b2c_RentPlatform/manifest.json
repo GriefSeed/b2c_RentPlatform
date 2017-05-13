@@ -450,7 +450,8 @@
 					"images/example_pic.jpg"
 				],
 				"refer": [
-					"comment/commentDetail.html"
+					"comment/commentDetail.html",
+					"my/payDebt.html"
 				],
 				"priority": 0
 			},
@@ -549,6 +550,13 @@
 					"js/mui.min.js",
 					"css/mui.min.css",
 					"js/my.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"my/payDebt.html": {
+				"resources": [
+					"images/payCredit.jpg"
 				],
 				"refer": [],
 				"priority": 0

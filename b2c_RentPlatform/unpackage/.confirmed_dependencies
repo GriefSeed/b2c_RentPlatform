@@ -220,7 +220,8 @@
 			"images/example_pic.jpg"
 		],
 		"refer": [
-			"comment/commentDetail.html"
+			"comment/commentDetail.html",
+			"my/payDebt.html"
 		]
 	},
 	"comment/commentDetail.html": {
@@ -315,6 +316,11 @@
 			"js/mui.min.js",
 			"css/mui.min.css",
 			"js/my.js"
+		]
+	},
+	"my/payDebt.html": {
+		"resources": [
+			"images/payCredit.jpg"
 		]
 	}
 }

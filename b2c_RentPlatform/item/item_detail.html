@@ -155,11 +155,11 @@
 							//如果状态是1，就是正被租赁，按钮失效
 							if(data.status == 1) {
 								add_cart_btn.setAttribute('disabled', true);
-								add_cart_btn.innerHTML = "商品已出租 ";
+								add_cart_btn.innerHTML = "物品已出租 ";
 							}
 							if(data.status == 0) {
 								add_cart_btn.setAttribute('enabled', true);
-								add_cart_btn.innerHTML = "加入购物车 ";
+								add_cart_btn.innerHTML = "加入货单 ";
 							}
 						},
 						error: function(xhr, type, errorThrown) {
@@ -205,7 +205,7 @@
 								//获取页面ID，然后刷新
 								plus.webview.getWebviewById('tab-webview-subpage-shopcar.html').reload();
 							} else
-								$.toast('购物车已有该商品');
+								$.toast('货单已有该物品');
 							/*var test = itemInLocalSto(item, "get ");
 							console.warn(localStorage.getItem("itemCart "));
 							console.warn(localStorage.getItem("item_2 "));

@@ -68,7 +68,7 @@
 			<nav id="footerBar" class="mui-bar mui-bar-tab">
 				<div id="addressArea" style="height: 50px;">
 					<div id="address" style="width: 400px;height:50px;float: left;">
-						北京大运路紫苑666房 13376566998 张三
+						地址栏
 					</div>
 					<div id="chooseAddress" style="float: right;background-color: palegoldenrod;">
 						<a href="#popover" id="openPopover" class="mui-badge mui-badge-primary">选择地址</a>
@@ -80,7 +80,7 @@
 						<font id="amount" style="color: red;"></font>
 						<div style="margin-left: auto;margin-right: 3px;float: right;">
 
-							<button id="cleanCart" type="button">清空购物车</button>
+							<button id="cleanCart" type="button">清空货单</button>
 							<button id="createOrder" type="button">生成订单</button>
 						</div>
 				</div>
@@ -123,10 +123,20 @@
 						'Content-Type': 'application/json'
 					},
 					success: function(data) {
-						for(var kid in data) {
+						console.log(data);
+						if(data != null) {
+							console.log('it is not null');
+							for(var kid in data) {
+								var li = document.createElement('li');
+								li.className = 'mui-table-view-cell';
+								li.innerHTML = '<a id="' + data[kid].addressId + '" onclick="changeAddressLabel(this)">' + data[kid].addressDetail + "  " + data[kid].number + "  " + data[kid].name + '</a>';
+								allAddress.appendChild(li);
+							}
+						} else {
+							console.log('it is null');
 							var li = document.createElement('li');
 							li.className = 'mui-table-view-cell';
-							li.innerHTML = '<a id="' + data[kid].addressId + '" onclick="changeAddressLabel(this)">' + data[kid].addressDetail + "  " + data[kid].number + "  " + data[kid].name + '</a>';
+							li.innerHTML = '<font>无地址可选，请先增加地址</font>';
 							allAddress.appendChild(li);
 						}
 					},

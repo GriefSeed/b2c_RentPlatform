@@ -428,8 +428,8 @@ public class WorkerController {
 	 */
 	@RequestMapping(value = "/queryAccount")
 	@ResponseBody
-	private Account queryAccount(@RequestBody int accountId) throws Exception {
-		return accountService.queryByAccountId(accountId);
+	private Account queryAccount(@RequestBody String accountName) throws Exception {
+		return accountService.getOneByName(accountName);
 	}
 
 	/**

@@ -18,8 +18,8 @@
 		<div class="mui-content">
 			<form class="mui-input-group">
 				<div class="mui-input-row">
-					<label>用户编号</label>
-					<input type="text" class="mui-input-clear" placeholder="请输入用户编号" id="queryId">
+					<label>用户账号名</label>
+					<input type="text" class="mui-input-clear" placeholder="请输入用户账号名" id="queryId">
 				</div>
 				<div class="mui-button-row">
 					<button type="button" class="mui-btn mui-btn-primary" id="queryBtn">查询</button>
@@ -82,7 +82,7 @@
 							$.toast("请输入商品类型编号");
 						} else {
 							$.ajax(PHONE_IP + '/worker/queryAccount', {
-								data: JSON.stringify(accountQueryInput.value),
+								data: accountQueryInput.value,
 								dataType: 'json', //服务器返回json格式数据
 								type: 'post', //HTTP请求类型d
 								timeout: 10000, //超时时间设置为10秒；

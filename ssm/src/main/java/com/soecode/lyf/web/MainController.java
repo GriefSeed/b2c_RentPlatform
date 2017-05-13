@@ -154,9 +154,11 @@ public class MainController {
 			String suffix = Util.imgSuffix(d[0]);
 			// 使用spring的base64工具包转二进制
 			byte[] bs = Base64Utils.decodeFromString(d[1]);
-			// 删去原文件
-			(new File(System.getProperty("webapp.root") + "\\img\\"
-					+ accountTemp.getShowImg().toString().replace("/img/", ""))).delete();
+			// 如果有原文件，那就删去原文件
+			if (accountTemp.getShowImg() != null) {
+				(new File(System.getProperty("webapp.root") + "\\img\\"
+						+ accountTemp.getShowImg().toString().replace("/img/", ""))).delete();
+			}
 			File file = new File(System.getProperty("webapp.root") + "\\img\\" + imgName + suffix);
 			file.createNewFile();
 			OutputStream os = new FileOutputStream(file);

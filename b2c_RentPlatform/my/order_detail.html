@@ -50,6 +50,9 @@
 					<a id="remainderTimeDom"></a>
 				</p>
 				<button id="cancelBtn" type="button">取消</button>
+
+				<button id='payBtn' class="mui-btn mui-btn-block mui-btn-primary" style="display: none;">付款</button>
+
 			</div>
 			<div id="itemsDiv">
 				<ul id="itemsListDom" class="mui-table-view" style="background-color:#E8E8E8;margin-top:0;">
@@ -90,6 +93,7 @@
 				var cancelBtn = document.getElementById('cancelBtn');
 				var startDateDom = document.getElementById('startDateDom');
 
+				var payBtn = document.getElementById('payBtn');
 				itemsDiv.style.pointerEvents = 'none';
 				if(status == 'NEW') {
 					//因为开始时间为null，要等工作人员修改状态后才能显示，所以NEW状态时要显示未收货
@@ -107,6 +111,9 @@
 				if(status == 'CLOSE') {
 					//只有当CLOSE时, 才能点击
 					itemsDiv.style.pointerEvents = 'auto';
+				}
+				if(status == 'DEBT') {
+					payBtn.style.display = "";
 				}
 			}
 
@@ -179,8 +186,15 @@
 									$.toast("加载异常")
 								}
 							});
+						}
+					);
+					var payBtn = document.getElementById('payBtn');
+					payBtn.addEventListener('tap', function(event) {
+						$.openWindow({
+							url: "payDebt.html",
+							id: "payDebt.html"
 						});
-
+					});
 				});
 
 				function changeHeader(obj, interval) {

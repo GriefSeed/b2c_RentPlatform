@@ -36,7 +36,7 @@ public interface AccountDao {
 	 * @param account
 	 * @return
 	 */
-	@Insert("INSERT INTO account VALUES (#{accountId},#{accountName},#{password},#{email},#{status},#{credit},#{name},#{showImg},#{sex},#{age})")
+	@Insert("INSERT INTO account (account_id, account_name, password, email) VALUES (#{accountId},#{accountName},#{password},#{email})")
 	int insertAccountMain(Account account);
 
 	/**
