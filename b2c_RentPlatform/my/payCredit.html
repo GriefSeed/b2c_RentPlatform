@@ -22,13 +22,13 @@
 					<font style="color: red;font-size: 20px;">转账时请打备注："租赁平台充值信用+账号"</font>
 				</p>
 				<p>
-					<font style="color: red;font-size: 20px;">充值完后请点击"刷新"按钮</font>
+					<font style="color: red;font-size: 20px;">充值完后请耐心等待，在个人主页刷新查看结果</font>
 				</p>
 			</div>
 			<div style="width=300px ;margin-left: 100px;margin-top: 50px;">
 				<img src="../images/payCredit.jpg" width="300px" />
 			</div>
-			<button id="refresh_btn" type="button" style="height: 50px;width: 100px;margin-left: 200px;">刷新</button>
+
 		</div>
 		<script src="../js/mui.min.js"></script>
 		<script src="../js/my.js"></script>
@@ -43,7 +43,7 @@
 						var refresh_btn = doc.getElementById("refresh_btn");
 						var account = JSON.parse(localStorage.getItem('account'));
 
-						refresh_btn.addEventListener('tap', function(event) {
+						/*refresh_btn.addEventListener('tap', function(event) {
 							$.ajax(PHONE_IP + '/main/refreshAccount', {
 								data: account.accountId,
 								dataType: 'json', //服务器返回json格式数据
@@ -71,7 +71,7 @@
 									$.toast('操作失败');
 								}
 							});
-						});
+						});*/
 
 					});
 				}(mui, document));

@@ -168,6 +168,37 @@
 	<script src="js/mui.min.js"></script>
 	<script src="js/my.js"></script>
 	<script>
+		var account = JSON.parse(localStorage.getItem('account'));
+		window.onload = function() {
+			refreshAccount();
+		}
+
+		function refreshAccount() {
+			mui.ajax(PHONE_IP + '/main/refreshAccount', {
+				data: account.accountId,
+				dataType: 'json', //服务器返回json格式数据
+				type: 'post', //HTTP请求类型d
+				timeout: 10000, //超时时间设置为10秒；
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				success: function(data) {
+					if(data != null) {
+						console.log(JSON.stringify(data));
+						localStorage.setItem('account', JSON.stringify(data));
+						//要求购物车每次都从localStorage里取到最新的account信息
+					} else {
+						mui.toast('服务器连接失败，不能刷新');
+					}
+				},
+				error: function(xhr, type, errorThrown) {
+					mui.toast('服务器连接失败，不能刷新');
+				}
+			});
+			//每7秒调用自身一次
+			setTimeout(refreshAccount, 1000 * 7);
+
+		}
 		(function($, doc) {
 			$.init({
 				swipeBack: true //启用右滑关闭功能
