@@ -50,7 +50,10 @@
 			<form class="mui-input-group">
 				<div class="mui-input-row">
 					<label>账号</label>
-					<input id='account' type="text" class="mui-input-clear mui-input" placeholder="账号名至少3个字符">
+					<input id='account' type="text" class="mui-input-clear mui-input" placeholder="账号名至少3个字符" onblur="accountNameCheck()">
+				</div>
+				<div id="accountNameExitedError" class="mui-input-row" style="display: none;">
+					<label style="width: 200px;"><font style="color: red;">这个账号已经存在</font></label>
 				</div>
 				<div class="mui-input-row">
 					<label>密码</label>
@@ -58,11 +61,14 @@
 				</div>
 				<div class="mui-input-row">
 					<label>确认</label>
-					<input id='password_confirm' type="password" class="mui-input-clear mui-input" placeholder="请确认密码">
+					<input id='password_confirm' type="password" class="mui-input-clear mui-input" placeholder="请重复密码">
 				</div>
 				<div class="mui-input-row">
 					<label>邮箱</label>
-					<input id='email' type="email" class="mui-input-clear mui-input" placeholder="请输入邮箱">
+					<input id='email' type="email" class="mui-input-clear mui-input" placeholder="请输入邮箱" onblur="emailCheck()">
+				</div>
+				<div id="emailExitedError" class="mui-input-row" style="display: none;">
+					<label style="width: 200px;"><font style="color: red;">邮箱已被注册</font></label>
 				</div>
 				<div class="mui-input-row">
 					<label>验证码</label>
@@ -83,6 +89,64 @@
 		<script src="js/app.js"></script>
 		<script src="js/my.js"></script>
 		<script>
+			var accountNameCheckFlag = -1;
+			var emailCheckFlag = -1;
+
+			function accountNameCheck() {
+				var accountDom = document.getElementById('account');
+				var accountNameExitedError = document.getElementById('accountNameExitedError');
+				mui.ajax(PHONE_IP + '/worker/queryAccount', {
+					data: accountDom.value,
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型d
+					timeout: 10000, //超时时间设置为10秒；
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					success: function(data) {
+						if(data != null) {
+							accountNameExitedError.style.display = "";
+							accountNameCheckFlag = 1;
+						} else {
+							accountNameExitedError.style.display = "none";
+							accountNameCheckFlag = 0;
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						//异常处理
+						$.toast('操作失败' + xhr);
+					}
+
+				});
+			}
+
+			function emailCheck() {
+				var emailDom = document.getElementById('email');
+				var emailExitedError = document.getElementById('emailExitedError');
+				mui.ajax(PHONE_IP + '/worker/queryEmail', {
+					data: emailDom.value,
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型d
+					timeout: 10000, //超时时间设置为10秒；
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					success: function(data) {
+						if(data != null) {
+							emailExitedError.style.display = "";
+							emailCheckFlag = 1;
+						} else {
+							emailExitedError.style.display = "none";
+							emailCheckFlag = 0;
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						//异常处理
+						mui.toast('操作失败' + xhr);
+					}
+
+				});
+			}
 			(function($, doc) {
 				$.init();
 				$.plusReady(function() {
@@ -115,6 +179,15 @@
 							email: emailBox.value
 						};
 						var passwordConfirm = passwordConfirmBox.value;
+						if(accountNameCheckFlag == 1) {
+							plus.nativeUI.toast('账号已经存在，不能注册');
+							return;
+						}
+						if(emailCheckFlag == 1) {
+							plus.nativeUI.toast('邮箱已经存在，不能重复注册');
+							return;
+						}
+
 						if(passwordConfirm != account_info.password) {
 							plus.nativeUI.toast('密码两次输入不一致');
 							return;
@@ -130,6 +203,10 @@
 						}
 						if(random_num_input.value != random_num) {
 							$.toast("验证码不正确");
+							return;
+						}
+						if(accountNameCheckFlag == -1 || emailCheckFlag == -1){
+							$.toast("账号和邮箱还需要后台验证，请耐心等候");
 							return;
 						}
 

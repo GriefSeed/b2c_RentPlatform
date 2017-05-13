@@ -433,6 +433,19 @@ public class WorkerController {
 	}
 
 	/**
+	 * 查询邮箱，注册时验证邮箱是否重复
+	 * 
+	 * @param headerId
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/queryEmail")
+	@ResponseBody
+	private Account queryEmail(@RequestBody String email) throws Exception {
+		return accountService.queryByAccountEmail(email);
+	}
+
+	/**
 	 * 修改用户
 	 * 
 	 * @param headerId
