@@ -183,78 +183,99 @@
 							email: emailBox.value
 						};
 						var passwordConfirm = passwordConfirmBox.value;
-						if(accountNameCheckFlag == 1) {
-							plus.nativeUI.toast('账号已经存在，不能注册');
-							return;
-						}
-						if(emailCheckFlag == 1) {
-							plus.nativeUI.toast('邮箱已经存在，不能重复注册');
-							return;
-						}
 
 						if(passwordConfirm != account_info.password) {
 							plus.nativeUI.toast('密码两次输入不一致');
+							random_num = turn_random_num();
+							check_num_dom.innerHTML = random_num;
 							return;
 						}
 						if(accountBox.value.length < 3 || passwordBox.value.length < 3) {
 							$.toast('账号和密码至少3个字符')
+							random_num = turn_random_num();
+							check_num_dom.innerHTML = random_num;
 							return;
 						}
 
 						if(!(account_info.email.length > 3 && account_info.email.indexOf('@') > -1)) {
 							$.toast("邮箱地址不合法");
+							random_num = turn_random_num();
+							check_num_dom.innerHTML = random_num;
 							return;
 						}
 						if(random_num_input.value != random_num) {
 							$.toast("验证码不正确");
+							random_num = turn_random_num();
+							check_num_dom.innerHTML = random_num;
+							return;
+						}
+						accountNameCheck();
+						emailCheck();
+
+						if(accountNameCheckFlag == 1) {
+							plus.nativeUI.toast('账号已经存在，不能注册');
+							random_num = turn_random_num();
+							check_num_dom.innerHTML = random_num;
+							return;
+						}
+						if(emailCheckFlag == 1) {
+							plus.nativeUI.toast('邮箱已经存在，不能重复注册');
+							random_num = turn_random_num();
+							check_num_dom.innerHTML = random_num;
 							return;
 						}
 						if(accountNameCheckFlag == -1 || emailCheckFlag == -1) {
 							$.toast("账号和邮箱还需要后台验证，请耐心等候");
+							random_num = turn_random_num();
+							check_num_dom.innerHTML = random_num;
 							return;
 						}
 
-						app.reg(account_info, function(err) {
-							$.ajax(PHONE_IP + '/main/register', {
-								data: JSON.stringify(account_info),
-								dataType: 'json', //服务器返回json格式数据
-								type: 'post', //HTTP请求类型d
-								timeout: 10000, //超时时间设置为10秒；
-								headers: {
-									'Content-Type': 'application/json'
-								},
-								success: function(data) {
-									if(data != null) {
-										localStorage.setItem('account', JSON.stringify(data));
-										/*
-										 * 注意：
-										 * 1、因本示例应用启动页就是登录页面，因此注册成功后，直接显示登录页即可；
-										 * 2、如果真实案例中，启动页不是登录页，则需修改，使用mui.openWindow打开真实的登录页面
-										 */
-										plus.webview.getLaunchWebview().show("pop-in", 200, function() {
-											plus.webview.currentWebview().close("none");
-										});
-										$.toast('注册成功');
-									} else {
-										$.toast("没有历史信息");
-									}
-								},
-								error: function(xhr, type, errorThrown) {
-									//异常处理
-									$.toast('操作失败' + xhr);
+						$.ajax(PHONE_IP + '/main/register', {
+							data: JSON.stringify(account_info),
+							dataType: 'json', //服务器返回json格式数据
+							type: 'post', //HTTP请求类型d
+							timeout: 10000, //超时时间设置为10秒；
+							headers: {
+								'Content-Type': 'application/json'
+							},
+							success: function(data) {
+								if(data != null) {
+									localStorage.setItem('account', JSON.stringify(data));
+									/*
+									 * 注意：
+									 * 1、因本示例应用启动页就是登录页面，因此注册成功后，直接显示登录页即可；
+									 * 2、如果真实案例中，启动页不是登录页，则需修改，使用mui.openWindow打开真实的登录页面
+									 */
+									/*plus.webview.getLaunchWebview().show("pop-in", 200, function() {
+										plus.webview.currentWebview().close("none");
+									});*/
+									console.log(localStorage.getItem('account'));
+									mui.openWindow({
+										url: 'tab-webview-main.html',
+										id: 'tab-webview-main.html'
+									});
+									$.toast('注册成功');
+								} else {
+									$.toast("没有历史信息");
 								}
+							},
+							error: function(xhr, type, errorThrown) {
+								//异常处理
+								$.toast('操作失败' + xhr);
+							}
 
-							});
-
-							//若启动页不是登录页，则需通过如下方式打开登录页
-							/*$.openWindow({
-								url: 'login.html',
-								id: 'login',
-								show: {
-									aniShow: 'pop-in'
-								}
-							});*/
 						});
+
+						//若启动页不是登录页，则需通过如下方式打开登录页
+						/*$.openWindow({
+							url: 'login.html',
+							id: 'login',
+							show: {
+								aniShow: 'pop-in'
+							}
+						});*/
+
 					});
 				});
 			}(mui, document));

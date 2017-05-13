@@ -258,7 +258,8 @@
 					"js/my.js"
 				],
 				"refer": [
-					"login.html"
+					"login.html",
+					"tab-webview-main.html"
 				],
 				"priority": 3
 			},
