@@ -95,57 +95,61 @@
 			function accountNameCheck() {
 				var accountDom = document.getElementById('account');
 				var accountNameExitedError = document.getElementById('accountNameExitedError');
-				mui.ajax(PHONE_IP + '/worker/queryAccount', {
-					data: accountDom.value,
-					dataType: 'json', //服务器返回json格式数据
-					type: 'post', //HTTP请求类型d
-					timeout: 10000, //超时时间设置为10秒；
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					success: function(data) {
-						if(data != null) {
-							accountNameExitedError.style.display = "";
-							accountNameCheckFlag = 1;
-						} else {
-							accountNameExitedError.style.display = "none";
-							accountNameCheckFlag = 0;
+				if(accountDom.value != "") {
+					mui.ajax(PHONE_IP + '/worker/queryAccount', {
+						data: accountDom.value,
+						dataType: 'json', //服务器返回json格式数据
+						type: 'post', //HTTP请求类型d
+						timeout: 10000, //超时时间设置为10秒；
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						success: function(data) {
+							if(data != null) {
+								accountNameExitedError.style.display = "";
+								accountNameCheckFlag = 1;
+							} else {
+								accountNameExitedError.style.display = "none";
+								accountNameCheckFlag = 0;
+							}
+						},
+						error: function(xhr, type, errorThrown) {
+							//异常处理
+							$.toast('操作失败' + xhr);
 						}
-					},
-					error: function(xhr, type, errorThrown) {
-						//异常处理
-						$.toast('操作失败' + xhr);
-					}
 
-				});
+					});
+				}
+
 			}
 
 			function emailCheck() {
 				var emailDom = document.getElementById('email');
 				var emailExitedError = document.getElementById('emailExitedError');
-				mui.ajax(PHONE_IP + '/worker/queryEmail', {
-					data: emailDom.value,
-					dataType: 'json', //服务器返回json格式数据
-					type: 'post', //HTTP请求类型d
-					timeout: 10000, //超时时间设置为10秒；
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					success: function(data) {
-						if(data != null) {
-							emailExitedError.style.display = "";
-							emailCheckFlag = 1;
-						} else {
-							emailExitedError.style.display = "none";
-							emailCheckFlag = 0;
+				if(emailDom.value != "") {
+					mui.ajax(PHONE_IP + '/worker/queryEmail', {
+						data: emailDom.value,
+						dataType: 'json', //服务器返回json格式数据
+						type: 'post', //HTTP请求类型d
+						timeout: 10000, //超时时间设置为10秒；
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						success: function(data) {
+							if(data != null) {
+								emailExitedError.style.display = "";
+								emailCheckFlag = 1;
+							} else {
+								emailExitedError.style.display = "none";
+								emailCheckFlag = 0;
+							}
+						},
+						error: function(xhr, type, errorThrown) {
+							//异常处理
+							mui.toast('操作失败' + xhr);
 						}
-					},
-					error: function(xhr, type, errorThrown) {
-						//异常处理
-						mui.toast('操作失败' + xhr);
-					}
-
-				});
+					});
+				}
 			}
 			(function($, doc) {
 				$.init();
@@ -205,7 +209,7 @@
 							$.toast("验证码不正确");
 							return;
 						}
-						if(accountNameCheckFlag == -1 || emailCheckFlag == -1){
+						if(accountNameCheckFlag == -1 || emailCheckFlag == -1) {
 							$.toast("账号和邮箱还需要后台验证，请耐心等候");
 							return;
 						}
