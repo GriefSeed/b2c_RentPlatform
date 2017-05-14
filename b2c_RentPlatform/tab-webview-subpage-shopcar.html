@@ -151,8 +151,8 @@
 					//保证能取到最新鲜的用户数据
 					account = JSON.parse(localStorage.getItem('account'));
 
-					//如果信用值小于租赁价格的10倍，那么就不能下订单
-					if(account.credit < amount * 10) {
+					//如果信用值小于租赁价格的5倍，那么就不能下订单
+					if(account.credit < amount * 5) {
 						console.log("apple");
 						$.toast('信用值不够，请充值')
 						return;

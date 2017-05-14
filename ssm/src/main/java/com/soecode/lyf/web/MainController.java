@@ -291,6 +291,10 @@ public class MainController {
 			it.setStatus(1);
 			itemService.modifyItemStatus(it);
 		}
+		// 根据用户ID，找出用户，扣除用户的信用值，防止用户重复下大额订单
+		Account a = accountService.queryByAccountId(order.getAccountId());
+		a.setCredit(a.getCredit() - order.getAmount() * 5);
+		accountService.modifyAccountByWorker(a);
 		return "\"success\"";
 	}
 
@@ -329,6 +333,17 @@ public class MainController {
 	public String cancelOrder(@RequestBody int headerId) {
 		// 先在header_item里取到所有相关商品
 		List<HeaderItem> hi = headerItemService.getItemsByHeaderId(headerId);
+		
+		//统计商品租赁总价，返还用户5倍的信用值
+		int amount = 0;
+		for (HeaderItem kid : hi) {
+			Item it = itemService.queryByItemId(kid.getItemId());
+			amount += it.getUnitCost();
+		}
+		
+		Account a = accountService.queryByAccountId(headerService.getHeaderByHeaderId(headerId).getAccountId());
+		a.setCredit(a.getCredit() + amount * 5);
+		accountService.modifyAccountByWorker(a);
 		// 再循环，同时对商品进行解冻和删除header_item里的信息
 		for (HeaderItem kid : hi) {
 			Item i = new Item();
