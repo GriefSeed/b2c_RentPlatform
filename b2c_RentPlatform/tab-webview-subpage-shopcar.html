@@ -150,7 +150,7 @@
 				createOrderBtn.addEventListener('tap', function(event) {
 					//保证能取到最新鲜的用户数据
 					account = JSON.parse(localStorage.getItem('account'));
-					
+
 					//如果信用值小于租赁价格的10倍，那么就不能下订单
 					if(account.credit < amount * 10) {
 						console.log("apple");
@@ -183,6 +183,8 @@
 								//这次轮到我搞不懂了，到底是新打开了一个页面，还是用原来的页面，干脆两个刷新都用上后，貌似就同步了
 								location.reload();
 								plus.webview.getWebviewById("tab-webview-subpage-shopcar.html").reload();
+								//推荐的页面刷新一下，以便看到效果
+								plus.webview.getWebviewById("tab-webview-subpage-recommend.html").reload();
 							},
 							error: function(xhr, type, errorThrown) {
 								$.alert("创建订单失败" + errorThrown);

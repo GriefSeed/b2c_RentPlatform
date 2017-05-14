@@ -178,6 +178,8 @@
 									'Content-Type': 'application/json'
 								},
 								success: function(data) {
+									//推荐的页面刷新一下，以便看到效果
+									plus.webview.getWebviewById("tab-webview-subpage-recommend.html").reload();
 									$.toast("取消成功");
 									$.back();
 								},
