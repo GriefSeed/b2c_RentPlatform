@@ -103,11 +103,10 @@
 					//因为开始时间为null，要等工作人员修改状态后才能显示，所以NEW状态时要显示未收货
 					startDateDom.innerHTML = '未收货';
 					endTimeDom.innerHTML = '未收货';
-					remainderTimeDom = '未收货';
-				}
-				if(status == 'NEW' || status == 'USING') {
-					endTimeDom.innerHTML = '未归还';
 					remainderTimeDom.innerHTML = '未收货';
+				}
+				if(status == 'USING') {
+					endTimeDom.innerHTML = '未归还';
 				}
 			}
 			//检查状态，进行按钮隐藏
