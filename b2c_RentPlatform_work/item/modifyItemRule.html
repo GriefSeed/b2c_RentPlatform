@@ -16,7 +16,7 @@
 		</header>
 		<div class="mui-content">
 			<div class="mui-input-row mui-radio">
-				<div id="damageDiv">商品类型编号:
+				<div id="damageDiv">物品类型编号:
 					<input type="text" id="itemsIdInput">
 					<button type="button" id="queryBtn">查询</button>
 				</div>
@@ -49,7 +49,7 @@
 
 					queryBtn.addEventListener('tap', function(event) {
 						if(itemsIdInput.value == '') {
-							$.toast("请输入商品类型编号");
+							$.toast("请输入物品类型编号");
 						} else {
 							$.ajax(PHONE_IP + '/worker/queryRule', {
 								data: JSON.stringify(itemsIdInput.value),
@@ -70,7 +70,7 @@
 										usedTimeUnitInput.value = '';
 										damageCutInput.value = '';
 										damageUnitInput.value = '';
-										$.toast("该商品类型没有制定降价规则");
+										$.toast("该物品类型没有制定降价规则");
 									}
 								},
 								error: function(xhr, type, errorThrown) {
@@ -85,7 +85,7 @@
 
 					changeBtn.addEventListener('tap', function(event) {
 						if(itemsIdInput.value == '') {
-							$.toast("请输入商品类型编号");
+							$.toast("请输入物品类型编号");
 						} else {
 							$.ajax(PHONE_IP + '/worker/changeRule', {
 								data: {
@@ -119,7 +119,7 @@
 
 					addBtn.addEventListener('tap', function(event) {
 						if(itemsIdInput.value == '') {
-							$.toast("请输入商品类型编号");
+							$.toast("请输入物品类型编号");
 						} else {
 							$.ajax(PHONE_IP + '/worker/addRule', {
 								data: {

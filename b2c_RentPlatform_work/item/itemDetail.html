@@ -12,21 +12,21 @@
 	<body>
 		<header class="mui-bar mui-bar-nav own-main-background-color">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-			<h1 id="title" class="mui-title">修改商品信息</h1>
+			<h1 id="title" class="mui-title">修改物品信息</h1>
 			<a id="rightBar" class="mui-icon icon icon-weibiaoti1 mui-pull-right"></a>
 		</header>
 		<div class="mui-content">
 			<form class="mui-input-group">
 				<div class="mui-input-row">
-					<label>商品ID</label>
-					<input type="text" class="mui-input-clear" placeholder="请输入商品ID" id="queryId">
+					<label>物品编号</label>
+					<input type="text" class="mui-input-clear" placeholder="请输入物品编号" id="queryId">
 				</div>
 				<div class="mui-input-row mui-radio">
-					<label>商品型号ID</label>
+					<label>物品型号编号</label>
 					<input name="radio1" type="radio" onclick="getRadioVals(this)" value="items">
 				</div>
 				<div class="mui-input-row mui-radio">
-					<label>具体商品ID</label>
+					<label>具体物品编号</label>
 					<input name="radio1" type="radio" onclick="getRadioVals(this)" value="item" checked="">
 				</div>
 				<div class="mui-button-row">
@@ -48,7 +48,7 @@
 					<a>/3个月</a>
 					<input type="text" id="unitCost">
 				</div>
-				<div id="itemsIdDiv">所属分类ID:
+				<div id="itemsIdDiv">所属分类编号:
 					<input type="text" id="itemsId">
 				</div>
 				<div id="statusDiv">状态:(0为可供租赁，1为冻结，2为下架)
