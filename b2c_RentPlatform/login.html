@@ -120,7 +120,7 @@
 					<a id='forgetPassword'>忘记密码</a>
 				</div>
 			</div>
-<!--			<div class="mui-content-padded oauth-area">
+			<!--			<div class="mui-content-padded oauth-area">
 
 			</div>-->
 		</div>
@@ -135,7 +135,7 @@
 				$.init({
 					statusBarBackground: '#f7f7f7'
 				});
-					
+
 				$.plusReady(function() {
 					plus.screen.lockOrientation("portrait-primary");
 					var settings = app.getSettings();
@@ -234,8 +234,7 @@
 					var autoLoginButton = doc.getElementById("autoLogin");
 					var regButton = doc.getElementById('reg');
 					var forgetButton = doc.getElementById('forgetPassword');
-					
-					
+
 					//$.toast(sessionStorage.getItem("user_id"));
 					loginButton.addEventListener('tap', function(event) {
 						var account_tmp = JSON.stringify({
@@ -244,12 +243,11 @@
 						});
 						//$.toast(Person.name + Person.password + '');
 						//$.toast(JSON.stringify(account));
-						$.ajax(PHONE_IP+'/main/login', {
+						$.ajax(PHONE_IP + '/main/login', {
 							data: account_tmp,
-								//{accountName: "css"  
-								//,password: passwordBox.value}
-								
-							
+							//{accountName: "css"  
+							//,password: passwordBox.value}
+
 							dataType: 'json', //服务器返回json格式数据
 							type: 'post', //HTTP请求类型d
 							timeout: 10000, //超时时间设置为10秒；
@@ -262,27 +260,30 @@
 									if(data[kid].accountId > 0)
 										account = data[kid];
 								}*/
-								$.toast(account);
+
 								//console.log(account.accountId);
-								if(account!=null&&account.accountId > 0) {
+								if(account != null && account.accountId > 0) {
+									if(account.status == 1) {
+										$.toast("账号已被冻结，详情请咨询客服");
+										return;
+									}
 									//$.toast('登deng' + data.persons);
 									//将返回的json格式数据转换为对象，并存入session中
-									localStorage.account = JSON.stringify(account);//session不能存js对象，只能存字符串
+									localStorage.account = JSON.stringify(account); //session不能存js对象，只能存字符串
 									console.log(localStorage.account);
 									mui.openWindow({
 										url: 'tab-webview-main.html',
 										id: 'tab-webview-main.html'
 									});
-								}
-								else
+								} else
 									$.toast('用户名或密码错误');
-								
+
 							},
 							error: function(xhr, type, errorThrown) {
 								//异常处理；
-								
-								$.toast('登陆失败'+xhr);
-								
+
+								$.toast('登陆失败' + xhr);
+
 							}
 						});
 
