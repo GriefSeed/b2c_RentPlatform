@@ -160,6 +160,10 @@
 					var passwordBox = doc.getElementById('password');
 					var passwordConfirmBox = doc.getElementById('password_confirm');
 					var emailBox = doc.getElementById('email');
+					
+					//先清空账号框和密码框
+					accountBox.value = "";
+					passwordBox.value = "";
 
 					//获取随机码输入框
 					var random_num_input = doc.getElementById('random_num_input');

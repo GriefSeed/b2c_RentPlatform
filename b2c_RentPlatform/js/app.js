@@ -7,7 +7,7 @@
 	/**
 	 * 用户登录
 	 **/
-	owner.login = function(loginInfo, callback) {
+	/*owner.login = function(loginInfo, callback) {
 		callback = callback || $.noop;
 		loginInfo = loginInfo || {};
 		loginInfo.account = loginInfo.account || '';
@@ -27,7 +27,7 @@
 		} else {
 			return callback('用户名或密码错误');
 		}
-	};
+	};*/
 
 	owner.createState = function(name, callback) {
 		var state = owner.getState();
