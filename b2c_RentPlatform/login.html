@@ -102,6 +102,14 @@
 					<label>密码</label>
 					<input id='password' type="password" class="mui-input-clear mui-input" placeholder="请输入密码">
 				</div>
+				<div class="mui-input-row">
+					<label>验证码</label>
+					<input id='random_num_input' type="text" class="mui-input-clear mui-input" placeholder="请输入下方验证码">
+				</div>
+				<div class="mui-input-row">
+					<label style="height: 30px;width: 200px;">验证码(点击刷新)：</label>
+					<label id='check_num_label' style="font-size: 20px;width: 80px;background-color: blue;"><font id="check_num"></font></label>
+				</div>
 			</form>
 			<form class="mui-input-group">
 				<ul class="mui-table-view mui-table-view-chevron">
@@ -138,6 +146,17 @@
 
 				$.plusReady(function() {
 					plus.screen.lockOrientation("portrait-primary");
+					//验证码随机生成
+					var random_num = turn_random_num();
+					var check_num_dom = doc.getElementById('check_num');
+					var check_num_label = doc.getElementById('check_num_label');
+					check_num_dom.innerHTML = random_num;
+					check_num_label.addEventListener('tap',
+						function(event) {
+							random_num = turn_random_num();
+							check_num_dom.innerHTML = random_num;
+						});
+
 					var settings = app.getSettings();
 					var state = app.getState();
 					/*var mainPage = $.preload({
@@ -237,6 +256,13 @@
 
 					//$.toast(sessionStorage.getItem("user_id"));
 					loginButton.addEventListener('tap', function(event) {
+						if(random_num_input.value != random_num) {
+							$.toast("验证码不正确");
+							random_num = turn_random_num();
+							check_num_dom.innerHTML = random_num;
+							return;
+						}
+
 						var account_tmp = JSON.stringify({
 							"accountName": accountBox.value,
 							"password": passwordBox.value
@@ -351,6 +377,13 @@
 					};
 				});
 			}(mui, document));
+
+			function turn_random_num() {
+				var out = -1;
+				while(out < 1000)
+					out = Math.floor(Math.random() * 10000);
+				return out;
+			}
 		</script>
 	</body>
 
