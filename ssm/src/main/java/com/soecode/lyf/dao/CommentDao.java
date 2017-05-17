@@ -33,7 +33,7 @@ public interface CommentDao {
 	 * @param itemId
 	 * @return
 	 */
-	@Select("SELECT * FROM comment where item_id = #{itemId}")
+	@Select("SELECT * FROM comment where item_id = #{itemId} order by comment_id desc")
 	List<Comment> selectItemAllComment(int itemId);
 
 	/**
